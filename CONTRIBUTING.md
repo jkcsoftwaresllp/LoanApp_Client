@@ -111,7 +111,7 @@ Write concise, meaningful commit messages using the following structure:
    - PRs to `main` require approval from **Admins or Team Leaders** only.
 
 5. **Merging**:
-   - Changes from `development` to `main` can only be merged by **Admins or Team Leaders** after final testing and review.
+   - Changes from `developmen` to `main` can only be merged by **Admins or Team Leaders** after final testing and review.
 
 ## Modifying Documentation
 
