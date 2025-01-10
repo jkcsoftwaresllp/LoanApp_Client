@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -25,7 +26,7 @@ const Profile = () => {
     const fetchProfile = async () => {
       const accessToken = localStorage.getItem("accessToken");
 
-      // If no access token is found, redirect to login
+      
       if (!accessToken) {
         alert("Access token is missing. Please log in.");
         navigate("/login");
@@ -42,7 +43,7 @@ const Profile = () => {
 
         if (response.data.status === "success") {
           setProfile(response.data.userProfile);
-          setUpdatedProfile(response.data.userProfile); // Pre-fill the form with existing data
+          setUpdatedProfile(response.data.userProfile); 
         } else {
           alert(response.data.message || "Failed to fetch profile.");
         }
@@ -50,26 +51,26 @@ const Profile = () => {
         console.error("Error fetching profile:", error.response?.data || error.message);
         alert(error.response?.data?.message || "Failed to fetch profile. Please try again.");
         if (error.response?.status === 401) {
-          // Token invalid or expired
+          
           alert("Session expired. Please log in again.");
           localStorage.removeItem("accessToken");
           navigate("/login");
         }
       } finally {
-        setLoading(false); // Stop loading spinner
+        setLoading(false); 
       }
     };
 
     fetchProfile();
   }, [navigate]);
 
-  // Handle input change in the update form
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedProfile({ ...updatedProfile, [name]: value });
   };
 
-  // Send OTP to new email
+  
   const handleSendOtp = async () => {
     const accessToken = localStorage.getItem("accessToken");
 
@@ -102,7 +103,7 @@ const Profile = () => {
     }
   };
 
-  // Handle profile update submission
+  
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
 

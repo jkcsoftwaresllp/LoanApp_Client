@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { clearTokens } from "../utils/tokenUtils"; // Utility function to clear tokens
+import { clearTokens } from "../utils/tokenUtils"; 
 import { useAuthContext } from "../context/AuthContext";
 
 const Logout = () => {
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuthContext(); // Update authentication state
+  const { setIsAuthenticated } = useAuthContext(); 
 
   useEffect(() => {
-    // Clear tokens and update state
+    
     clearTokens();
     setIsAuthenticated(false);
 
-    // Redirect to login after clearing tokens
+    
     navigate("/login");
   }, [navigate, setIsAuthenticated]);
 

@@ -3,16 +3,19 @@ import { AuthProvider, useAuthContext } from "./context/AuthContext";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Register from "./pages/Register";
+import FileUploadPage from "./pages/FileUploadPage";
 import Profile from "./pages/Profile";
+import { ToastContainer } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
 
-// Private Route Component
+
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuthContext();
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 const AppContent = () => {
-  const { isAuthenticated } = useAuthContext(); // useAuthContext is safe here since AuthProvider is applied in App
+  const { isAuthenticated } = useAuthContext();
 
   return (
     <Router>
@@ -22,8 +25,10 @@ const AppContent = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>} />
+        <Route path="/file" element={<PrivateRoute><FileUploadPage /></PrivateRoute>} />
         <Route path="*" element={<div>404 - Page Not Found</div>} />
       </Routes>
+      <ToastContainer /> {/* Add the ToastContainer here */}
     </Router>
   );
 };
@@ -31,7 +36,7 @@ const AppContent = () => {
 const App = () => {
   return (
     <AuthProvider>
-      <AppContent /> {/* Place AppContent inside AuthProvider */}
+      <AppContent />
     </AuthProvider>
   );
 };

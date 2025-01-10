@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext"; // Use AuthContext
+import { useAuthContext } from "../context/AuthContext"; 
 
 const Register = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState(""); // State for OTP input
-  const [otpGenerated, setOtpGenerated] = useState(false); // State to track OTP generation
-  const { setIsAuthenticated } = useAuthContext(); // Set authentication state
-  const navigate = useNavigate(); // Hook to navigate to another page
+  const [otp, setOtp] = useState(""); 
+  const [otpGenerated, setOtpGenerated] = useState(false); 
+  const { setIsAuthenticated } = useAuthContext(); 
+  const navigate = useNavigate(); 
 
-  // Handle Generate OTP
   const handleGenerateOtp = async (e) => {
     e.preventDefault();
     try {
@@ -22,7 +21,7 @@ const Register = () => {
 
       if (response && response.data) {
         alert(response.data.message || "OTP sent successfully");
-        setOtpGenerated(true); // Allow OTP input field to show
+        setOtpGenerated(true); 
       } else {
         alert("Unexpected response from server");
       }
@@ -32,14 +31,13 @@ const Register = () => {
         error.response?.data?.message || "Something went wrong. Please try again.";
       alert(errorMessage);
 
-      // If the number is already registered, redirect to login
+      
       if (errorMessage.includes("already registered")) {
         navigate("/login");
       }
     }
   };
 
-  // Handle Validate OTP
   const handleValidateOtp = async (e) => {
     e.preventDefault();
     try {
@@ -51,7 +49,7 @@ const Register = () => {
       if (response && response.data.status === "success") {
         alert("OTP validated successfully. Redirecting to profile page...");
         setIsAuthenticated(true); // Set user as authenticated
-        localStorage.setItem("accessToken", response.data.accessToken); // Save token
+        localStorage.setItem("accessToken", response.data.accessToken); 
         localStorage.setItem("refreshToken", response.data.refreshToken);
         navigate("/profile");
       } else {
