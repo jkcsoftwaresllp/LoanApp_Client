@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api", 
+  baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api", // Use env variable if available
 });
 
 api.interceptors.response.use(
@@ -20,7 +20,7 @@ api.interceptors.response.use(
             { refreshToken }
           );
 
-          
+          // Save the new access token
           localStorage.setItem("accessToken", data.accessToken);
 
           // Retry the original request with the new access token
@@ -28,7 +28,7 @@ api.interceptors.response.use(
           return axios(error.config);
         } catch (refreshError) {
           console.error("Error refreshing token:", refreshError);
-          
+          // Optional: Redirect to login if token refresh fails
           window.location.href = "/login";
         }
       }

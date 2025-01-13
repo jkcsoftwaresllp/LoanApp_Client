@@ -4,7 +4,7 @@ import { getRefreshToken, saveTokens, clearTokens } from "../utils/tokenUtils";
 
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true); // Track the loading state
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const refreshToken = getRefreshToken();
@@ -21,12 +21,12 @@ const useAuth = () => {
           setIsAuthenticated(false);
         })
         .finally(() => {
-          setLoading(false); // Loading complete
+          setLoading(false); 
         });
     } else {
       clearTokens();
       setIsAuthenticated(false);
-      setLoading(false); // No refresh token means no authentication
+      setLoading(false); 
     }
   }, []);
 

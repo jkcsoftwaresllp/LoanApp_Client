@@ -1,7 +1,8 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import TextInput from "../components/TextInput";  
+import { inputFieldConfig } from "../config/inputFieldConfig";  
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -17,23 +18,21 @@ const Profile = () => {
     address: "",
     email: "",
   });
-  const [otp, setOtp] = useState(""); 
+  const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  
   useEffect(() => {
     const fetchProfile = async () => {
       const accessToken = localStorage.getItem("accessToken");
 
-      
       if (!accessToken) {
         alert("Access token is missing. Please log in.");
         navigate("/login");
         return;
       }
 
-      setLoading(true); 
+      setLoading(true);
       try {
         const response = await axios.get("http://localhost:5000/api/profile", {
           headers: {
@@ -43,7 +42,7 @@ const Profile = () => {
 
         if (response.data.status === "success") {
           setProfile(response.data.userProfile);
-          setUpdatedProfile(response.data.userProfile); 
+          setUpdatedProfile(response.data.userProfile);
         } else {
           alert(response.data.message || "Failed to fetch profile.");
         }
@@ -51,26 +50,23 @@ const Profile = () => {
         console.error("Error fetching profile:", error.response?.data || error.message);
         alert(error.response?.data?.message || "Failed to fetch profile. Please try again.");
         if (error.response?.status === 401) {
-          
           alert("Session expired. Please log in again.");
           localStorage.removeItem("accessToken");
           navigate("/login");
         }
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     fetchProfile();
   }, [navigate]);
 
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedProfile({ ...updatedProfile, [name]: value });
   };
 
-  
   const handleSendOtp = async () => {
     const accessToken = localStorage.getItem("accessToken");
 
@@ -103,7 +99,6 @@ const Profile = () => {
     }
   };
 
-  
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
 
@@ -157,15 +152,9 @@ const Profile = () => {
           <p>Loading...</p>
         ) : !isEditing ? (
           <div>
-            <p>
-              <strong>Name:</strong> {profile.name || "N/A"}
-            </p>
-            <p>
-              <strong>Address:</strong> {profile.address || "N/A"}
-            </p>
-            <p>
-              <strong>Email:</strong> {profile.email || "N/A"}
-            </p>
+            <p><strong>Name:</strong> {profile.name || "N/A"}</p>
+            <p><strong>Address:</strong> {profile.address || "N/A"}</p>
+            <p><strong>Email:</strong> {profile.email || "N/A"}</p>
             <button
               onClick={() => setIsEditing(true)}
               className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none"
@@ -173,77 +162,49 @@ const Profile = () => {
               Edit Profile
             </button>
             <button
-  onClick={() => navigate("/register")}
-  className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 focus:outline-none"
->
-  Logout
-</button>
-
+              onClick={() => navigate("/register")}
+              className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 focus:outline-none"
+            >
+              Logout
+            </button>
           </div>
         ) : (
           <form onSubmit={handleUpdateProfile}>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={updatedProfile.name}
+            {inputFieldConfig(false, true).map((field) => (
+              <TextInput
+                key={field.id}
+                config={{
+                  ...field,
+                  value: updatedProfile[field.id] || "",
+                  disabled: otpSent && field.id === "email", // Disable email field once OTP is sent
+                }}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
               />
-            </div>
+            ))}
 
-            <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2" htmlFor="address">
-                Address
-              </label>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                value={updatedProfile.address}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
+            {otpSent && (
+              <TextInput
+                config={{
+                  label: "Enter OTP",
+                  id: "otp",
+                  type: "text",
+                  placeholder: "Enter OTP",
+                  disabled: false,
+                  value: otp,
+                }}
+                onChange={(e) => setOtp(e.target.value)}
               />
-            </div>
+            )}
 
-            <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={updatedProfile.email}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
-              />
-              {otpSent && (
-                <input
-                  type="text"
-                  id="otp"
-                  name="otp"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  placeholder="Enter OTP"
-                  className="w-full px-4 py-2 mt-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
-                />
-              )}
-              {!otpSent && (
-                <button
-                  type="button"
-                  onClick={handleSendOtp}
-                  className="mt-2 bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 focus:outline-none"
-                >
-                  Send OTP
-                </button>
-                
-              )}
-            </div>
+            {!otpSent && (
+              <button
+                type="button"
+                onClick={handleSendOtp}
+                className="mt-2 bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 focus:outline-none"
+              >
+                Send OTP
+              </button>
+            )}
 
             <button
               type="submit"
@@ -258,7 +219,6 @@ const Profile = () => {
             >
               Cancel
             </button>
-            
           </form>
         )}
       </div>
