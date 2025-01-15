@@ -1,21 +1,20 @@
 import React from "react";
 import useOtpHandler from "../hooks/useOtpHandler";
-import TextInput from "../components/TextInput";
-import Button from "../components/Button";
+import TextInput from "../components/common/TextInput";
+import Button from "../components/common/Button";
+import { apilog } from "../utils/Api";
 
 const Login = () => {
   const {
-    formData,
     otpGenerated,
     handleChange,
-    handleGenerateOtp,
-    handleValidateOtp,
     message,
     inputFields,
+    buttonFields,
   } = useOtpHandler({
-    apiBaseUrl: "http://localhost:5000/api/otp/login", 
+    apiBaseUrl: apilog,
     onSuccessRedirect: "/profile",
-    isLogin: true, 
+    isLogin: true,
   });
 
   return (
@@ -23,39 +22,31 @@ const Login = () => {
       <div className="bg-white p-8 shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold mb-4">Login</h2>
 
-       
-        {!otpGenerated && (
-          <form onSubmit={handleGenerateOtp} className="space-y-4">
-            {inputFields.map((field) => (
+        
+        <form className="space-y-4">
+          {inputFields
+            .filter((field) => !field.hidden) 
+            .map((field) => (
               <TextInput
                 key={field.id}
                 config={field}
                 onChange={handleChange}
               />
             ))}
-            <Button
-              type="submit"
-              text="Generate OTP"
-            />
-          </form>
-        )}
 
-       
-        {otpGenerated && (
-          <form onSubmit={handleValidateOtp} className="space-y-4">
-            {inputFields.map((field) => (
-              <TextInput
-                key={field.id}
-                config={field}
-                onChange={handleChange}
+        
+          {buttonFields
+            .filter((button) => !button.hidden) 
+            .map((button) => (
+              <Button
+                key={button.id}
+                type={button.type}
+                text={button.text}
+                onClick={button.onClick}
+                className={button.className}
               />
             ))}
-            <Button
-              type="submit"
-              text="Verify OTP"
-            />
-          </form>
-        )}
+        </form>
 
        
         {message && <p className="mt-4 text-red-500">{message}</p>}

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import TextInput from "../components/TextInput";  
-import { inputFieldConfig } from "../config/inputFieldConfig";  
+import TextInput from "../components/common/TextInput";
+import Button from "../components/common/Button";
+import { inputFieldConfig } from "../config/inputFieldConfig";
+import { buttonConfig } from "../config/buttonConfig";
+import { apiprof, mailotp, prupdate } from "../utils/Api";
+import { fetchProfile, sendOtp, updateProfile } from "../components/helper/profileService";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -20,46 +23,12 @@ const Profile = () => {
   });
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
+  const [otpMessage, setOtpMessage] = useState(""); 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const accessToken = localStorage.getItem("accessToken");
-
-      if (!accessToken) {
-        alert("Access token is missing. Please log in.");
-        navigate("/login");
-        return;
-      }
-
-      setLoading(true);
-      try {
-        const response = await axios.get("http://localhost:5000/api/profile", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        if (response.data.status === "success") {
-          setProfile(response.data.userProfile);
-          setUpdatedProfile(response.data.userProfile);
-        } else {
-          alert(response.data.message || "Failed to fetch profile.");
-        }
-      } catch (error) {
-        console.error("Error fetching profile:", error.response?.data || error.message);
-        alert(error.response?.data?.message || "Failed to fetch profile. Please try again.");
-        if (error.response?.status === 401) {
-          alert("Session expired. Please log in again.");
-          localStorage.removeItem("accessToken");
-          navigate("/login");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
+    const accessToken = localStorage.getItem("accessToken");
+    fetchProfile(accessToken, apiprof, navigate, setLoading, setProfile, setUpdatedProfile);
   }, [navigate]);
 
   const handleInputChange = (e) => {
@@ -67,81 +36,33 @@ const Profile = () => {
     setUpdatedProfile({ ...updatedProfile, [name]: value });
   };
 
-  const handleSendOtp = async () => {
+  const handleSendOtp = () => {
     const accessToken = localStorage.getItem("accessToken");
-
-    if (!accessToken) {
-      alert("You're not logged in.");
-      navigate("/login");
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/user/send-otp",
-        { email: updatedProfile.email },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      if (response.data.status === "success") {
-        alert("OTP sent to the new email address.");
+    sendOtp(updatedProfile.email, accessToken, mailotp, navigate, (otpSuccess) => {
+      if (otpSuccess) {
         setOtpSent(true);
+        setOtpMessage("OTP has been sent to your new email address.");
       } else {
-        alert(response.data.message || "Failed to send OTP.");
+        setOtpMessage("Failed to send OTP. Please try again.");
       }
-    } catch (error) {
-      console.error("Error sending OTP:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Failed to send OTP. Please try again.");
-    }
+    });
+    
   };
 
-  const handleUpdateProfile = async (e) => {
+  const handleUpdateProfile = (e) => {
     e.preventDefault();
 
     const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
-      alert("You're not logged in.");
-      navigate("/login");
-      return;
+    const payload = {
+      profile: updatedProfile,
+    };
+
+    if (updatedProfile.email !== profile.email) {
+      payload.email = updatedProfile.email;
+      payload.otp = otp;
     }
 
-    try {
-      const payload = {
-        profile: updatedProfile,
-      };
-
-      if (updatedProfile.email !== profile.email) {
-        payload.email = updatedProfile.email;
-        payload.otp = otp;
-      }
-
-      const response = await axios.patch(
-        "http://localhost:5000/api/user/update-profile",
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      if (response.data.status === "success") {
-        alert("Profile updated successfully.");
-        setProfile(updatedProfile);
-        setIsEditing(false);
-        setOtp("");
-        setOtpSent(false);
-      } else {
-        alert(response.data.message || "Failed to update profile.");
-      }
-    } catch (error) {
-      console.error("Error updating profile:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Failed to update profile. Please try again.");
-    }
+    updateProfile(payload, accessToken, prupdate, navigate, setProfile, setIsEditing, setOtp, setOtpSent);
   };
 
   return (
@@ -152,73 +73,77 @@ const Profile = () => {
           <p>Loading...</p>
         ) : !isEditing ? (
           <div>
-            <p><strong>Name:</strong> {profile.name || "N/A"}</p>
-            <p><strong>Address:</strong> {profile.address || "N/A"}</p>
-            <p><strong>Email:</strong> {profile.email || "N/A"}</p>
-            <button
+            <p>
+              <strong>Name:</strong> {profile.name || "N/A"}
+            </p>
+            <p>
+              <strong>Address:</strong> {profile.address || "N/A"}
+            </p>
+            <p>
+              <strong>Email:</strong> {profile.email || "N/A"}
+            </p>
+            <Button
+              text="Edit Profile"
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded mt-4 hover:bg-blue-600 focus:outline-none"
               onClick={() => setIsEditing(true)}
-              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none"
-            >
-              Edit Profile
-            </button>
-            <button
+            />
+            <Button
+              text="Logout"
+              className="w-full bg-red-500 text-white py-2 px-4 rounded mt-2 hover:bg-red-600 focus:outline-none"
               onClick={() => navigate("/register")}
-              className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 focus:outline-none"
-            >
-              Logout
-            </button>
+            />
           </div>
         ) : (
           <form onSubmit={handleUpdateProfile}>
-            {inputFieldConfig(false, true).map((field) => (
+            {inputFieldConfig(null, false, true, updatedProfile).map((field) => (
               <TextInput
                 key={field.id}
                 config={{
                   ...field,
                   value: updatedProfile[field.id] || "",
-                  disabled: otpSent && field.id === "email", // Disable email field once OTP is sent
+                  disabled: otpSent && field.id === "email",
                 }}
                 onChange={handleInputChange}
               />
             ))}
 
-            {otpSent && (
-              <TextInput
-                config={{
-                  label: "Enter OTP",
-                  id: "otp",
-                  type: "text",
-                  placeholder: "Enter OTP",
-                  disabled: false,
-                  value: otp,
-                }}
-                onChange={(e) => setOtp(e.target.value)}
+            {updatedProfile.email !== profile.email && !otpSent && (
+              <Button
+                text="Send OTP"
+                className="w-full bg-green-500 text-white py-2 px-4 rounded mt-2 hover:bg-green-600 focus:outline-none"
+                onClick={handleSendOtp}
               />
             )}
 
-            {!otpSent && (
-              <button
-                type="button"
-                onClick={handleSendOtp}
-                className="mt-2 bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 focus:outline-none"
-              >
-                Send OTP
-              </button>
+            {otpSent && (
+              <>
+                <TextInput
+                  config={{
+                    label: "Enter OTP",
+                    id: "otp",
+                    type: "text",
+                    placeholder: "Enter OTP",
+                    disabled: false,
+                    value: otp,
+                  }}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+                <p className="text-green-500 mt-2">{otpMessage}</p>
+              </>
             )}
 
-            <button
+            <Button
               type="submit"
-              className="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 focus:outline-none"
-            >
-              Save Changes
-            </button>
-            <button
+              text="Update Profile"
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded mt-4 hover:bg-blue-600 focus:outline-none"
+            />
+
+            <Button
               type="button"
-              onClick={() => setIsEditing(false)}
+              text="Cancel"
               className="w-full bg-gray-500 text-white py-2 px-4 rounded mt-2 hover:bg-gray-600 focus:outline-none"
-            >
-              Cancel
-            </button>
+              onClick={() => setIsEditing(false)}
+            />
           </form>
         )}
       </div>
