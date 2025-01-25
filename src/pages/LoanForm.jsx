@@ -1,0 +1,129 @@
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { LoanContext } from "../context/LoanContext";
+import apiRequest from "../components/common/authApi";
+import styles from "../Styles/LoanForm.module.css";
+
+const LoanForm = () => {
+  const navigate = useNavigate();
+  const { updateLoanData } = useContext(LoanContext);
+  const [amount, setAmount] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [frequency, setFrequency] = useState("");
+  const [interestRate, setInterestRate] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSaveDraft = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      setError("Access token not found. Please log in.");
+      navigate("/login");
+      return;
+    }
+
+    const parsedAmount = parseFloat(amount);
+    if (isNaN(parsedAmount) || parsedAmount <= 0) {
+      setError("Please enter a valid loan amount.");
+      return;
+    }
+
+    const parsedInterestRate = parseFloat(interestRate);
+    if (isNaN(parsedInterestRate) || parsedInterestRate <= 0) {
+      setError("Please enter a valid interest rate.");
+      return;
+    }
+
+    try {
+      const response = await apiRequest(
+        "POST",
+        "http://localhost:5000/api/auth/save-draft",
+        {
+          amount: parsedAmount,
+          start_date: startDate,
+          frequency,
+          interest_rate: parsedInterestRate,
+        },
+        accessToken,
+        setLoading
+      );
+
+      updateLoanData({
+        loan_id: response.loan_id,
+        amount: parsedAmount,
+        repayment_schedule: frequency,
+        interest_rate: parsedInterestRate,
+      });
+
+      alert("Loan draft saved successfully!");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <h2 className={styles.title}>Loan Form</h2>
+
+      {error && <div className={styles.error}>{error}</div>}
+
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <div className={styles.inputField}>
+            <label className={styles.label}>Amount</label>
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.inputField}>
+            <label className={styles.label}>Start Date</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.inputField}>
+            <label className={styles.label}>Frequency</label>
+            <input
+              type="text"
+              value={frequency}
+              onChange={(e) => setFrequency(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.inputField}>
+            <label className={styles.label}>Interest Rate</label>
+            <input
+              type="number"
+              value={interestRate}
+              onChange={(e) => setInterestRate(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.buttonContainer}>
+            <button
+              onClick={handleSaveDraft}
+              className={styles.buttonSave}
+            >
+              Save Draft
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default LoanForm;

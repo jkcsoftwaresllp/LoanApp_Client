@@ -3,13 +3,13 @@ import useOtpHandler from "../hooks/useOtpHandler";
 import TextInput from "../components/common/TextInput";
 import Button from "../components/common/Button";
 import { apireg } from "../utils/Api"; 
+
 const Register = () => {
-  const { otpGenerated, handleChange, message, inputFields, buttonFields } =
-    useOtpHandler({
-      apiBaseUrl: apireg, 
-      onSuccessRedirect: "/profile",
-      isLogin: false, 
-    });
+  const { otpGenerated, handleChange, message, inputFields, buttonFields } = useOtpHandler({
+    apiBaseUrl: apireg, 
+    onSuccessRedirect: "/profile",
+    isLogin: false, 
+  });
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -27,7 +27,6 @@ const Register = () => {
               />
             ))}
 
-        
           {buttonFields
             .filter((button) => !button.hidden) 
             .map((button) => (
@@ -41,7 +40,6 @@ const Register = () => {
             ))}
         </form>
 
-        
         {message && <p className="mt-4 text-red-500">{message}</p>}
       </div>
     </div>

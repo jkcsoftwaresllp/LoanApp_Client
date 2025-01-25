@@ -9,16 +9,14 @@ const AppContent = () => {
 
   return (
     <Routes>
-      {/* Root redirection */}
+     
       <Route path="/" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
 
-      {/* Public routes */}
       {publicRoutes}
 
-      {/* Private routes */}
+   
       {privateRoutes}
 
-      {/* 404 Route */}
       <Route path="*" element={<div>404 - Page Not Found</div>} />
     </Routes>
   );

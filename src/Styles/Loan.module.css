@@ -1,0 +1,77 @@
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.stepperWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 500px;
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.buttonBack {
+    background-color: #ccc;
+}
+
+.buttonNext {
+    background-color: #007bff;
+    color: white;
+}
+
+.stepIcon {
+    margin: 0 10px;
+}
+
+.stepIconActive {
+    color: #1f4a21;
+}
+
+.stepIconInactive {
+    color: #ccc;
+}
+
+.stepLine {
+    height: 2px;
+    background-color:#1f4a21;
+    flex-grow: 1;
+}
+
+.stepLineActive {
+    background-color: #1f4a21;
+}

@@ -1,4 +1,4 @@
-export const inputFieldConfig = (type, isLogin = false, isProfileUpdate = false, value = {}) => {
+export const inputFieldConfig = (isLogin = false, isProfileUpdate = false, value = {}) => {
   if (isLogin) {
     return [
       {
@@ -10,13 +10,21 @@ export const inputFieldConfig = (type, isLogin = false, isProfileUpdate = false,
         disabled: false,
       },
       {
+        label: "Password",
+        id: "password",
+        type: "password",
+        value: value.password || "",
+        placeholder: "Enter your password",
+        disabled: false,
+      },
+      {
         label: "Enter OTP",
         id: "otp",
         type: "text",
         value: value.otp || "",
         placeholder: "Enter the OTP sent to your mobile",
         disabled: false,
-        hidden: true, // Initially hidden for login until OTP is generated
+        hidden: true, 
       },
     ];
   }
@@ -50,18 +58,6 @@ export const inputFieldConfig = (type, isLogin = false, isProfileUpdate = false,
     ];
   }
 
-  if (type === "file") {
-    return {
-      label: "Upload Document",
-      id: "fileInput",
-      type: "file",
-      onChange: null, // Function to be passed on file input change
-      required: true,
-      className: "hidden",
-      ariaLabel: "File Upload",
-    };
-  }
-
   // Default registration flow
   return [
     {
@@ -81,13 +77,21 @@ export const inputFieldConfig = (type, isLogin = false, isProfileUpdate = false,
       disabled: false,
     },
     {
+      label: "Password",
+      id: "password",
+      type: "password",
+      value: value.password || "",
+      placeholder: "Create a password",
+      disabled: false,
+    },
+    {
       label: "Enter OTP",
       id: "otp",
       type: "text",
       value: value.otp || "",
       placeholder: "Enter the OTP sent to your mobile",
       disabled: false,
-      hidden: true, // Initially hidden for registration until OTP is generated
+      hidden: true, 
     },
   ];
 };

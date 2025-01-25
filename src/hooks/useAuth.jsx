@@ -13,7 +13,7 @@ const useAuth = () => {
       axiosInstance
         .post("/api/auth/refresh-token", { refreshToken })
         .then((response) => {
-          saveTokens(response.data.accessToken, response.data.refreshToken);
+          saveTokens(response.data.accessToken, response.data.refreshToken,response.data.loanData);
           setIsAuthenticated(true);
         })
         .catch(() => {

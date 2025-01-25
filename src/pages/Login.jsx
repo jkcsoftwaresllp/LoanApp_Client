@@ -2,19 +2,13 @@ import React from "react";
 import useOtpHandler from "../hooks/useOtpHandler";
 import TextInput from "../components/common/TextInput";
 import Button from "../components/common/Button";
-import { apilog } from "../utils/Api";
+import { apilog } from "../utils/Api"; 
 
 const Login = () => {
-  const {
-    otpGenerated,
-    handleChange,
-    message,
-    inputFields,
-    buttonFields,
-  } = useOtpHandler({
+  const { otpGenerated, handleChange, message, inputFields, buttonFields } = useOtpHandler({
     apiBaseUrl: apilog,
     onSuccessRedirect: "/profile",
-    isLogin: true,
+    isLogin: true, 
   });
 
   return (
@@ -22,7 +16,6 @@ const Login = () => {
       <div className="bg-white p-8 shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold mb-4">Login</h2>
 
-        
         <form className="space-y-4">
           {inputFields
             .filter((field) => !field.hidden) 
@@ -34,7 +27,6 @@ const Login = () => {
               />
             ))}
 
-        
           {buttonFields
             .filter((button) => !button.hidden) 
             .map((button) => (
@@ -48,7 +40,6 @@ const Login = () => {
             ))}
         </form>
 
-       
         {message && <p className="mt-4 text-red-500">{message}</p>}
       </div>
     </div>

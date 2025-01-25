@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import { inputFieldConfig } from "../../config/inputFieldConfig";
 
 const FileInput = ({ file, onFileChange }) => {
+  const fileInputRef = useRef(null); 
+
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -23,16 +25,15 @@ const FileInput = ({ file, onFileChange }) => {
     }
   };
 
- 
   const fileInputConfig = inputFieldConfig("file");
   const { id, required, className, ariaLabel } = fileInputConfig;
 
   return (
     <div
-      className="relative border-2 border-dashed border-blue-500 p-6 rounded-md flex justify-center items-center hover:bg-gray-50 transition duration-300 cursor-pointer"
+      className="relative border-2 border-dashed border-[#4CAF50] p-8 rounded-md flex justify-center items-center hover:bg-[#f4f4f4] transition duration-300 cursor-pointer w-full"
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      onClick={() => document.getElementById(id).click()}
+      onClick={() => fileInputRef.current.click()} 
       role="button"
       aria-label="Click or drag to upload file"
     >
@@ -40,14 +41,15 @@ const FileInput = ({ file, onFileChange }) => {
         type="file"
         id={id}
         name={id}
+        ref={fileInputRef} 
         onChange={handleFileChange}
         required={required}
-        className={className}
+        className="absolute inset-0 opacity-0 cursor-pointer" 
         aria-label={ariaLabel}
       />
       {file ? (
-        <div className="flex justify-between w-full">
-          <p className="text-gray-600">{file.name}</p>
+        <div className="flex justify-between items-center w-full">
+          <p className="text-gray-700 truncate">{file.name}</p>
           <button
             type="button"
             onClick={() => onFileChange(null)}
@@ -71,7 +73,7 @@ const FileInput = ({ file, onFileChange }) => {
           </button>
         </div>
       ) : (
-        <p className="text-gray-400">Drag & Drop or Click to Upload</p>
+        <p className="text-gray-500 text-center">Drag & Drop or Click to Upload</p>
       )}
     </div>
   );

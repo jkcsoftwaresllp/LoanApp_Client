@@ -1,0 +1,114 @@
+.container {
+    position: relative;
+    width: 550px;
+    height: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+.container:hover {
+    transform: scale(1.02);
+}
+
+.title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.profileBox {
+    display: flex;
+    flex-direction: column;
+    align-items: justify;
+    justify-content: center;
+    text-align: justify;
+    width: 100%;
+}
+
+.profileBox p {
+    font-size: 20px;
+    margin: 12px 0;
+    color: #555;
+}
+
+.loading {
+    font-size: 18px;
+    font-weight: 500;
+    color: #888;
+}
+
+.form {
+    width: 100%;
+}
+
+.inputField {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.inputField:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.buttonSave {
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.buttonSave:hover {
+    background-color: #1f4a21;
+}
+
+.buttonCancel {
+    padding: 12px;
+    background-color: #ccc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.buttonCancel:hover {
+    background-color: #999;
+}
+
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+p.text-green-500 {
+    font-size: 16px;
+    color: #4CAF50;
+    text-align: center;
+    margin-top: 1rem;
+}

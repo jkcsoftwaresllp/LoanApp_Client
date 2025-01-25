@@ -1,10 +1,12 @@
-import { generateOtp, validateOtp } from "../../services/authService"; 
+import { generateOtp, validateOtp } from "../../services/authService";
 import { saveTokens } from "../../utils/tokenUtils";
+
 export const handleGenerateOtp = async (formData, apiBaseUrl, isLogin, setOtpGenerated, setMessage, showToast) => {
   try {
     const response = await generateOtp(
       formData.mobileNumber,
       formData.email,
+      formData.password, 
       apiBaseUrl,
       isLogin
     );
@@ -18,10 +20,10 @@ export const handleGenerateOtp = async (formData, apiBaseUrl, isLogin, setOtpGen
 
 export const handleValidateOtp = async (formData, apiBaseUrl, setIsAuthenticated, navigate, onSuccessRedirect, setMessage, showToast) => {
   try {
-  
     const response = await validateOtp(
       formData.mobileNumber,
       formData.otp,
+      formData.password,  
       apiBaseUrl
     );
     if (response.status === "success") {
