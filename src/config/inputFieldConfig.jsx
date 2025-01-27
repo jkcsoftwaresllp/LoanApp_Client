@@ -58,7 +58,6 @@ export const inputFieldConfig = (isLogin = false, isProfileUpdate = false, value
     ];
   }
 
-  // Default registration flow
   return [
     {
       label: "Mobile Number",

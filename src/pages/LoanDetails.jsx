@@ -43,7 +43,7 @@ const LoanDetails = () => {
     <div className={styles.container}>
       <h2 className={styles.title}>Confirmation Page</h2>
 
-      {error && <div className={styles.error}>{error}</div>}
+    
 
       {isLoading ? (
         <div>Loading...</div>
@@ -76,7 +76,7 @@ const LoanDetails = () => {
           )}
         </>
       ) : (
-        <p>No loan details available.</p>
+        <p>No loan details available,Apply Loan</p>
       )}
 
       <div className={styles.submitLoanContainer}>

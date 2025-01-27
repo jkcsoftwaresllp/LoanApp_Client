@@ -1,28 +1,76 @@
-.transition-transform {
-    transition: transform 0.5s ease-in-out;
-}
-
 .container {
+    position: relative; /* Makes the container the reference point for absolute positioning */
+    width: 550px;
+    height: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    justify-content: space-between; /* Distributes space between content */
     align-items: center;
-    justify-content: center;
-}
-
-.buttonWrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.toggleButton {
+    box-sizing: border-box;
+  }
+  
+  .toggleButton {
     background-color: #4CAF50;
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
+    padding: 10px 0;
     cursor: pointer;
-}
-
-.toggleButton:hover {
+    width: 120px; /* Consistent width */
+    text-align: center;
+    overflow: hidden; /* Ensures content does not overflow */
+    white-space: nowrap; /* Prevents text wrapping */
+    text-overflow: ellipsis; /* Adds ellipsis for overflow text */
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+  
+    position: absolute; /* Position it absolutely inside .container */
+    bottom: 20px; /* Distance from the bottom */
+    right: 20px; /* Distance from the right */
+  }
+  
+  .buttonDisabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+  
+  .toggleButton:hover {
     background-color: #1f4a21;
-}
+  }
+  
+  .uploadButton {
+    position: absolute; /* Position it absolutely inside .container */
+    bottom: 20px; /* Distance from the bottom */
+    left: 20px; /* Distance from the left */
+    padding: 10px 0;
+    background-color: #4CAF50; /* Green background */
+    color: #ffffff; /* White text */
+    font-size: 16px;
+    font-weight: bold;
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    width: 120px; /* Consistent width */
+    text-align: center; /* Center the text */
+    overflow: hidden; /* Ensures content does not overflow */
+    white-space: nowrap; /* Prevents text wrapping */
+    text-overflow: ellipsis; /* Adds ellipsis for overflow text */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: all 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .uploadButton:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+  }
+  
+  .uploadButton:disabled {
+    background-color: #aaa; /* Disabled gray color */
+    cursor: not-allowed; /* Not-allowed cursor */
+    box-shadow: none;
+  }
+  

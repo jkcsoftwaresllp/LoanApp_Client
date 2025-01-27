@@ -1,9 +1,13 @@
 
-export const saveTokens = (accessToken, refreshToken) => {
+export const saveTokens = (accessToken, refreshToken, loanData = null) => {
   localStorage.setItem("accessToken", accessToken);
   localStorage.setItem("refreshToken", refreshToken);
-  localStorage.setItem("loanData", loanData);
 
+  if (loanData) {
+    localStorage.setItem("loanData", JSON.stringify(loanData));
+  } else {
+    localStorage.removeItem("loanData"); // Clear loanData if not provided
+  }
 };
 
 export const getAccessToken = () => localStorage.getItem("accessToken");

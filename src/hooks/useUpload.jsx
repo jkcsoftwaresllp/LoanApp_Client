@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import FileInput from "../components/document/FileInput";
 import DocumentTypeSelect from "../components/document/DocumentTypeSelect";
 import Button from "../components/common/Button";
-import styles from "../Styles/LoanForm.module.css"; 
+import styles from "../Styles/PageSlider.module.css"; // Import the PageSlider CSS
 
 const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
   const [file, setFile] = useState(null);
@@ -14,7 +14,7 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
   const validateFile = (file) => {
     const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
-    const maxSize = 5 * 1024 * 1024; 
+    const maxSize = 5 * 1024 * 1024;
     if (!allowedTypes.includes(file.type)) {
       toast.error("Invalid file type. Only JPG, PNG, and PDF are allowed.");
       return false;
@@ -38,6 +38,7 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(""); // Clear previous error messages
     const token = localStorage.getItem("accessToken");
 
     if (!token) {
@@ -88,16 +89,21 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className={styles.container}>
-        <h1 className="text-3xl font-semibold text-center text-blue-600">
+      <div>
+        <h1
+          style={{
+            fontSize: "1.25rem",
+            fontWeight: "600",
+            marginBottom: "1rem",
+            textAlign: "center",
+          }}
+        >
           {buttonText || "Upload Document"}
         </h1>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {errorMessage && (
-            <div
-              className={styles.error}
-              style={{ color: "#1f4a21", borderColor: "#1f4a21" }} 
-            >
+            <div style={{ color: "#1f4a21", borderColor: "#1f4a21" }}>
               {errorMessage}
             </div>
           )}
@@ -110,16 +116,12 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
             options={documentTypeOptions}
           />
 
-          {loading && (
-            <div className={styles.loader}>
-              <div className={styles.spinner}></div>
-            </div>
-          )}
+          {loading && <div className="spinner">Uploading...</div>}
 
           <Button
             text={loading ? "Uploading..." : buttonText || "Upload"}
             type="submit"
-            className={loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#4CAF50] text-white"} // Use #4CAF50 for active button
+            className={`${styles.uploadButton}`}
             disabled={loading}
           />
         </form>

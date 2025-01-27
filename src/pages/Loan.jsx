@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UserIcon, CurrencyDollarIcon, DocumentIcon, EyeIcon, CheckCircleIcon } from "@heroicons/react/solid";
+import { UserIcon, CurrencyDollarIcon, DocumentIcon, EyeIcon } from "@heroicons/react/solid";
 import styles from "../Styles/Loan.module.css";
 import PageSlider from "./PageSlider"; 
 import LoanForm from "./LoanForm";
@@ -19,7 +19,7 @@ const Loan = () => {
     { label: "Loan Requirements", icon: <CurrencyDollarIcon className="h-6 w-6" /> },
     { label: "Document Upload", icon: <DocumentIcon className="h-6 w-6" /> },
     { label: "Review", icon: <EyeIcon className="h-6 w-6" /> },
-    { label: "Submit", icon: <CheckCircleIcon className="h-6 w-6" /> },
+   
   ];
 
   const handleNext = () => {

@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { inputFieldConfig } from "../../config/inputFieldConfig";
 
 const FileInput = ({ file, onFileChange }) => {
-  const fileInputRef = useRef(null); 
+  const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -30,10 +30,11 @@ const FileInput = ({ file, onFileChange }) => {
 
   return (
     <div
-      className="relative border-2 border-dashed border-[#4CAF50] p-8 rounded-md flex justify-center items-center hover:bg-[#f4f4f4] transition duration-300 cursor-pointer w-full"
+      className="relative border-2 border-dashed border-[#4CAF50] p-8 rounded-md flex justify-center items-center hover:bg-[#f4f4f4] transition duration-300 cursor-pointer mx-auto"
+      style={{ width: "550px", height: "200px" }} // Drag and drop container with 900px width
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      onClick={() => fileInputRef.current.click()} 
+      onClick={() => fileInputRef.current.click()}
       role="button"
       aria-label="Click or drag to upload file"
     >
@@ -41,10 +42,11 @@ const FileInput = ({ file, onFileChange }) => {
         type="file"
         id={id}
         name={id}
-        ref={fileInputRef} 
+        ref={fileInputRef}
         onChange={handleFileChange}
         required={required}
-        className="absolute inset-0 opacity-0 cursor-pointer" 
+        className="absolute inset-0 opacity-0 cursor-pointer"
+        style={{ width: "400px" }} // File input with 400px width
         aria-label={ariaLabel}
       />
       {file ? (
