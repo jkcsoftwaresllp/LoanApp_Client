@@ -1,0 +1,106 @@
+.container {
+    position: relative;
+    width: 550px;
+    height: 500px; 
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 10px; 
+}
+
+.profileBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: justify;
+    width: 100%;
+    flex-grow: 1; 
+}
+
+.profileBox p {
+    font-size: 20px;
+    margin: 8px 0; 
+    color: #555;
+}
+
+.loading {
+    font-size: 18px;
+    font-weight: 500;
+    color: #888;
+}
+
+.form {
+    width: 100%;
+    flex-grow: 1;
+}
+
+.inputField {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.inputField:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: auto; 
+}
+
+.buttonSave {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+.buttonSave:hover {
+    background-color: #1f4a21;
+}
+
+.buttonCancel {
+    padding: 12px;
+    background-color: #ccc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.buttonCancel:hover {
+    background-color: #999;
+}
+
+p.text-green-500 {
+    font-size: 16px;
+    color: #4CAF50;
+    text-align: center;
+    margin-top: 1rem;
+}

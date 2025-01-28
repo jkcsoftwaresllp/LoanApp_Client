@@ -12,6 +12,7 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
   const [formData, setFormData] = useState({
     mobileNumber: "",
     email: "",
+    password: "", 
     otp: "",
   });
   const [otpGenerated, setOtpGenerated] = useState(false);
@@ -24,7 +25,7 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
   };
 
   const handleGenerateOtpWrapper = (e) => {
-    e.preventDefault(); // Prevent default behavior
+    e.preventDefault(); 
     handleGenerateOtp(
       formData,
       apiBaseUrl,
@@ -36,7 +37,7 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
   };
 
   const handleValidateOtpWrapper = (e) => {
-    e.preventDefault(); // Prevent default behavior
+    e.preventDefault(); 
     handleValidateOtp(
       formData,
       apiBaseUrl,
@@ -71,5 +72,6 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
     })),
   };
 };
+
 
 export default useOtpHandler;
