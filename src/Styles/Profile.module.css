@@ -1,7 +1,7 @@
 .container {
     position: relative;
     width: 550px;
-    height: 500px; /* Fixed height */
+    height: 500px; 
     margin: 0 auto;
     background-color: #ffffff;
     padding: 1.5rem;
@@ -12,14 +12,14 @@
     justify-content: flex-start;
     flex-shrink: 0;
     box-sizing: border-box;
-    overflow-y: auto; /* Allow scrolling if content exceeds height */
+    overflow-y: auto;
 }
 
 .title {
     font-size: 1.25rem;
     font-weight: 600;
     text-align: center;
-    margin-bottom: 10px; /* Space between title and profile content */
+    margin-bottom: 10px; 
 }
 
 .profileBox {
@@ -28,12 +28,12 @@
     justify-content: flex-start;
     text-align: justify;
     width: 100%;
-    flex-grow: 1; /* Allow content to take up available space */
+    flex-grow: 1; 
 }
 
 .profileBox p {
     font-size: 20px;
-    margin: 8px 0; /* Reduced margin between profile details */
+    margin: 8px 0; 
     color: #555;
 }
 
@@ -45,7 +45,7 @@
 
 .form {
     width: 100%;
-    flex-grow: 1; /* Allow the form to take up available space */
+    flex-grow: 1;
 }
 
 .inputField {
@@ -66,7 +66,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    margin-top: auto; /* Push buttons to the bottom */
+    margin-top: auto; 
 }
 
 .buttonSave {

@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import FileInput from "../components/document/FileInput";
 import DocumentTypeSelect from "../components/document/DocumentTypeSelect";
 import Button from "../components/common/Button";
-import styles from "../Styles/PageSlider.module.css"; // Import the PageSlider CSS
+import styles from "../Styles/PageSlider.module.css"; 
 
 const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
   const [file, setFile] = useState(null);
