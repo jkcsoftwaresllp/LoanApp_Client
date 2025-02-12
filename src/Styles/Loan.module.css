@@ -47,6 +47,7 @@
     text-align: center; 
     overflow: hidden; 
     white-space: nowrap; 
+    border-radius: 4px;
 }
 
 .buttonBack {

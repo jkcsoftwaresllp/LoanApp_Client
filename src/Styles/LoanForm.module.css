@@ -39,13 +39,25 @@
     font-size: 0.875rem;
     font-weight: 500;
 }
-
 .input {
     margin-top: 0.25rem;
     padding: 0.5rem;
     width: 100%;
     border-radius: 0.375rem;
     border: 1px solid #e5e7eb;
+}
+
+/* For styling the placeholder on date input */
+.input::-webkit-datetime-edit {
+    color: #b0b0b0; /* Lighter color for the placeholder text */
+}
+
+.input::-webkit-datetime-edit-text {
+    color: #b0b0b0; /* Lighter color for the placeholder text */
+}
+
+.input::-webkit-calendar-picker-indicator {
+    background: transparent; /* Remove the default calendar icon if needed */
 }
 
 .error {

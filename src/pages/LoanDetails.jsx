@@ -43,8 +43,6 @@ const LoanDetails = () => {
     <div className={styles.container}>
       <h2 className={styles.title}>Confirmation Page</h2>
 
-    
-
       {isLoading ? (
         <div>Loading...</div>
       ) : loanDetails && loan ? (
@@ -76,12 +74,20 @@ const LoanDetails = () => {
           )}
         </>
       ) : (
-        <p>No loan details available,Apply Loan</p>
+        <div className="flex flex-col justify-center items-center">
+        <img
+          src="/images/notavi.webp"
+          alt="Loan details not available"
+          className="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 mb-4" 
+        />
+        <p className="text-gray-500 text-base sm:text-lg md:text-xl lg:text-2xl font-semibold">
+          Loan details not available. Please apply for a loan.
+        </p>
+      </div>
+      
       )}
 
-      <div className={styles.submitLoanContainer}>
-        <SubmitLoan />
-      </div>
+      
     </div>
   );
 };

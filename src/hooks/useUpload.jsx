@@ -14,7 +14,7 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
   const validateFile = (file) => {
     const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
-    const maxSize = 5 * 1024 * 1024;
+    const maxSize = 5 * 1024 * 1024; // 5MB
     if (!allowedTypes.includes(file.type)) {
       toast.error("Invalid file type. Only JPG, PNG, and PDF are allowed.");
       return false;
@@ -74,8 +74,8 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
       if (response.ok) {
         toast.success("File uploaded successfully!");
-        setFile(null);
-        setDocumentType("");
+        setFile(null); // Reset file input after success
+        setDocumentType(""); // Reset document type
       } else {
         setErrorMessage(data.message || "Upload failed. Please try again.");
       }
@@ -103,7 +103,7 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {errorMessage && (
-            <div style={{ color: "#1f4a21", borderColor: "#1f4a21" }}>
+            <div style={{ color: "#e53e3e", borderColor: "#e53e3e", padding: "10px", marginBottom: "1rem", borderRadius: "5px", backgroundColor: "#fef2f2" }}>
               {errorMessage}
             </div>
           )}
@@ -116,7 +116,11 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
             options={documentTypeOptions}
           />
 
-          {loading && <div className="spinner">Uploading...</div>}
+          {loading && (
+            <div className="spinner" style={{ textAlign: "center", paddingBottom: "1rem" }}>
+              <div className="spinner-border" role="status"></div> Uploading...
+            </div>
+          )}
 
           <Button
             text={loading ? "Uploading..." : buttonText || "Upload"}

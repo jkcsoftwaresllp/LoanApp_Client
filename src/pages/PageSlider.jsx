@@ -27,8 +27,8 @@ const PageSlider = () => {
         className={styles.toggleButton}
       >
         {activePage === "file"
-          ? "Go to Guarantee Upload"
-          : "Go to File Upload"}
+          ? " Guarantee"
+          : " User"}
       </button>
     </div>
   );

@@ -6,7 +6,7 @@ export const saveTokens = (accessToken, refreshToken, loanData = null) => {
   if (loanData) {
     localStorage.setItem("loanData", JSON.stringify(loanData));
   } else {
-    localStorage.removeItem("loanData"); // Clear loanData if not provided
+    localStorage.removeItem("loanData"); 
   }
 };
 

@@ -24,7 +24,12 @@ const LoanList = () => {
           setLoading
         );
 
-        setLoans(response.data);
+        // Ensure that response.data exists and is an array
+        if (response.data && Array.isArray(response.data)) {
+          setLoans(response.data);
+        } else {
+          setLoans([]); // In case the response data is not an array
+        }
       } catch (err) {
         setError(err.message || 'Failed to fetch loans. Please try again later.');
       } finally {
@@ -46,6 +51,7 @@ const LoanList = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Loan List</h1>
+      
       {loans.length > 0 ? (
         <div className={styles.tableContainer}>
           <table>
@@ -68,7 +74,14 @@ const LoanList = () => {
           </table>
         </div>
       ) : (
-        <p className={styles.noLoansText}>No loans found for this user.</p>
+        <div className="flex flex-col justify-center items-center">
+          <img
+            src="/images/notavi.webp"
+            alt="Loan details not available"
+            className="w-48 h-48 mb-4"
+          />
+          <p className="text-gray-500">No loans found for this user. Please apply for a loan.</p>
+        </div>
       )}
     </div>
   );
