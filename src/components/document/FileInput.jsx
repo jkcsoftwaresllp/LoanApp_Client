@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-const FileInput = ({ file, onFileChange }) => {
+export const FileInput = ({ file, onFileChange }) => {
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
@@ -12,13 +12,12 @@ const FileInput = ({ file, onFileChange }) => {
   };
 
   const handleClearFile = (e) => {
-    
     e.stopPropagation();
     console.log("Clear button clicked!");
     onFileChange(null);
 
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""; 
+      fileInputRef.current.value = "";
       console.log("Input field reset!");
     }
   };
@@ -53,5 +52,3 @@ const FileInput = ({ file, onFileChange }) => {
     </div>
   );
 };
-
-export default FileInput;

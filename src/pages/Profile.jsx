@@ -1,12 +1,15 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TextInput from "../components/common/TextInput";
-import Button from "../components/common/Button";
+import { TextInput } from "../components/common/TextInput";
+import { Button } from "../components/common/Button";
 import { inputFieldConfig } from "../config/inputFieldConfig";
 import { apiprof, mailotp, prupdate } from "../utils/Api";
-import { fetchProfile, sendOtp, updateProfile } from "../components/helper/profileService";
-import styles from "../Styles/Profile.module.css"; 
+import {
+  fetchProfile,
+  sendOtp,
+  updateProfile,
+} from "../components/helper/profileService";
+import styles from "../Styles/Profile.module.css";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -24,15 +27,22 @@ const Profile = () => {
   });
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
-  const [otpMessage, setOtpMessage] = useState(""); 
-  const [loading, setLoading] = useState(true); 
+  const [otpMessage, setOtpMessage] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      fetchProfile(accessToken, apiprof, navigate, setLoading, setProfile, setUpdatedProfile);
+      fetchProfile(
+        accessToken,
+        apiprof,
+        navigate,
+        setLoading,
+        setProfile,
+        setUpdatedProfile
+      );
     } else {
-      navigate("/login"); 
+      navigate("/login");
     }
   }, [navigate]);
 
@@ -43,14 +53,20 @@ const Profile = () => {
 
   const handleSendOtp = () => {
     const accessToken = localStorage.getItem("accessToken");
-    sendOtp(updatedProfile.email, accessToken, mailotp, navigate, (otpSuccess) => {
-      if (otpSuccess) {
-        setOtpSent(true);
-        setOtpMessage("OTP has been sent to your new email address.");
-      } else {
-        setOtpMessage("Failed to send OTP. Please try again.");
+    sendOtp(
+      updatedProfile.email,
+      accessToken,
+      mailotp,
+      navigate,
+      (otpSuccess) => {
+        if (otpSuccess) {
+          setOtpSent(true);
+          setOtpMessage("OTP has been sent to your new email address.");
+        } else {
+          setOtpMessage("Failed to send OTP. Please try again.");
+        }
       }
-    });
+    );
   };
 
   const handleUpdateProfile = (e) => {
@@ -61,13 +77,21 @@ const Profile = () => {
       profile: updatedProfile,
     };
 
-
     if (updatedProfile.email !== profile.email) {
       payload.email = updatedProfile.email;
       payload.otp = otp;
     }
 
-    updateProfile(payload, accessToken, prupdate, navigate, setProfile, setIsEditing, setOtp, setOtpSent);
+    updateProfile(
+      payload,
+      accessToken,
+      prupdate,
+      navigate,
+      setProfile,
+      setIsEditing,
+      setOtp,
+      setOtpSent
+    );
   };
 
   return (
@@ -77,13 +101,19 @@ const Profile = () => {
         <p className={styles.loading}>Loading...</p>
       ) : !isEditing ? (
         <div className={styles.profileBox}>
-          <p><strong>Name:</strong> {profile.name || "N/A"}</p>
-          <p><strong>Address:</strong> {profile.address || "N/A"}</p>
-          <p><strong>Email:</strong> {profile.email || "N/A"}</p>
+          <p>
+            <strong>Name:</strong> {profile.name || "N/A"}
+          </p>
+          <p>
+            <strong>Address:</strong> {profile.address || "N/A"}
+          </p>
+          <p>
+            <strong>Email:</strong> {profile.email || "N/A"}
+          </p>
           <div className={styles.buttonContainer}>
             <Button
               text="Edit Profile"
-              className={`${styles.buttonSave} w-full`} 
+              className={`${styles.buttonSave} w-full`}
               onClick={() => {
                 setUpdatedProfile({ ...profile });
                 setIsEditing(true);
@@ -94,17 +124,16 @@ const Profile = () => {
       ) : (
         <form onSubmit={handleUpdateProfile} className={styles.form}>
           {inputFieldConfig(false, true, updatedProfile).map((field) => {
-            
             if (field.id === "email" && otpSent) return null;
 
             return (
               <TextInput
                 key={field.id}
-                className={styles.inputField} 
+                className={styles.inputField}
                 config={{
                   ...field,
                   value: updatedProfile[field.id] || "",
-                  disabled: otpSent && field.id === "email", 
+                  disabled: otpSent && field.id === "email",
                 }}
                 onChange={handleInputChange}
               />
@@ -114,7 +143,7 @@ const Profile = () => {
           {updatedProfile.email !== profile.email && !otpSent && (
             <Button
               text="Send OTP"
-              className={`${styles.buttonSave} w-full bg-green-500 mt-2`} 
+              className={`${styles.buttonSave} w-full bg-green-500 mt-2`}
               onClick={handleSendOtp}
             />
           )}
@@ -145,7 +174,7 @@ const Profile = () => {
             <Button
               type="button"
               text="Cancel"
-              className={`${styles.buttonCancel} w-full mt-2`} 
+              className={`${styles.buttonCancel} w-full mt-2`}
               onClick={() => setIsEditing(false)}
             />
           </div>

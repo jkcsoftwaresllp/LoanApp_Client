@@ -1,12 +1,13 @@
 import React from "react";
+import style from "./style/textinput.module.css";
 
-const TextInput = ({ config, onChange }) => {
+export const TextInput = ({ config, onChange }) => {
   const { label, id, type, value, placeholder, disabled, hidden } = config;
 
   return (
     !hidden && (
-      <div className="mb-4">
-        <label htmlFor={id} className="block text-gray-700 font-bold mb-2">
+      <div className={style.textInput}>
+        <label htmlFor={id} className={style.input}>
           {label}
         </label>
         <input
@@ -17,11 +18,9 @@ const TextInput = ({ config, onChange }) => {
           onChange={onChange}
           placeholder={placeholder}
           disabled={disabled}
-          className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
+          className={style.inputForm}
         />
       </div>
     )
   );
 };
-
-export default TextInput;

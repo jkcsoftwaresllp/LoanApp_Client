@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import FileInput from "../components/document/FileInput";
-import DocumentTypeSelect from "../components/document/DocumentTypeSelect";
-import Button from "../components/common/Button";
-import styles from "../Styles/PageSlider.module.css"; 
+import { FileInput } from "../components/document/FileInput";
+import { DocumentTypeSelect } from "../components/document/DocumentTypeSelect";
+import { Button } from "../components/common/Button";
+import styles from "../Styles/PageSlider.module.css";
 
 const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
   const [file, setFile] = useState(null);
@@ -62,13 +62,16 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/auth/${apiRoute}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/auth/${apiRoute}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
       const data = await response.json();
 
@@ -103,7 +106,16 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {errorMessage && (
-            <div style={{ color: "#e53e3e", borderColor: "#e53e3e", padding: "10px", marginBottom: "1rem", borderRadius: "5px", backgroundColor: "#fef2f2" }}>
+            <div
+              style={{
+                color: "#e53e3e",
+                borderColor: "#e53e3e",
+                padding: "10px",
+                marginBottom: "1rem",
+                borderRadius: "5px",
+                backgroundColor: "#fef2f2",
+              }}
+            >
               {errorMessage}
             </div>
           )}
@@ -117,7 +129,10 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
           />
 
           {loading && (
-            <div className="spinner" style={{ textAlign: "center", paddingBottom: "1rem" }}>
+            <div
+              className="spinner"
+              style={{ textAlign: "center", paddingBottom: "1rem" }}
+            >
               <div className="spinner-border" role="status"></div> Uploading...
             </div>
           )}

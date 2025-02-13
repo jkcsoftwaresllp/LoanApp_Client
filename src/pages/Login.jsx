@@ -1,24 +1,30 @@
 import React from "react";
 import useOtpHandler from "../hooks/useOtpHandler";
-import TextInput from "../components/common/TextInput";
-import Button from "../components/common/Button";
-import { apilog } from "../utils/Api"; 
+import { TextInput } from "../components/common/TextInput";
+import { Button } from "../components/common/Button";
+import { apilog } from "../utils/Api";
+import { useNavigate } from "react-router-dom";
+import style from "./style/LoginForm.module.css";
 
-const Login = () => {
-  const { otpGenerated, handleChange, message, inputFields, buttonFields } = useOtpHandler({
-    apiBaseUrl: apilog,
-    onSuccessRedirect: "/profile",
-    isLogin: true, 
-  });
+export const Login = () => {
+  const navigate = useNavigate();
+  const { otpGenerated, handleChange, message, inputFields, buttonFields } =
+    useOtpHandler({
+      apiBaseUrl: apilog,
+      onSuccessRedirect: "/profile",
+      isLogin: true,
+    });
+  const goToRegister = () => {
+    navigate("/register"); // Navigate to the /register page
+  };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-white p-8 shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
-
+    <div className={style.form}>
+      <h1 className={style.h1}>Login</h1>
+      <div className={style.flexColumn}>
         <form className="space-y-4">
           {inputFields
-            .filter((field) => !field.hidden) 
+            .filter((field) => !field.hidden)
             .map((field) => (
               <TextInput
                 key={field.id}
@@ -28,22 +34,25 @@ const Login = () => {
             ))}
 
           {buttonFields
-            .filter((button) => !button.hidden) 
+            .filter((button) => !button.hidden)
             .map((button) => (
               <Button
                 key={button.id}
                 type={button.type}
                 text={button.text}
                 onClick={button.onClick}
-                className={button.className}
               />
             ))}
         </form>
+        <p className={style.p}>
+          Don't have an account?{" "}
+          <span onClick={goToRegister} className={style.span}>
+            Sign Up
+          </span>
+        </p>
 
-        {message && <p className="mt-4 text-red-500">{message}</p>}
+        {message && <p className={style.error}>{message}</p>}
       </div>
     </div>
   );
 };
-
-export default Login;

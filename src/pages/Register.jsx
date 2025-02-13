@@ -1,15 +1,16 @@
 import React from "react";
 import useOtpHandler from "../hooks/useOtpHandler";
-import TextInput from "../components/common/TextInput";
-import Button from "../components/common/Button";
-import { apireg } from "../utils/Api"; 
+import { TextInput } from "../components/common/TextInput";
+import { Button } from "../components/common/Button";
+import { apireg } from "../utils/Api";
 
 const Register = () => {
-  const { otpGenerated, handleChange, message, inputFields, buttonFields } = useOtpHandler({
-    apiBaseUrl: apireg, 
-    onSuccessRedirect: "/profile",
-    isLogin: false, 
-  });
+  const { otpGenerated, handleChange, message, inputFields, buttonFields } =
+    useOtpHandler({
+      apiBaseUrl: apireg,
+      onSuccessRedirect: "/profile",
+      isLogin: false,
+    });
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -18,7 +19,7 @@ const Register = () => {
 
         <form className="space-y-4">
           {inputFields
-            .filter((field) => !field.hidden) 
+            .filter((field) => !field.hidden)
             .map((field) => (
               <TextInput
                 key={field.id}
@@ -28,7 +29,7 @@ const Register = () => {
             ))}
 
           {buttonFields
-            .filter((button) => !button.hidden) 
+            .filter((button) => !button.hidden)
             .map((button) => (
               <Button
                 key={button.id}
