@@ -1,7 +1,7 @@
 import { Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import { Login } from "../../pages/Login";
-import Register from "../../pages/Register";
+import { Register } from "../../pages/Register";
 
 const PublicRoute = ({ children }) => {
   const { isAuthenticated } = useAuthContext();

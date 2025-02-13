@@ -5,7 +5,7 @@ import { useAuthContext } from "../context/AuthContext";
 import { buttonConfig } from "../config/buttonConfig";
 import { Button } from "../components/common/Button";
 
-const LogoutButton = () => {
+export const LogoutButton = () => {
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuthContext();
 
@@ -29,5 +29,3 @@ const LogoutButton = () => {
     />
   );
 };
-
-export default LogoutButton;

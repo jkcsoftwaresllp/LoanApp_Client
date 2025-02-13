@@ -11,7 +11,7 @@ import {
 } from "../components/helper/profileService";
 import styles from "../Styles/Profile.module.css";
 
-const Profile = () => {
+export const Profile = () => {
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState({
@@ -183,5 +183,3 @@ const Profile = () => {
     </div>
   );
 };
-
-export default Profile;

@@ -3,7 +3,7 @@ import { LoanContext } from "../context/LoanContext";
 import apiRequest from "../components/common/authApi";
 import { useNavigate } from "react-router-dom";
 
-const SubmitLoan = () => {
+export const SubmitLoan = () => {
   const { loanData, updateLoanData } = useContext(LoanContext);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -67,5 +67,3 @@ const SubmitLoan = () => {
     </div>
   );
 };
-
-export default SubmitLoan;

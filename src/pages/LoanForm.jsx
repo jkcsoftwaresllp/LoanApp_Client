@@ -4,7 +4,7 @@ import { LoanContext } from "../context/LoanContext";
 import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanForm.module.css";
 
-const LoanForm = () => {
+export const LoanForm = () => {
   const navigate = useNavigate();
   const { updateLoanData } = useContext(LoanContext);
   const [amount, setAmount] = useState("");
@@ -113,10 +113,7 @@ const LoanForm = () => {
           </div>
 
           <div className={styles.buttonContainer}>
-            <button
-              onClick={handleSaveDraft}
-              className={styles.buttonSave}
-            >
+            <button onClick={handleSaveDraft} className={styles.buttonSave}>
               Save Draft
             </button>
           </div>
@@ -125,5 +122,3 @@ const LoanForm = () => {
     </div>
   );
 };
-
-export default LoanForm;

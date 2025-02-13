@@ -3,10 +3,12 @@ import { LoanContext } from "../context/LoanContext";
 import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanForm.module.css";
 
-const UpdateLoanDetails = () => {
+export const UpdateLoanDetails = () => {
   const { loanData, updateLoanData } = useContext(LoanContext);
   const [amount, setAmount] = useState(loanData.amount || "");
-  const [interestRate, setInterestRate] = useState(loanData.interest_rate || "");
+  const [interestRate, setInterestRate] = useState(
+    loanData.interest_rate || ""
+  );
   const [startDate, setStartDate] = useState(loanData.start_date || "");
   const [frequency, setFrequency] = useState(loanData.repayment_schedule || "");
   const [error, setError] = useState("");
@@ -105,10 +107,7 @@ const UpdateLoanDetails = () => {
             />
           </div>
 
-          <button
-            onClick={handleUpdate}
-            className={styles.buttonSave}
-          >
+          <button onClick={handleUpdate} className={styles.buttonSave}>
             Update Loan
           </button>
         </div>
@@ -116,5 +115,3 @@ const UpdateLoanDetails = () => {
     </div>
   );
 };
-
-export default UpdateLoanDetails;

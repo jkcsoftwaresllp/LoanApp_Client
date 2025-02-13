@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react"; // Import useState and useEffect
 import useOtpHandler from "../hooks/useOtpHandler";
 import { TextInput } from "../components/common/TextInput";
 import { Button } from "../components/common/Button";
 import { apireg } from "../utils/Api";
+import { useNavigate } from "react-router-dom";
+import style from "./style/LoginForm.module.css";
+import { Loader } from "../components/common/Loader";
 
-const Register = () => {
+export const Register = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true); // Define state for loading
   const { otpGenerated, handleChange, message, inputFields, buttonFields } =
     useOtpHandler({
       apiBaseUrl: apireg,
@@ -12,39 +17,61 @@ const Register = () => {
       isLogin: false,
     });
 
+  useEffect(() => {
+    // Simulate loading completion after 1 second
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
+
+  const goToLogin = () => {
+    navigate("/login"); // Navigate to the /login page
+  };
+
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-white p-8 shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold mb-4">Register</h2>
+    <>
+      {loading ? (
+        <div className={style.loaderContainer}>
+          <Loader /> {/* Show loader when loading is true */}
+        </div>
+      ) : (
+        <div className={style.form}>
+          <h1 className={style.h1}>Register</h1>
+          <div className={style.flexColumn}>
+            <form className="space-y-4">
+              {inputFields
+                .filter((field) => !field.hidden)
+                .map((field) => (
+                  <TextInput
+                    key={field.id}
+                    config={field}
+                    onChange={handleChange}
+                  />
+                ))}
 
-        <form className="space-y-4">
-          {inputFields
-            .filter((field) => !field.hidden)
-            .map((field) => (
-              <TextInput
-                key={field.id}
-                config={field}
-                onChange={handleChange}
-              />
-            ))}
+              {buttonFields
+                .filter((button) => !button.hidden)
+                .map((button) => (
+                  <Button
+                    key={button.id}
+                    type={button.type}
+                    text={button.text}
+                    onClick={button.onClick}
+                    className={button.className}
+                  />
+                ))}
+            </form>
+            <p className={style.p}>
+              Already have an account?{" "}
+              <span onClick={goToLogin} className={style.span}>
+                Sign In
+              </span>
+            </p>
 
-          {buttonFields
-            .filter((button) => !button.hidden)
-            .map((button) => (
-              <Button
-                key={button.id}
-                type={button.type}
-                text={button.text}
-                onClick={button.onClick}
-                className={button.className}
-              />
-            ))}
-        </form>
-
-        {message && <p className="mt-4 text-red-500">{message}</p>}
-      </div>
-    </div>
+            {message && <p className={style.error}>{message}</p>}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
-
-export default Register;

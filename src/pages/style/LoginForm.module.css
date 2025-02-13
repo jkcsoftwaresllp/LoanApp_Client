@@ -6,12 +6,44 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: ;
+  background-color: #fbfbfb;
   padding: 30px;
-  min-width: 450px;
+  color: #0f0f0f;
+  min-width: 280px; /* Adjust this value for mobile screens */
+  max-width: 500px; /* Maximum width */
+  width: 90%; /* Adjust the width to be relative to the viewport */
   border-radius: 20px;
   user-select: none;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
 }
+.loaderContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+}
+
+/* Optional: Add breakpoints for responsiveness */
+@media (max-width: 600px) {
+  .form {
+    min-width: 90%; /* Ensure form takes most of the width on smaller screens */
+    padding: 20px; /* Adjust padding for small screens */
+  }
+}
+
+@media (max-width: 400px) {
+  .form {
+    min-width: 80%; /* Further reduce width for very small screens */
+    padding: 15px; /* Adjust padding */
+  }
+}
+
 .form button {
   align-self: flex-end;
 }
@@ -81,13 +113,13 @@
 
 .p {
   text-align: center;
-  color: var(--color-text-primary);
+  color: #0f0f0f;
   font-size: var(--font-size-medium);
   margin: 5px 0;
 }
 .h1 {
   text-align: center;
-  color: var(--color-text-primary);
+  color: #0f0f0f;
   font-size: var(--font-size-large);
   margin: 5px 0;
 }

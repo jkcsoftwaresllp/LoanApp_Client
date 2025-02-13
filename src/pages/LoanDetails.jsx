@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { LoanContext } from "../context/LoanContext";
 import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanForm.module.css";
-import SubmitLoan from "./SubmitLoan";
+import { SubmitLoan } from "./SubmitLoan";
 
-const LoanDetails = () => {
+export const LoanDetails = () => {
   const { loanData } = useContext(LoanContext);
   const [loanDetails, setLoanDetails] = useState(null);
   const [loan, setLoan] = useState(null);
@@ -49,15 +49,25 @@ const LoanDetails = () => {
         <>
           <div className={styles.inputField}>
             <h4 className="text-lg font-semibold">Loan Information</h4>
-            <p><strong>Loan ID:</strong> {loan.loan_id}</p>
-            <p><strong>Amount:</strong> {loan.amount}</p>
-            <p><strong>Status:</strong> {loan.status}</p>
+            <p>
+              <strong>Loan ID:</strong> {loan.loan_id}
+            </p>
+            <p>
+              <strong>Amount:</strong> {loan.amount}
+            </p>
+            <p>
+              <strong>Status:</strong> {loan.status}
+            </p>
           </div>
 
           <div className={styles.inputField}>
             <h4 className="text-lg font-semibold">Repayment Details</h4>
-            <p><strong>Interest Rate:</strong> {loanDetails.interest_rate}</p>
-            <p><strong>Total Repayment:</strong> {loanDetails.total_repayment}</p>
+            <p>
+              <strong>Interest Rate:</strong> {loanDetails.interest_rate}
+            </p>
+            <p>
+              <strong>Total Repayment:</strong> {loanDetails.total_repayment}
+            </p>
           </div>
 
           {loanDetails.repayment_schedule.length > 0 && (
@@ -65,9 +75,13 @@ const LoanDetails = () => {
               <h4 className="text-lg font-semibold">Repayment Schedule</h4>
               <ul className="list-disc pl-6">
                 <li className="mb-2">
-                  <strong>Date:</strong> {new Date(loanDetails.repayment_schedule[0].date).toLocaleDateString()}
+                  <strong>Date:</strong>{" "}
+                  {new Date(
+                    loanDetails.repayment_schedule[0].date
+                  ).toLocaleDateString()}
                   <br />
-                  <strong>Amount:</strong> {loanDetails.repayment_schedule[0].amount}
+                  <strong>Amount:</strong>{" "}
+                  {loanDetails.repayment_schedule[0].amount}
                 </li>
               </ul>
             </div>
@@ -75,21 +89,16 @@ const LoanDetails = () => {
         </>
       ) : (
         <div className="flex flex-col justify-center items-center">
-        <img
-          src="/images/notavi.webp"
-          alt="Loan details not available"
-          className="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 mb-4" 
-        />
-        <p className="text-gray-500 text-base sm:text-lg md:text-xl lg:text-2xl font-semibold">
-          Loan details not available. Please apply for a loan.
-        </p>
-      </div>
-      
+          <img
+            src="/images/notavi.webp"
+            alt="Loan details not available"
+            className="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 mb-4"
+          />
+          <p className="text-gray-500 text-base sm:text-lg md:text-xl lg:text-2xl font-semibold">
+            Loan details not available. Please apply for a loan.
+          </p>
+        </div>
       )}
-
-      
     </div>
   );
 };
-
-export default LoanDetails;

@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanList.module.css";
 
-const LoanList = () => {
+export const LoanList = () => {
   const [loans, setLoans] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = localStorage.getItem("accessToken");
 
         if (!accessToken) {
           throw new Error("Access token is missing. Please log in.");
         }
 
         const response = await apiRequest(
-          'GET',
-          'http://localhost:5000/api/auth/getAllLoansForUser',
+          "GET",
+          "http://localhost:5000/api/auth/getAllLoansForUser",
           null,
           accessToken,
           setLoading
@@ -31,7 +31,9 @@ const LoanList = () => {
           setLoans([]); // In case the response data is not an array
         }
       } catch (err) {
-        setError(err.message || 'Failed to fetch loans. Please try again later.');
+        setError(
+          err.message || "Failed to fetch loans. Please try again later."
+        );
       } finally {
         setLoading(false);
       }
@@ -41,7 +43,9 @@ const LoanList = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center text-xl text-gray-500">Loading loans...</div>;
+    return (
+      <div className="text-center text-xl text-gray-500">Loading loans...</div>
+    );
   }
 
   if (error) {
@@ -51,7 +55,7 @@ const LoanList = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Loan List</h1>
-      
+
       {loans.length > 0 ? (
         <div className={styles.tableContainer}>
           <table>
@@ -80,11 +84,11 @@ const LoanList = () => {
             alt="Loan details not available"
             className="w-48 h-48 mb-4"
           />
-          <p className="text-gray-500">No loans found for this user. Please apply for a loan.</p>
+          <p className="text-gray-500">
+            No loans found for this user. Please apply for a loan.
+          </p>
         </div>
       )}
     </div>
   );
 };
-
-export default LoanList;

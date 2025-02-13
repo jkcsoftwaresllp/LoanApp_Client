@@ -16,7 +16,7 @@
   height: 100%;
   font-size: var(--font-size-medium);
   align-items: center;
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-light);
 }
 
 .input:focus {

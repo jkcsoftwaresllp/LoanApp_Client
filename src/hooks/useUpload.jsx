@@ -6,7 +6,7 @@ import { DocumentTypeSelect } from "../components/document/DocumentTypeSelect";
 import { Button } from "../components/common/Button";
 import styles from "../Styles/PageSlider.module.css";
 
-const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
+export const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
   const [file, setFile] = useState(null);
   const [documentType, setDocumentType] = useState("");
   const [loading, setLoading] = useState(false);
@@ -148,5 +148,3 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
     </div>
   );
 };
-
-export default useUpload;
