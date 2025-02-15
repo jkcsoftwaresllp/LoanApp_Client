@@ -2,18 +2,19 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -45%);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   background-color: #fbfbfb;
   padding: 30px;
   color: #0f0f0f;
   min-width: 280px; /* Adjust this value for mobile screens */
   max-width: 500px; /* Maximum width */
   width: 90%; /* Adjust the width to be relative to the viewport */
-  border-radius: 20px;
+  border-radius: var(--border-radius-large);
   user-select: none;
+
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
 }
 .loaderContainer {
@@ -78,7 +79,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   justify-content: space-between;
 }
 
@@ -132,7 +133,7 @@
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  gap: 10px;
+  gap: 5px;
   border: 1px solid #ededef;
   background-color: white;
   cursor: pointer;

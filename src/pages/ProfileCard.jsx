@@ -107,7 +107,7 @@ const ProfileCard = () => {
             <img
               src="https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-user-profile-avatar-png-image_10211467.png"
               alt="Profile"
-              className={styles.profileImage}
+              className={styles.cardImage}
             />
           </div>
           <h2 className={styles.profileName}>{profile.name || "N/A"}</h2>
