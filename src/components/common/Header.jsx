@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import style from "./style/Header.module.css";
-
+import { useNavigate } from "react-router-dom";
+import { LogoutButton } from "../../pages/LogoutButton";
 export const Header = () => {
+  const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
@@ -14,6 +16,10 @@ export const Header = () => {
       document.body.classList.remove("dark-mode");
     }
   }, []);
+
+  const goToHome = () => {
+    navigate("/"); // Redirects to the home page
+  };
 
   // Handle checkbox change to toggle theme
   const handleCheckboxChange = () => {
@@ -31,13 +37,20 @@ export const Header = () => {
 
   return (
     <header className={style.header}>
-      <div className={style.textLoan}>Loan</div>
-      <div className={style.checkboxWrapper}>
-        <input
-          type="checkbox"
-          checked={isChecked}
-          onChange={handleCheckboxChange}
-        />
+      <div className={style.textLoan} onClick={goToHome}>
+        Loan
+      </div>
+      <div className={style.rightSection}>
+        <div className={style.checkboxWrapper}>
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          />
+        </div>
+        <div className={style.logoutIcon}>
+          <LogoutButton />
+        </div>
       </div>
     </header>
   );

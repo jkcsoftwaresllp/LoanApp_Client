@@ -4,7 +4,8 @@ import { clearTokens } from "../utils/tokenUtils";
 import { useAuthContext } from "../context/AuthContext";
 import { buttonConfig } from "../config/buttonConfig";
 import { Button } from "../components/common/Button";
-
+import { Logouticon } from "../components/common/assets";
+import { showToast } from "../utils/toastUtils";
 export const LogoutButton = () => {
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuthContext();
@@ -13,6 +14,7 @@ export const LogoutButton = () => {
     clearTokens();
     setIsAuthenticated(false);
     navigate("/login");
+    showToast("success", "Logout successful");
   };
 
   const logoutButtonConfig = buttonConfig({
@@ -21,11 +23,12 @@ export const LogoutButton = () => {
   })[0];
 
   return (
-    <Button
+    <div
       type={logoutButtonConfig.type}
       text={logoutButtonConfig.text}
       onClick={logoutButtonConfig.onClick}
-      className={logoutButtonConfig.className}
-    />
+    >
+      {Logouticon}
+    </div>
   );
 };

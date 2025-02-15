@@ -4,7 +4,13 @@
   align-items: center;
   padding: 10px 20px;
   background-color: var(--color-bg-secondary);
-  height: 55px;
+  height: var(--header-height);
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Adds spacing between theme switch and logout icon */
 }
 
 .checkboxWrapper {
@@ -49,4 +55,9 @@
   left: 50%;
   background-color: #fff;
   border-radius: 100px 100px 30px 100px;
+}
+
+.logoutIcon {
+  color: var(--color-text-primary);
+  cursor: pointer;
 }

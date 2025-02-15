@@ -1,7 +1,5 @@
-import FileUploadPage from "../hooks/useUpload";
+import { FileUploadPage } from "../hooks/useUpload";
 
-const File = () => {
+export const File = () => {
   return <FileUploadPage apiRoute="upload-documents" />;
 };
-
-export default File;

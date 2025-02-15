@@ -9,6 +9,7 @@ html {
 }
 /* Root CSS File for Light and Dark Mode */
 :root {
+  --header-height: 55px;
   /* Default (Light Mode) Variables */
   --color-bg-primary: #fbfeff;
   --color-bg-secondary: #f8f8f8;

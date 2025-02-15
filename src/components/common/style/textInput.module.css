@@ -1,6 +1,6 @@
 .inputForm {
   border-radius: var(--border-radius-small);
-  height: 50px;
+  min-height: 50px;
   display: flex;
   align-items: center;
   padding-left: 10px;
@@ -8,6 +8,12 @@
   width: 100%;
   border: 1px solid var(--color-border-primary);
   margin-top: 10px;
+  color: black;
+  resize: vertical; /* Enables resizing */
+  overflow: hidden; /* Prevents scrollbar when resizing */
+}
+.textInput {
+  padding: 5px;
 }
 
 .input {
