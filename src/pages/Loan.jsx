@@ -1,14 +1,21 @@
 import React, { useState } from "react";
-import { UserIcon, CurrencyDollarIcon, DocumentIcon, EyeIcon } from "@heroicons/react/solid";
+import {
+  UserIcon,
+  CurrencyDollarIcon,
+  DocumentIcon,
+  EyeIcon,
+} from "@heroicons/react/solid";
 import styles from "../Styles/Loan.module.css";
-import PageSlider from "./PageSlider"; 
+import PageSlider from "./PageSlider";
 import LoanForm from "./LoanForm";
 import SubmitLoan from "./SubmitLoan";
 import UpdateLoanDetails from "./UpdateLoanDetails";
 import useUpload from "../hooks/useUpload";
 import LoanDetails from "./LoanDetails";
 import Profile from "./Profile";
+import ProfileCard from "./ProfileCard";
 import LoanList from "./LoanList";
+import { Button } from "../components/common/Button";
 
 const Loan = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -16,10 +23,12 @@ const Loan = () => {
 
   const steps = [
     { label: "Contact Details", icon: <UserIcon className="h-6 w-6" /> },
-    { label: "Loan Requirements", icon: <CurrencyDollarIcon className="h-6 w-6" /> },
+    {
+      label: "Loan Requirements",
+      icon: <CurrencyDollarIcon className="h-6 w-6" />,
+    },
     { label: "Document Upload", icon: <DocumentIcon className="h-6 w-6" /> },
     { label: "Review", icon: <EyeIcon className="h-6 w-6" /> },
-   
   ];
 
   const handleNext = () => {
@@ -47,33 +56,18 @@ const Loan = () => {
   const renderForms = () => {
     if (currentStep === 0) {
       return (
-        <div>
-          <h3 className="text-lg font-semibold mb-2"></h3>
-          {currentSubStep === 0 ? <Profile /> : <PageSlider/>}
-        </div>
+        <div>{currentSubStep === 0 ? <ProfileCard /> : <PageSlider />}</div>
       );
     } else if (currentStep === 1) {
-      return (
-        <div>
-          <h3 className="text-lg font-semibold mb-2"></h3>
-          {currentSubStep === 0 ? <LoanForm /> :<LoanDetails /> }
-        </div>
-      );
+      return <div>{currentSubStep === 0 ? <LoanForm /> : <LoanDetails />}</div>;
     } else if (currentStep === 2) {
       return (
         <div>
-          <h3 className="text-lg font-semibold mb-2"></h3>
           {currentSubStep === 0 ? <UpdateLoanDetails /> : <LoanDetails />}
         </div>
       );
-    }
-    else if (currentStep === 3) {
-      return (
-        <div>
-          <h3 className="text-lg font-semibold mb-2"></h3>
-          {currentSubStep === 0 ? <LoanList /> : <LoanDetails />}
-        </div>
-      );
+    } else if (currentStep === 3) {
+      return <div>{currentSubStep === 0 ? <LoanList /> : <LoanDetails />}</div>;
     }
   };
 
@@ -85,7 +79,9 @@ const Loan = () => {
             <div key={index} className={styles.step}>
               <div
                 className={`${styles.stepIcon} ${
-                  index <= currentStep ? styles.stepIconActive : styles.stepIconInactive
+                  index <= currentStep
+                    ? styles.stepIconActive
+                    : styles.stepIconInactive
                 }`}
               >
                 {step.icon}
@@ -93,7 +89,9 @@ const Loan = () => {
               {index < steps.length - 1 && (
                 <div
                   className={`${styles.stepLine} ${
-                    index < currentStep ? styles.stepLineActive : styles.stepLineInactive
+                    index < currentStep
+                      ? styles.stepLineActive
+                      : styles.stepLineInactive
                   }`}
                 ></div>
               )}
@@ -105,20 +103,12 @@ const Loan = () => {
       <div className={styles.formWrapper}>
         {renderForms()}
         <div className={styles.buttonContainer}>
-          <button
-            type="button"
-            className={`${styles.button} ${styles.buttonBack}`}
-            onClick={handleBack}
-          >
-            Back
-          </button>
-          <button
-            type="button"
-            className={`${styles.button} ${styles.buttonNext}`}
+          <Button onClick={handleBack} type="button" text="Back" />
+          <Button
             onClick={handleNext}
-          >
-            {currentSubStep === 1 ? "Next" : "Continue"}
-          </button>
+            type="button"
+            text={currentSubStep === 1 ? "Next" : "Continue"}
+          />
         </div>
       </div>
     </div>

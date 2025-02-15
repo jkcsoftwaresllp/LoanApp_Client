@@ -13,6 +13,18 @@
   box-sizing: border-box;
   overflow-y: auto;
 }
+.cardContainer {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
 
 .title {
   font-size: var(--font-size-large);
@@ -160,7 +172,27 @@ p.text-green-500 {
   align-items: center;
   text-align: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
+  background-color: var(--color-bg-secondary);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  color: var(--color-text-primary);
+  border-radius: var(--border-radius-large);
+  padding-bottom: 20px;
+}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
   background-color: var(--color-bg-secondary);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   color: var(--color-text-primary);
