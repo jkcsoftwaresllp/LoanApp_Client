@@ -31,7 +31,7 @@ export const sendOtp = async (
 ) => {
   try {
     const data = await apiRequest("post", apiUrl, { email }, accessToken, null);
-    alert("OTP sent to the new email address.");
+
     showToast("info", "OTP sent to the new email address.");
     setOtpSent(true);
   } catch (error) {
