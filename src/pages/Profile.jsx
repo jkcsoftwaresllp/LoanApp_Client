@@ -4,6 +4,7 @@ import { TextInput } from "../components/common/TextInput";
 import { Button } from "../components/common/Button";
 import { inputFieldConfig } from "../config/inputFieldConfig";
 import { apiprof, mailotp, prupdate } from "../utils/Api";
+import { Loader } from "../components/common/Loader";
 import {
   fetchProfile,
   sendOtp,
@@ -96,24 +97,26 @@ const Profile = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Your Profile</h2>
       {loading ? (
-        <p className={styles.loading}>Loading...</p>
+        <div className={styles.loading}>
+          <Loader />
+        </div>
       ) : !isEditing ? (
-        <div className={styles.profileBox}>
-          <p>
-            <strong>Name:</strong> {profile.name || "N/A"}
-          </p>
-          <p>
-            <strong>Address:</strong> {profile.address || "N/A"}
-          </p>
-          <p>
-            <strong>Email:</strong> {profile.email || "N/A"}
-          </p>
+        <div className={styles.profileCard}>
+          <div className={styles.profileHeader}>
+            <img
+              src="https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-user-profile-avatar-png-image_10211467.png"
+              alt="Profile"
+              className={styles.profileImage}
+            />
+          </div>
+          <h2 className={styles.profileName}>{profile.name || "N/A"}</h2>
+          <p className={styles.profileemail}>{profile.email || "N/A"}</p>
+          <p className={styles.profileLocation}>{profile.address || "N/A"}</p>
+
           <div className={styles.buttonContainer}>
             <Button
               text="Edit Profile"
-              className={`${styles.buttonSave} w-full`}
               onClick={() => {
                 setUpdatedProfile({ ...profile });
                 setIsEditing(true);
@@ -127,25 +130,22 @@ const Profile = () => {
             if (field.id === "email" && otpSent) return null;
 
             return (
-              <TextInput
-                key={field.id}
-                className={styles.inputField}
-                config={{
-                  ...field,
-                  value: updatedProfile[field.id] || "",
-                  disabled: otpSent && field.id === "email",
-                }}
-                onChange={handleInputChange}
-              />
+              <div className={styles.inputContainer} key={field.id}>
+                <TextInput
+                  key={field.id}
+                  config={{
+                    ...field,
+                    value: updatedProfile[field.id] || "",
+                    disabled: otpSent && field.id === "email",
+                  }}
+                  onChange={handleInputChange}
+                />
+              </div>
             );
           })}
 
           {updatedProfile.email !== profile.email && !otpSent && (
-            <Button
-              text="Send OTP"
-              className={`${styles.buttonSave} w-full bg-green-500 mt-2`}
-              onClick={handleSendOtp}
-            />
+            <Button text="Send OTP" onClick={handleSendOtp} />
           )}
 
           {otpSent && (
@@ -168,7 +168,7 @@ const Profile = () => {
           <div className={styles.buttonContainer}>
             <Button
               type="submit"
-              text="Update Profile"
+              text="Update"
               className={`${styles.buttonSave} w-full`}
             />
             <Button

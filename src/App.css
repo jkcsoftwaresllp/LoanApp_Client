@@ -9,9 +9,10 @@ html {
 }
 /* Root CSS File for Light and Dark Mode */
 :root {
+  --header-height: 55px;
   /* Default (Light Mode) Variables */
   --color-bg-primary: #fbfeff;
-  --color-bg-secondary: #f5f5f5;
+  --color-bg-secondary: #f8f8f8;
   --color-bg-tertiary: #e0e0e0;
 
   --color-text-primary: #0f0f0f;
@@ -27,7 +28,7 @@ html {
   --font-size-large: 24px;
 
   --font-weight-light: 300;
-  --font-weight-regular: 400;
+  --font-weight-regular: 500;
   --font-weight-bold: 700;
 
   --border-radius-small: 8px;
@@ -37,8 +38,8 @@ html {
 
 /* Dark Mode Overrides */
 .dark-mode {
-  --color-bg-primary: #121212;
-  --color-bg-secondary: #1e1e1e;
+  --color-bg-primary: #0a0908f0;
+  --color-bg-secondary: #151515;
   --color-bg-tertiary: #2a2a2a;
 
   --color-text-primary: #e0e0e0;
