@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import style from "./style/Header.module.css";
 import { useNavigate } from "react-router-dom";
 import { UserIcon } from "./assets";
+import Notification from "./Notification";
 import LogoutButton from "../../pages/LogoutButton";
 export const Header = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ export const Header = () => {
           <UserIcon />
         </div>
         <div className={style.Icon}>
-          <LogoutButton />
+          <Notification />
         </div>
       </div>
     </header>

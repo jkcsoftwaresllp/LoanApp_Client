@@ -205,6 +205,12 @@ p.text-green-500 {
   margin-top: -50px;
 }
 
+.logoutButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
 .profileImage {
   width: 100px;
   height: 100px;

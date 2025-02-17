@@ -8,11 +8,18 @@
 h1 {
   color: var(--color-text-primary);
 }
+.header {
+  font-size: var(--font-size-large);
+  text-align: center;
+}
 
+.main {
+  padding: 10px;
+}
 .cards {
   display: flex;
   justify-content: space-around;
-  margin: 20px 0;
+  margin: 2px 0;
 }
 
 .actions {
@@ -20,10 +27,21 @@ h1 {
   justify-content: center;
   margin-top: 30px;
 }
+
 .btnSection {
   display: flex;
-  gap: 1rem; /* 4 units, equivalent to 1rem */
-  justify-content: center;
+  gap: 1rem;
+  justify-content: center; /* Centers the buttons horizontally */
+  align-items: center; /* Centers the buttons vertically */
+  width: 500px;
+  margin: 0 auto; /* Ensures the section itself is centered */
+  text-align: center; /* Centers inline elements if any */
+}
+
+@media (max-width: 768px) {
+  .btnSection {
+    width: 100%; /* Allows full width on smaller screens */
+  }
 }
 
 @media (min-width: 768px) {
@@ -31,10 +49,11 @@ h1 {
     justify-content: flex-start;
   }
 }
+
 .cardArea {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* 6 units, equivalent to 1.5rem */
+  gap: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -42,9 +61,27 @@ h1 {
     grid-column: span 1;
   }
 }
+.main {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+@media (min-width: 768px) {
+  .main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
 @media (min-width: 1024px) {
-  .cardArea {
-    grid-column: span 2;
+  .main {
+    grid-template-columns: repeat(3, 1fr);
   }
+}
+
+.container {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
 }

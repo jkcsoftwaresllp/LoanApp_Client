@@ -5,6 +5,7 @@ import { Button } from "../components/common/Button";
 import { inputFieldConfig } from "../config/inputFieldConfig";
 import { apiprof, mailotp, prupdate } from "../utils/Api";
 import { Loader } from "../components/common/Loader";
+import LogoutButton from "./LogoutButton";
 import {
   fetchProfile,
   sendOtp,
@@ -103,6 +104,9 @@ const Profile = () => {
         </div>
       ) : !isEditing ? (
         <div className={styles.profileCard}>
+          <div className={styles.logoutButton}>
+            <LogoutButton />
+          </div>
           <div className={styles.profileHeader}>
             <img
               src="https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-user-profile-avatar-png-image_10211467.png"

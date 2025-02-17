@@ -12,7 +12,7 @@ html {
   --header-height: 55px;
   /* Default (Light Mode) Variables */
   --color-bg-primary: #fbfeff;
-  --color-bg-secondary: #f8f8f8;
+  --color-bg-secondary: #f3f6fd;
   --color-bg-tertiary: #e0e0e0;
 
   --color-text-primary: #0f0f0f;
@@ -20,6 +20,8 @@ html {
   --color-text-tertiary: #333;
 
   --color-border-primary: #333;
+
+  --color-btn: #111827;
 
   --color-error: #f10e0e;
 
@@ -38,8 +40,8 @@ html {
 
 /* Dark Mode Overrides */
 .dark-mode {
-  --color-bg-primary: #0a0908f0;
-  --color-bg-secondary: #151515;
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #1f2937;
   --color-bg-tertiary: #2a2a2a;
 
   --color-text-primary: #e0e0e0;

@@ -1,0 +1,80 @@
+/* NotificationBody.module.css */
+.notificationBody {
+  border-top: 1px solid #fbfefb;
+  padding: 6px;
+}
+
+.notificationContent {
+  padding-left: 2px;
+  width: 100%;
+}
+
+.notificationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  color: #0f0f0f;
+  font-size: var(--font-size-large);
+}
+
+.notificationName {
+  font-size: var(--font-size-medium);
+  color: #212121;
+  margin: 0;
+}
+
+.notificationLine {
+  font-size: var(--font-size-small);
+  line-height: 20px;
+  margin: 4px 0;
+  color: #666;
+}
+
+.notificationLineTime {
+  text-align: right;
+  margin-bottom: 0;
+}
+/* Notification.module.css */
+.notification {
+  position: relative;
+}
+
+.messagesSection {
+  position: absolute;
+  top: 40px;
+  right: 1px;
+  width: 300px;
+  max-height: 400px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  z-index: 999;
+  display: none;
+}
+
+.messagesSectionShow {
+  display: block;
+}
+
+.messagesClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+.projectsSectionHeader {
+  color: #0f0f0f;
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+}
+
+.messages {
+  max-height: 300px;
+  overflow-y: auto;
+}

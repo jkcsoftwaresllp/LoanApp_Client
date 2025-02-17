@@ -2,8 +2,11 @@ import React from "react";
 import DashboardCard from "../components/common/DashboardCard";
 import { Button } from "../components/common/Button";
 import style from "./style/Dashboard.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   const data = {
     activeLoans: 5,
     pendingApplications: 3,
@@ -12,13 +15,15 @@ const Dashboard = () => {
       repaymentsMade: 20000,
     },
   };
+  const goToLoan = () => {
+    navigate("/loan");
+  };
 
   return (
-    <div className="max-w-7xl mx-auto p-4">
-      <h1 className="text-3xl font-semibold mb-6">Dashboard</h1>
+    <div className={style.container}>
+      <h1 className={style.header}>Dashboard</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-        {/* Active Loans and Pending Applications in one column on medium screens and larger */}
+      <div className={style.main}>
         <div className={style.cardArea}>
           <DashboardCard
             title="Active Loans"
@@ -32,7 +37,6 @@ const Dashboard = () => {
           />
         </div>
 
-        {/* Financial History card on its own row or column */}
         <DashboardCard
           title="Financial History"
           value={`Total Borrowed: $${data.financialHistory.totalBorrowed}`}
@@ -42,15 +46,11 @@ const Dashboard = () => {
       </div>
 
       <div className={style.btnSection}>
-        <Button
-          text="Apply for Loan"
-          onClick={() => alert("Redirecting to Apply for Loan")}
-          type="button"
-        />
+        <Button text="Apply for Loan" onClick={goToLoan} type="button" />
         <Button
           text="View Repayments"
           type="button"
-          onClick={() => alert("Redirecting to View Repayments")}
+          onClick={() => navigate("/repayments")}
         />
       </div>
     </div>
