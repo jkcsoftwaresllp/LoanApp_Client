@@ -1,87 +1,91 @@
 .container {
-    position: relative;
-    width: 550px;
-    height: 500px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-shrink: 0;
-    box-sizing: border-box;
+  position: relative;
+  width: 500px;
+  height: 420px;
+  margin: 0 auto;
+  background-color: #fbfefb;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .container:hover {
-    transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 .submitLoanContainer {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
 
 .title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #0f0f0f;
 }
 
 .inputField {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .label {
-    font-size: 0.875rem;
-    font-weight: 500;
+  font-size: var(--font-size-medium);
+  color: #0f0f0f;
+  font-weight: var(--font-weight-light);
 }
 .input {
-    margin-top: 0.25rem;
-    padding: 0.5rem;
-    width: 100%;
-    border-radius: 0.375rem;
-    border: 1px solid #e5e7eb;
+  padding: 0.5rem;
+  width: 100%;
+  color: #0f0f0f;
+  border-radius: var(--border-radius-medium);
+  border: 1px solid #0f0f0f;
 }
-
-/* For styling the placeholder on date input */
-.input::-webkit-datetime-edit {
-    color: #b0b0b0; /* Lighter color for the placeholder text */
-}
-
-.input::-webkit-datetime-edit-text {
-    color: #b0b0b0; /* Lighter color for the placeholder text */
+.inputRow {
+  display: flex;
+  gap: 1rem; /* Adjust spacing between fields */
+  align-items: center; /* Align inputs properly */
 }
 
 .input::-webkit-calendar-picker-indicator {
-    background: transparent; /* Remove the default calendar icon if needed */
+  background: transparent; /* Remove the default calendar icon if needed */
 }
 
 .error {
-    color: red;
-    margin-bottom: 1rem;
-    text-align: center;
+  color: red;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .buttonContainer {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .buttonSave {
-    background-color:#4CAF50;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    width: 100%;
-    text-align: center;
+  background-color: #3ad03f;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  max-width: 120px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border: none;
+  border-radius: var(--border-radius-small);
+
+  transition: background-color 0.3s ease-in-out;
 }
 
 .buttonSave:hover {
-    background-color: #1f4a21;
+  background-color: #1f4a21;
 }

@@ -5,7 +5,7 @@ import { FileInput } from "../components/document/FileInput";
 import { DocumentTypeSelect } from "../components/document/DocumentTypeSelect";
 import { Button } from "../components/common/Button";
 import styles from "../Styles/PageSlider.module.css";
-
+import { showToast } from "../utils/toastUtils";
 const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
   const [file, setFile] = useState(null);
   const [documentType, setDocumentType] = useState("");
@@ -42,17 +42,17 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
     const token = localStorage.getItem("accessToken");
 
     if (!token) {
-      toast.error("No authentication token found.");
+      showToast("error", "No authentication token found.");
       return;
     }
 
     if (!file) {
-      toast.error("Please choose a file.");
+      showToast("error", "Please choose a file.");
       return;
     }
 
     if (!documentType) {
-      toast.error("Please specify the document type.");
+      showToast("error", "Please specify the document type.");
       return;
     }
 
@@ -76,15 +76,15 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
       const data = await response.json();
 
       if (response.ok) {
-        toast.success("File uploaded successfully!");
-        setFile(null); // Reset file input after success
-        setDocumentType(""); // Reset document type
+        showToast("success", "File uploaded successfully.");
+        setFile(null);
+        setDocumentType("");
       } else {
         setErrorMessage(data.message || "Upload failed. Please try again.");
       }
     } catch (error) {
       setErrorMessage("Error during file upload. Please try again.");
-      toast.error("Error during file upload. Please try again.");
+      showToast("error", "Error during file upload. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -93,31 +93,11 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
   return (
     <div className="flex items-center justify-center">
       <div>
-        <h1
-          style={{
-            fontSize: "1.25rem",
-            fontWeight: "600",
-            marginBottom: "1rem",
-            textAlign: "center",
-          }}
-        >
-          {buttonText || "Upload Document"}
-        </h1>
+        <h1 className={styles.header}>{buttonText || "Upload Document"}</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-3">
           {errorMessage && (
-            <div
-              style={{
-                color: "#e53e3e",
-                borderColor: "#e53e3e",
-                padding: "10px",
-                marginBottom: "1rem",
-                borderRadius: "5px",
-                backgroundColor: "#fef2f2",
-              }}
-            >
-              {errorMessage}
-            </div>
+            <div className={styles.errorMsg}>{errorMessage}</div>
           )}
 
           <FileInput file={file} onFileChange={handleFileChange} />
@@ -129,20 +109,17 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
           />
 
           {loading && (
-            <div
-              className="spinner"
-              style={{ textAlign: "center", paddingBottom: "1rem" }}
-            >
+            <div className="spinner" style={{ textAlign: "center" }}>
               <div className="spinner-border" role="status"></div> Uploading...
             </div>
           )}
-
-          <Button
-            text={loading ? "Uploading..." : buttonText || "Upload"}
-            type="submit"
-            className={`${styles.uploadButton}`}
-            disabled={loading}
-          />
+          <div className={styles.buttonWrapper}>
+            <Button
+              text={loading ? "Uploading..." : buttonText || "Upload"}
+              type="submit"
+              disabled={loading}
+            />
+          </div>
         </form>
       </div>
     </div>

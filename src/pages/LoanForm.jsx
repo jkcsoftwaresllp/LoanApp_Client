@@ -4,6 +4,7 @@ import { LoanContext } from "../context/LoanContext";
 import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanForm.module.css";
 import { showToast } from "../utils/toastUtils";
+import { Loader } from "../components/common/Loader";
 
 const LoanForm = () => {
   const navigate = useNavigate();
@@ -73,7 +74,9 @@ const LoanForm = () => {
       {error && <div className={styles.error}>{error}</div>}
 
       {loading ? (
-        <div>Loading...</div>
+        <div>
+          <Loader />
+        </div>
       ) : (
         <>
           <div className={styles.inputField}>
@@ -95,25 +98,26 @@ const LoanForm = () => {
               className={styles.input}
             />
           </div>
+          <div className={styles.inputRow}>
+            <div className={styles.inputField}>
+              <label className={styles.label}>Frequency</label>
+              <input
+                type="text"
+                value={frequency}
+                onChange={(e) => setFrequency(e.target.value)}
+                className={styles.input}
+              />
+            </div>
 
-          <div className={styles.inputField}>
-            <label className={styles.label}>Frequency</label>
-            <input
-              type="text"
-              value={frequency}
-              onChange={(e) => setFrequency(e.target.value)}
-              className={styles.input}
-            />
-          </div>
-
-          <div className={styles.inputField}>
-            <label className={styles.label}>Interest Rate</label>
-            <input
-              type="number"
-              value={interestRate}
-              onChange={(e) => setInterestRate(e.target.value)}
-              className={styles.input}
-            />
+            <div className={styles.inputField}>
+              <label className={styles.label}>Interest Rate</label>
+              <input
+                type="number"
+                value={interestRate}
+                onChange={(e) => setInterestRate(e.target.value)}
+                className={styles.input}
+              />
+            </div>
           </div>
 
           <div className={styles.buttonContainer}>

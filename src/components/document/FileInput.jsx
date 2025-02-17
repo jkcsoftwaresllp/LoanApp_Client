@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-
+import style from "./style/File.module.css";
+import { CloseIcon } from "../../components/common/assets";
 export const FileInput = ({ file, onFileChange }) => {
   const fileInputRef = useRef(null);
 
@@ -24,8 +25,7 @@ export const FileInput = ({ file, onFileChange }) => {
 
   return (
     <div
-      className="relative p-8 rounded-md flex justify-center items-center hover:bg-[#f4f4f4] transition duration-300 cursor-pointer mx-auto"
-      style={{ width: "550px", height: "200px" }}
+      className={style.uploadBox}
       onClick={() => fileInputRef.current.click()}
       role="button"
     >
@@ -37,17 +37,17 @@ export const FileInput = ({ file, onFileChange }) => {
       />
       {file ? (
         <div className="flex justify-center items-center w-full text-center">
-          <p className="text-gray-700 truncate">{file.name}</p>
+          <p className={style.fileName}>{file.name}</p>
           <button
             type="button"
             onClick={handleClearFile}
-            className="absolute top-2 right-2 text-red-500"
+            className="absolute top-7 right-0 text-red-500"
           >
-            ❌
+            {CloseIcon}
           </button>
         </div>
       ) : (
-        <p className="text-gray-500">Drag & Drop or Click to Upload</p>
+        <p className="text-black">Drag & Drop or Click to Upload</p>
       )}
     </div>
   );
