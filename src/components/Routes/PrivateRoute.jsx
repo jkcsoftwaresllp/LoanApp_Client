@@ -9,6 +9,7 @@ import SubmitLoan from "../../pages/SubmitLoan";
 import LoanDetails from "../../pages/LoanDetails";
 import UpdateLoanDetails from "../../pages/UpdateLoanDetails";
 import LoanList from "../../pages/LoanList";
+import Dashboard from "../../pages/Dashboard";
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuthContext();
@@ -26,6 +27,14 @@ export const privateRoutes = (
       }
     />
 
+    <Route
+      path="/dashboard"
+      element={
+        <PrivateRoute>
+          <Dashboard />
+        </PrivateRoute>
+      }
+    />
     <Route
       path="/upload"
       element={

@@ -1,0 +1,50 @@
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+h1 {
+  color: var(--color-text-primary);
+}
+
+.cards {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+.btnSection {
+  display: flex;
+  gap: 1rem; /* 4 units, equivalent to 1rem */
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .btnSection {
+    justify-content: flex-start;
+  }
+}
+.cardArea {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* 6 units, equivalent to 1.5rem */
+}
+
+@media (min-width: 768px) {
+  .cardArea {
+    grid-column: span 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardArea {
+    grid-column: span 2;
+  }
+}
