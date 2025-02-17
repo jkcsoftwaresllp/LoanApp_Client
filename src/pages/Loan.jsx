@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  UserIcon,
-  CurrencyDollarIcon,
-  DocumentIcon,
-  EyeIcon,
-} from "@heroicons/react/solid";
+
 import styles from "../Styles/Loan.module.css";
 import PageSlider from "./PageSlider";
 import LoanForm from "./LoanForm";
@@ -16,19 +11,21 @@ import Profile from "./Profile";
 import ProfileCard from "./ProfileCard";
 import LoanList from "./LoanList";
 import { Button } from "../components/common/Button";
-
+import {
+  UserIcon,
+  RupeesIcon,
+  DocumentIcon,
+  EyeIcon,
+} from "../components/common/assets";
 const Loan = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [currentSubStep, setCurrentSubStep] = useState(0);
 
   const steps = [
-    { label: "Contact Details", icon: <UserIcon className="h-6 w-6" /> },
-    {
-      label: "Loan Requirements",
-      icon: <CurrencyDollarIcon className="h-6 w-6" />,
-    },
-    { label: "Document Upload", icon: <DocumentIcon className="h-6 w-6" /> },
-    { label: "Review", icon: <EyeIcon className="h-6 w-6" /> },
+    { label: "Contact Details", icon: <UserIcon /> },
+    { label: "Loan Requirements", icon: <RupeesIcon /> },
+    { label: "Document Upload", icon: <DocumentIcon /> },
+    { label: "Review", icon: <EyeIcon /> },
   ];
 
   const handleNext = () => {

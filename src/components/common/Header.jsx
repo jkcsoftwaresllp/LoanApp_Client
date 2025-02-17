@@ -53,7 +53,7 @@ export const Header = () => {
           />
         </div>
         <div className={style.Icon} onClick={goToProfile}>
-          {UserIcon}
+          <UserIcon />
         </div>
         <div className={style.Icon}>
           <LogoutButton />

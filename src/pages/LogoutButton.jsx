@@ -28,7 +28,7 @@ const LogoutButton = () => {
       text={logoutButtonConfig.text}
       onClick={logoutButtonConfig.onClick}
     >
-      {Logouticon}
+      <Logouticon />
     </div>
   );
 };

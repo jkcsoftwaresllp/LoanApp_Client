@@ -1,4 +1,4 @@
-export const PhoneIcon = (
+export const PhoneIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="24px"
@@ -12,7 +12,7 @@ export const PhoneIcon = (
   </svg>
 );
 
-export const Logouticon = (
+export const Logouticon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="24px"
@@ -26,7 +26,7 @@ export const Logouticon = (
   </svg>
 );
 
-export const UserIcon = (
+export const UserIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="24px"
@@ -40,7 +40,7 @@ export const UserIcon = (
   </svg>
 );
 
-export const CloseIcon = (
+export const CloseIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="24px"
@@ -54,7 +54,7 @@ export const CloseIcon = (
   </svg>
 );
 
-export const CalendarIcon = (
+export const CalendarIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="24px"
@@ -64,6 +64,48 @@ export const CalendarIcon = (
     <path
       fill="currentColor"
       d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z"
+    />
+  </svg>
+);
+
+export const RupeesIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+  >
+    <path
+      fill="currentColor"
+      d="M549-120 280-400v-80h140q53 0 91.5-34.5T558-600H240v-80h306q-17-35-50.5-57.5T420-760H240v-80h480v80H590q14 17 25 37t17 43h88v80h-81q-8 85-70 142.5T420-400h-29l269 280H549Z"
+    />
+  </svg>
+);
+
+export const DocumentIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+  >
+    <path
+      fill="currentColor"
+      d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"
+    />
+  </svg>
+);
+
+export const EyeIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+  >
+    <path
+      fill="currentColor"
+      d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"
     />
   </svg>
 );
