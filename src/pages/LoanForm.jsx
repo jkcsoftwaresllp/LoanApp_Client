@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { LoanContext } from "../context/LoanContext";
 import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanForm.module.css";
+import { showToast } from "../utils/toastUtils";
 
 const LoanForm = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const LoanForm = () => {
 
     if (!accessToken) {
       setError("Access token not found. Please log in.");
+      showToast("error", "Access token not found. Please log in.");
       navigate("/login");
       return;
     }
@@ -26,12 +28,14 @@ const LoanForm = () => {
     const parsedAmount = parseFloat(amount);
     if (isNaN(parsedAmount) || parsedAmount <= 0) {
       setError("Please enter a valid loan amount.");
+      showToast("error", "Please enter a valid loan amount.");
       return;
     }
 
     const parsedInterestRate = parseFloat(interestRate);
     if (isNaN(parsedInterestRate) || parsedInterestRate <= 0) {
       setError("Please enter a valid interest rate.");
+      showToast("error", "Please enter a valid interest rate.");
       return;
     }
 
@@ -56,7 +60,7 @@ const LoanForm = () => {
         interest_rate: parsedInterestRate,
       });
 
-      alert("Loan draft saved successfully!");
+      showToast("success", "Loan draft saved successfully!");
     } catch (err) {
       setError(err.message);
     }
@@ -113,10 +117,7 @@ const LoanForm = () => {
           </div>
 
           <div className={styles.buttonContainer}>
-            <button
-              onClick={handleSaveDraft}
-              className={styles.buttonSave}
-            >
+            <button onClick={handleSaveDraft} className={styles.buttonSave}>
               Save Draft
             </button>
           </div>
