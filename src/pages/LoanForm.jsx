@@ -99,7 +99,9 @@ const LoanForm = () => {
                 onChange={(e) => setStartDate(e.target.value)}
                 className={styles.input}
               />
-              <span className={styles.icon}>{CalendarIcon}</span>
+              <span className={styles.icon}>
+                <CalendarIcon />
+              </span>
             </div>
           </div>
 

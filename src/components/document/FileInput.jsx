@@ -43,7 +43,7 @@ export const FileInput = ({ file, onFileChange }) => {
             onClick={handleClearFile}
             className="absolute top-7 right-0 text-red-500"
           >
-            {CloseIcon}
+            <CloseIcon />
           </button>
         </div>
       ) : (
