@@ -5,6 +5,7 @@ import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanForm.module.css";
 import { showToast } from "../utils/toastUtils";
 import { Loader } from "../components/common/Loader";
+import { CalendarIcon } from "../components/common/assets";
 
 const LoanForm = () => {
   const navigate = useNavigate();
@@ -91,13 +92,17 @@ const LoanForm = () => {
 
           <div className={styles.inputField}>
             <label className={styles.label}>Start Date</label>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              className={styles.input}
-            />
+            <div className={styles.inputWrapper}>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className={styles.input}
+              />
+              <span className={styles.icon}>{CalendarIcon}</span>
+            </div>
           </div>
+
           <div className={styles.inputRow}>
             <div className={styles.inputField}>
               <label className={styles.label}>Frequency</label>
