@@ -36,6 +36,7 @@ export const sendOtp = async (
     setOtpSent(true);
   } catch (error) {
     alert(error.message);
+    console.log(error);
   }
 };
 

@@ -15,6 +15,10 @@
 .textInput {
   padding: 5px;
 }
+.customTextInput {
+  display: flex;
+  flex-direction: row;
+}
 
 .input {
   border: none;
