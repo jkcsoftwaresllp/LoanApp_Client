@@ -37,6 +37,12 @@ const Profile = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [otpMessage, setOtpMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const handleLogout = () => {
+    clearTokens();
+    setIsAuthenticated(false);
+    navigate("/login");
+    showToast("info", "Session expired , please login again!");
+  };
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -50,7 +56,7 @@ const Profile = () => {
         setUpdatedProfile
       );
     } else {
-      navigate("/login");
+      handleLogout();
     }
   }, [navigate]);
 
