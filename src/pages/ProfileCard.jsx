@@ -8,6 +8,8 @@ import {
   updateProfile,
 } from "../components/helper/profileService";
 import styles from "../Styles/Profile.module.css";
+import { showToast } from "../utils/toastUtils";
+import { LocationIcon, BankIcon } from "../components/common/assets";
 
 const ProfileCard = () => {
   const navigate = useNavigate();
@@ -60,8 +62,10 @@ const ProfileCard = () => {
         if (otpSuccess) {
           setOtpSent(true);
           setOtpMessage("OTP has been sent to your new email address.");
+          showToast("info", "OTP has been sent to your new email address.");
         } else {
           setOtpMessage("Failed to send OTP. Please try again.");
+          showToast("error", "Failed to send OTP. Please try again.");
         }
       }
     );
@@ -112,7 +116,17 @@ const ProfileCard = () => {
           </div>
           <h2 className={styles.profileName}>{profile.name || "N/A"}</h2>
           <p className={styles.profileemail}>{profile.email || "N/A"}</p>
-          <p className={styles.profileLocation}>{profile.address || "N/A"}</p>
+          <div className={styles.bankDetails}>
+            <p className={styles.profileBank}>
+              <BankIcon />
+              {profile.bankAcc || "N/A"}
+            </p>
+            <p className={styles.profilePincode}>
+              {" "}
+              <LocationIcon />
+              {profile.pinCode || "N/A"}
+            </p>
+          </div>
         </div>
       )}
     </div>

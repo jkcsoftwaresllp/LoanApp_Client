@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanList.module.css";
 import { Loader } from "../components/common/Loader";
+import { showToast } from "../utils/toastUtils";
 const LoanList = () => {
   const [loans, setLoans] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,6 +14,7 @@ const LoanList = () => {
         const accessToken = localStorage.getItem("accessToken");
 
         if (!accessToken) {
+          showToast("error", " Please log in.");
           throw new Error("Access token is missing. Please log in.");
         }
 
@@ -34,6 +36,7 @@ const LoanList = () => {
         setError(
           err.message || "Failed to fetch loans. Please try again later."
         );
+        showToast("error", "Failed to fetch loans. Please try again later.");
       } finally {
         setLoading(false);
       }

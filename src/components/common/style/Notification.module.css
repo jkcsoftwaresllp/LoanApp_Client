@@ -1,9 +1,11 @@
-/* NotificationBody.module.css */
 .notificationBody {
   border-top: 1px solid #fbfefb;
   padding: 6px;
+  z-index: 999;
 }
-
+.notification {
+  z-index: 999;
+}
 .notificationContent {
   padding-left: 2px;
   width: 100%;
@@ -79,4 +81,33 @@
 .messages {
   max-height: 300px;
   overflow-y: auto;
+}
+.notificationIcon:hover {
+  animation: bellRing 0.9s both;
+}
+@keyframes bellRing {
+  0%,
+  100% {
+    transform-origin: top;
+  }
+
+  15% {
+    transform: rotateZ(10deg);
+  }
+
+  30% {
+    transform: rotateZ(-10deg);
+  }
+
+  45% {
+    transform: rotateZ(5deg);
+  }
+
+  60% {
+    transform: rotateZ(-5deg);
+  }
+
+  75% {
+    transform: rotateZ(2deg);
+  }
 }

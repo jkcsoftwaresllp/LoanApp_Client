@@ -4,6 +4,7 @@ import styles from "../Styles/Loan.module.css";
 import PageSlider from "./PageSlider";
 import LoanForm from "./LoanForm";
 import SubmitLoan from "./SubmitLoan";
+import { useNavigate } from "react-router-dom";
 import UpdateLoanDetails from "./UpdateLoanDetails";
 import useUpload from "../hooks/useUpload";
 import LoanDetails from "./LoanDetails";
@@ -11,6 +12,7 @@ import Profile from "./Profile";
 import ProfileCard from "./ProfileCard";
 import LoanList from "./LoanList";
 import { Button } from "../components/common/Button";
+import { showToast } from "../utils/toastUtils";
 import {
   UserIcon,
   RupeesIcon,
@@ -20,6 +22,7 @@ import {
 const Loan = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [currentSubStep, setCurrentSubStep] = useState(0);
+  const navigate = useNavigate();
 
   const steps = [
     { label: "Contact Details", icon: <UserIcon /> },
@@ -30,7 +33,10 @@ const Loan = () => {
 
   const handleNext = () => {
     if (currentSubStep === 1) {
-      if (currentStep < steps.length - 1) {
+      if (currentStep === 3) {
+        navigate("/dashboard");
+        showToast("info", "Loan application sent for verfications");
+      } else if (currentStep < steps.length - 1) {
         setCurrentStep(currentStep + 1);
         setCurrentSubStep(0);
       }

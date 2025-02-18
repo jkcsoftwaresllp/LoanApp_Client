@@ -3,7 +3,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
+  padding-top: 100px;
 }
 
 .stepperWrapper {
@@ -29,6 +30,7 @@
 .step {
   display: flex;
   align-items: center;
+  color: var(--color-text-primary);
   justify-content: center;
 }
 
@@ -53,10 +55,11 @@
 
 .stepIcon {
   margin: 0 10px;
+  color: var(--color-text-primary);
 }
 
 .stepIconActive {
-  color: green;
+  color: var(--color-green);
 }
 
 .stepIconInactive {
@@ -70,7 +73,7 @@
 }
 
 .stepLineActive {
-  background-color: #1f4a21;
+  background-color: green;
 }
 
 .stepLineInactive {

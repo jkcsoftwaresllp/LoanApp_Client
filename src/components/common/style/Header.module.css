@@ -5,12 +5,15 @@
   padding: 10px 20px;
   background-color: var(--color-bg-secondary);
   height: var(--header-height);
+  position: sticky;
+  top: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .rightSection {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   background-color: var(--color-bg-primary);
   padding: 5px 10px 0 10px;
   border-radius: var(--font-size-large);
