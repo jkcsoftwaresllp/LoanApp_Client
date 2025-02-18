@@ -47,8 +47,10 @@
 .messagesSection {
   position: absolute;
   top: 40px;
-  right: 1px;
+  right: -10px;
+  width: 100%;
   width: 450px;
+
   max-height: 400px;
   padding: 16px;
   background-color: #fff;
@@ -56,6 +58,31 @@
   border-radius: 8px;
   z-index: 999;
   display: none;
+}
+
+/* Adjust width at different screen sizes */
+@media (min-width: 1024px) {
+  .messagesSection {
+    width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .messagesSection {
+    width: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  .messagesSection {
+    width: 380px;
+  }
+}
+
+@media (max-width: 400px) {
+  .messagesSection {
+    width: 280px;
+  }
 }
 
 .messagesSectionShow {
