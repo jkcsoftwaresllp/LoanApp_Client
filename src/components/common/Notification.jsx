@@ -16,22 +16,22 @@ const Notification = () => {
     {
       title: "Payment Due",
       message: "Payment is due for the loan.",
-      time: "2025-02-17 10:00 AM",
+      time: "17 FEB 25",
     },
     {
       title: "Payment Due",
       message: "Payment is due for the loan.",
-      time: "2025-02-17 10:00 AM",
+      time: "17 FEB 25",
     },
     {
       title: "Payment Due",
       message: "Payment is due for the loan.",
-      time: "2025-02-17 10:00 AM",
+      time: "17 FEB 25",
     },
     {
       title: "Payment Due",
       message: "Payment is due for the loan.",
-      time: "2025-02-17 10:00 AM",
+      time: "17 FEB 25",
     },
   ];
 

@@ -93,6 +93,9 @@ const LoanDetails = () => {
               </ul>
             </div>
           )}
+          <div className={styles.submitBtn}>
+            <SubmitLoan />
+          </div>
         </>
       ) : (
         <div className="flex flex-col justify-center items-center">

@@ -6,6 +6,8 @@ import { Loader } from "../components/common/Loader";
 import { showToast } from "../utils/toastUtils";
 import { Button } from "../components/common/Button";
 import { CalendarIcon } from "../components/common/assets";
+import Btn from "../components/common/Btn";
+import { UpdateIcon } from "../components/common/assets";
 
 const UpdateLoanDetails = () => {
   const { loanData, updateLoanData } = useContext(LoanContext);
@@ -117,12 +119,13 @@ const UpdateLoanDetails = () => {
               className={styles.input}
             />
           </div>
-          <Button
-            text="Update Loan"
-            type="button"
-            onClick={handleUpdate}
-            className={styles.buttonSave}
-          />
+          <div className={styles.update}>
+            <Btn
+              label="Update Loan"
+              onClick={handleUpdate}
+              icon={<UpdateIcon />}
+            />
+          </div>
         </div>
       )}
     </div>

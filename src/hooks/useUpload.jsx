@@ -84,7 +84,6 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
         setErrorMessage(data.message || "Upload failed. Please try again.");
       }
     } catch (error) {
-      setErrorMessage("Error during file upload. Please try again.");
       showToast("error", "Error during file upload. Please try again.");
     } finally {
       setLoading(false);
@@ -110,7 +109,10 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
           />
 
           {loading && (
-            <div className="spinner" style={{ textAlign: "center" }}>
+            <div
+              className="spinner"
+              style={{ textAlign: "center", justifyContent: "center" }}
+            >
               <div className="spinner-border" role="status">
                 <Loader />
               </div>

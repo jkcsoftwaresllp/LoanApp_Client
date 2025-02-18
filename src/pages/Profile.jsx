@@ -21,6 +21,12 @@ const Profile = () => {
     address: "",
     email: "",
   });
+  const getInitials = (name) => {
+    if (!name) return "U"; // Default if no name
+    const nameParts = name.trim().split(" ");
+    if (nameParts.length === 1) return nameParts[0][0].toUpperCase();
+    return (nameParts[0][0] + nameParts[1][0]).toUpperCase();
+  };
   const [isEditing, setIsEditing] = useState(false);
   const [updatedProfile, setUpdatedProfile] = useState({
     name: "",
@@ -108,11 +114,7 @@ const Profile = () => {
             <LogoutButton />
           </div>
           <div className={styles.profileHeader}>
-            <img
-              src="https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-user-profile-avatar-png-image_10211467.png"
-              alt="Profile"
-              className={styles.profileImage}
-            />
+            <div className={styles.cardImage}> {getInitials(profile.name)}</div>
           </div>
           <h2 className={styles.profileName}>{profile.name || "N/A"}</h2>
           <p className={styles.profileemail}>{profile.email || "N/A"}</p>
@@ -147,10 +149,11 @@ const Profile = () => {
               </div>
             );
           })}
-
-          {updatedProfile.email !== profile.email && !otpSent && (
-            <Button text="Send OTP" onClick={handleSendOtp} />
-          )}
+          <div className={styles.otpButton}>
+            {updatedProfile.email !== profile.email && !otpSent && (
+              <Button text="Send OTP" onClick={handleSendOtp} />
+            )}
+          </div>
 
           {otpSent && (
             <>

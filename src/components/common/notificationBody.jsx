@@ -11,11 +11,7 @@ const NotificationBody = ({ title, message, time }) => {
           </div>
         </div>
         <p className={styles.notificationLine}>{message}</p>
-        <p
-          className={`${styles.notificationLine} ${styles.notificationLineTime}`}
-        >
-          {time}
-        </p>
+        <p className={styles.notificationLineTime}>{time}</p>
       </div>
     </div>
   );

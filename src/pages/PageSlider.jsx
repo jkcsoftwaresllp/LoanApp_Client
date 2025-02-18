@@ -31,11 +31,10 @@ const PageSlider = () => {
         {activePage === "file" ? <File /> : <GuaranteePage />}
       </Suspense>
 
-      {/* Pass the icon dynamically */}
       <Btn
         label={activePage === "file" ? "Guarantee" : "User"}
         onClick={handleTogglePage}
-        icon={getIcon()} // This will pass the icon to the Btn component
+        icon={getIcon()}
       />
     </div>
   );

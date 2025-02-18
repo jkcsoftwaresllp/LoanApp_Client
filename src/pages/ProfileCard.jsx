@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TextInput } from "../components/common/TextInput";
-import { Button } from "../components/common/Button";
-import { inputFieldConfig } from "../config/inputFieldConfig";
 import { apiprof, mailotp, prupdate } from "../utils/Api";
 import { Loader } from "../components/common/Loader";
 import {
@@ -70,6 +67,13 @@ const ProfileCard = () => {
     );
   };
 
+  const getInitials = (name) => {
+    if (!name) return "U"; // Default if no name
+    const nameParts = name.trim().split(" ");
+    if (nameParts.length === 1) return nameParts[0][0].toUpperCase();
+    return (nameParts[0][0] + nameParts[1][0]).toUpperCase();
+  };
+
   const handleUpdateProfile = (e) => {
     e.preventDefault();
 
@@ -104,11 +108,7 @@ const ProfileCard = () => {
       ) : (
         <div className={styles.card}>
           <div className={styles.profileHeader}>
-            <img
-              src="https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-user-profile-avatar-png-image_10211467.png"
-              alt="Profile"
-              className={styles.cardImage}
-            />
+            <div className={styles.cardImage}> {getInitials(profile.name)}</div>
           </div>
           <h2 className={styles.profileName}>{profile.name || "N/A"}</h2>
           <p className={styles.profileemail}>{profile.email || "N/A"}</p>

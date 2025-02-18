@@ -35,6 +35,7 @@
   text-align: right;
   margin-bottom: 0;
   font-size: var(--font-size-small);
+  color: #666;
 }
 /* Notification.module.css */
 .notification {
@@ -45,7 +46,7 @@
   position: absolute;
   top: 40px;
   right: 1px;
-  width: 300px;
+  width: 450px;
   max-height: 400px;
   padding: 16px;
   background-color: #fff;
@@ -66,7 +67,7 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  color: #666;
+  color: var(--color-error);
 }
 
 .projectsSectionHeader {

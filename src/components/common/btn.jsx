@@ -10,7 +10,7 @@ const Btn = ({ label, onClick, icon: icon }) => {
         {/* Render the passed icon dynamically */}
         {icon && <span>{icon}</span>}
       </div>
-      <p className="translate-x-2 text-black">{label}</p>
+      <p className="translate-x-2 text-black ml-5">{label}</p>
     </button>
   );
 };

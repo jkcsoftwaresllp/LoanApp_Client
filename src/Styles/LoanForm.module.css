@@ -1,33 +1,20 @@
-.container {
+.container,
+.detailContainer {
   position: relative;
-  width: 500px;
-  max-height: 500px;
+  width: 90%; /* Make it responsive */
+  max-width: 550px;
+  height: auto;
+  max-height: 600px;
   margin: 0 auto;
   background-color: var(--color-bg-secondary);
   padding: 1.5rem;
-
-  border-radius: 1rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex-shrink: 0;
-  box-sizing: border-box;
-}
-
-.detailContainer {
-  position: relative;
-  width: 500px;
-  height: 500px;
-  margin: 0 auto;
-  background-color: #fbfeff;
-  padding: 1.5rem;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
   gap: 10px;
   flex-shrink: 0;
   box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .header {
@@ -63,6 +50,13 @@ strong {
   right: 20px;
 }
 
+.update {
+  display: flex;
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically (optional) */
+  padding-top: 10px;
+}
+
 .title {
   font-size: var(--font-size-large);
   font-weight: var(--font-weight-bold);
@@ -75,7 +69,6 @@ strong {
   font-weight: var(--font-weight-bold);
   margin-bottom: 10px;
   text-align: center;
-  color: black;
 }
 
 .loanField {
@@ -94,10 +87,15 @@ strong {
   padding: 15px;
   border-radius: var(--border-radius-medium);
 }
+.submitBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .label {
   font-size: var(--font-size-medium);
-  color: #333;
+  color: var(--color-text-primary);
   font-weight: var(--font-weight-light);
 }
 .llabel {

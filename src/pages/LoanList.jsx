@@ -70,7 +70,7 @@ const LoanList = () => {
             </thead>
             <tbody>
               {loans.map((loan) => (
-                <tr key={loan.loan_id} className="border-b">
+                <tr key={loan.loan_id} className={styles.row}>
                   <td className="py-2 px-4">{loan.loan_id}</td>
                   <td className="py-2 px-4">{loan.status}</td>
                   <td className="py-2 px-4">{loan.total_repayment}</td>

@@ -1,12 +1,9 @@
 import style from "./style/File.module.css";
+
 export const DocumentTypeSelect = ({ value, onChange }) => {
   return (
-    <div className="flex justify-center">
-      {" "}
-      {/* Centers content horizontally */}
-      <div className="w-full" style={{ maxWidth: "350px" }}>
-        {" "}
-        {/* Sets max-width and allows flexibility */}
+    <div className="flex justify-center items-center w-full ml-2">
+      <div className="w-4/5 max-w-lg">
         <label htmlFor="type" className={style.fileName}>
           Document Type
         </label>
@@ -15,7 +12,7 @@ export const DocumentTypeSelect = ({ value, onChange }) => {
           name="type"
           value={value}
           onChange={onChange}
-          className={style.select}
+          className={`${style.select} w-4/5 max-w-lg`}
           required
         >
           <option value="">Select Document Type</option>

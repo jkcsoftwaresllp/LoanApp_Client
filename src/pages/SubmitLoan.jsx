@@ -2,6 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import { LoanContext } from "../context/LoanContext";
 import apiRequest from "../components/common/authApi";
 import { useNavigate } from "react-router-dom";
+import { CheckIcon } from "../components/common/assets";
+import Btn from "../components/common/Btn";
+import { showToast } from "../utils/toastUtils";
 
 const SubmitLoan = () => {
   const { loanData, updateLoanData } = useContext(LoanContext);
@@ -24,7 +27,7 @@ const SubmitLoan = () => {
 
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
-      setError("You are not authorized. Please log in.");
+      showToast("error", "You are not authorized. Please log in.");
       console.log("No access token found. Redirecting to login.");
       navigate("/login");
       return;
@@ -32,6 +35,10 @@ const SubmitLoan = () => {
 
     if (!loanData.loan_id) {
       setError("Loan ID is required. Please save the loan draft first.");
+      showToast(
+        "error",
+        "Loan ID is missing. Please save the loan draft first."
+      );
       console.log("Loan ID is missing:", loanData);
       return;
     }
@@ -47,7 +54,7 @@ const SubmitLoan = () => {
 
       localStorage.setItem("loanData", JSON.stringify(loanData));
 
-      alert("Loan submitted successfully!");
+      showToast("success", "Loan submitted successfully!");
     } catch (err) {
       console.error("Error Submitting Loan:", err);
       setError(err.message);
@@ -55,15 +62,9 @@ const SubmitLoan = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded shadow-md mt-6">
+    <div>
       {error && <div className="text-red-600 mb-4">{error}</div>}
-
-      <button
-        onClick={handleSubmit}
-        className="bg-green-500 text-white py-2 px-4 rounded"
-      >
-        Submit Loan
-      </button>
+      <Btn label="Submit Loan" onClick={handleSubmit} icon={<CheckIcon />} />
     </div>
   );
 };

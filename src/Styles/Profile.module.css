@@ -210,7 +210,9 @@ p.text-green-500 {
   top: 15px;
   right: 15px;
 }
-
+.otpButton {
+  width: 150px;
+}
 .profileImage {
   width: 100px;
   height: 100px;
@@ -221,7 +223,12 @@ p.text-green-500 {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: var(--color-bg-tertiary);
+  font-size: 40px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-bg-primary);
   border: 2px solid var(--color-text-tertiary);
 }
 

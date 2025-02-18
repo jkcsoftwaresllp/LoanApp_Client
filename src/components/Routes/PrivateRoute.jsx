@@ -10,6 +10,7 @@ import LoanDetails from "../../pages/LoanDetails";
 import UpdateLoanDetails from "../../pages/UpdateLoanDetails";
 import LoanList from "../../pages/LoanList";
 import Dashboard from "../../pages/Dashboard";
+import EmiCalculator from "../../pages/EmiCalc";
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuthContext();
@@ -23,6 +24,14 @@ export const privateRoutes = (
       element={
         <PrivateRoute>
           <Profile />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/emi"
+      element={
+        <PrivateRoute>
+          <EmiCalculator />
         </PrivateRoute>
       }
     />
