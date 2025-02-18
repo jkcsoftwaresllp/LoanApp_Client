@@ -3,9 +3,11 @@ import style from "./style/Header.module.css";
 import { useNavigate } from "react-router-dom";
 import { UserIcon } from "./assets";
 import Notification from "./Notification";
-import LogoutButton from "../../pages/LogoutButton";
+import { useAuthContext } from "../../context/AuthContext";
+
 export const Header = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuthContext(); // Get isAuthenticated from context
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export const Header = () => {
     navigate("/"); // Redirects to the home page
   };
   const goToProfile = () => {
-    navigate("/profile"); // Redirects to the home page
+    navigate("/profile"); // Redirects to the profile page
   };
 
   // Handle checkbox change to toggle theme
@@ -53,11 +55,18 @@ export const Header = () => {
             onChange={handleCheckboxChange}
           />
         </div>
-        <div className={style.Icon} onClick={goToProfile}>
-          <UserIcon />
-        </div>
-        <div className={style.Icon}>
-          <Notification />
+        <div className={style.actionBtn}>
+          {/* Conditionally render UserIcon and Notification based on authentication */}
+          {isAuthenticated && (
+            <>
+              <div className={style.Icon} onClick={goToProfile}>
+                <UserIcon />
+              </div>
+              <div className={style.Icon}>
+                <Notification />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </header>

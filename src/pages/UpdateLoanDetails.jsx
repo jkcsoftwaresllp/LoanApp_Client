@@ -2,11 +2,17 @@ import React, { useState, useContext } from "react";
 import { LoanContext } from "../context/LoanContext";
 import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanForm.module.css";
+import { Loader } from "../components/common/Loader";
+import { showToast } from "../utils/toastUtils";
+import { Button } from "../components/common/Button";
+import { CalendarIcon } from "../components/common/assets";
 
 const UpdateLoanDetails = () => {
   const { loanData, updateLoanData } = useContext(LoanContext);
   const [amount, setAmount] = useState(loanData.amount || "");
-  const [interestRate, setInterestRate] = useState(loanData.interest_rate || "");
+  const [interestRate, setInterestRate] = useState(
+    loanData.interest_rate || ""
+  );
   const [startDate, setStartDate] = useState(loanData.start_date || "");
   const [frequency, setFrequency] = useState(loanData.repayment_schedule || "");
   const [error, setError] = useState("");
@@ -14,12 +20,12 @@ const UpdateLoanDetails = () => {
 
   const handleUpdate = async () => {
     if (!amount || !interestRate || !startDate || !frequency) {
-      setError("All fields are required.");
+      showToast("error", "All fields are required.");
       return;
     }
 
     if (!loanData.loan_id) {
-      setError("Loan ID is missing. Cannot update loan details.");
+      showToast("error", "Loan ID is missing. Cannot update loan details.");
       return;
     }
 
@@ -42,7 +48,7 @@ const UpdateLoanDetails = () => {
         setIsLoading
       );
 
-      alert("Loan details updated successfully!");
+      showToast("success", "Loan details updated successfully.");
       updateLoanData({
         ...loanData,
         amount,
@@ -51,18 +57,20 @@ const UpdateLoanDetails = () => {
         repayment_schedule: frequency,
       });
     } catch (err) {
-      setError("Failed to update loan details. Try again.");
+      showToast("error", "Failed to update loan details. Try again.");
     }
   };
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Update Loan Details</h2>
+    <div className={styles.detailContainer}>
+      <h2 className={styles.detailTitle}>Update Loan Details</h2>
 
       {error && <div className={styles.error}>{error}</div>}
 
       {isLoading ? (
-        <div>Loading...</div>
+        <div className={styles.center}>
+          <Loader />
+        </div>
       ) : (
         <div>
           <div className={styles.inputField}>
@@ -87,12 +95,17 @@ const UpdateLoanDetails = () => {
 
           <div className={styles.inputField}>
             <label className={styles.label}>Start Date</label>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              className={styles.input}
-            />
+            <div className={styles.inputWrapper}>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className={styles.input}
+              />
+              <span className={styles.icon}>
+                <CalendarIcon />
+              </span>
+            </div>
           </div>
 
           <div className={styles.inputField}>
@@ -104,13 +117,12 @@ const UpdateLoanDetails = () => {
               className={styles.input}
             />
           </div>
-
-          <button
+          <Button
+            text="Update Loan"
+            type="button"
             onClick={handleUpdate}
             className={styles.buttonSave}
-          >
-            Update Loan
-          </button>
+          />
         </div>
       )}
     </div>

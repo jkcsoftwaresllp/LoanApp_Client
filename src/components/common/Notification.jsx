@@ -37,9 +37,9 @@ const Notification = () => {
 
   return (
     <div className={styles.notification}>
-      <button onClick={toggleNotification}>
+      <div onClick={toggleNotification}>
         <NotificationIcon />
-      </button>
+      </div>
       {isOpen && (
         <div
           className={`${styles.messagesSection} ${

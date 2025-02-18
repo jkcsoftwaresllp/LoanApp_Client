@@ -5,7 +5,8 @@ import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanForm.module.css";
 import { showToast } from "../utils/toastUtils";
 import { Loader } from "../components/common/Loader";
-import { CalendarIcon } from "../components/common/assets";
+import { CalendarIcon, Drafticon } from "../components/common/assets";
+import Btn from "../components/common/Btn";
 
 const LoanForm = () => {
   const navigate = useNavigate();
@@ -67,6 +68,9 @@ const LoanForm = () => {
       setError(err.message);
     }
   };
+  const getIcon = () => {
+    return <Drafticon />;
+  };
 
   return (
     <div className={styles.container}>
@@ -75,13 +79,13 @@ const LoanForm = () => {
       {error && <div className={styles.error}>{error}</div>}
 
       {loading ? (
-        <div>
+        <div className={styles.center}>
           <Loader />
         </div>
       ) : (
         <>
           <div className={styles.inputField}>
-            <label className={styles.label}>Amount</label>
+            <label className={styles.llabel}>Amount</label>
             <input
               type="number"
               value={amount}
@@ -91,7 +95,7 @@ const LoanForm = () => {
           </div>
 
           <div className={styles.inputField}>
-            <label className={styles.label}>Start Date</label>
+            <label className={styles.llabel}>Start Date</label>
             <div className={styles.inputWrapper}>
               <input
                 type="date"
@@ -107,7 +111,7 @@ const LoanForm = () => {
 
           <div className={styles.inputRow}>
             <div className={styles.inputField}>
-              <label className={styles.label}>Frequency</label>
+              <label className={styles.llabel}>Frequency</label>
               <input
                 type="text"
                 value={frequency}
@@ -117,7 +121,7 @@ const LoanForm = () => {
             </div>
 
             <div className={styles.inputField}>
-              <label className={styles.label}>Interest Rate</label>
+              <label className={styles.llabel}>Interest Rate</label>
               <input
                 type="number"
                 value={interestRate}
@@ -128,9 +132,11 @@ const LoanForm = () => {
           </div>
 
           <div className={styles.buttonContainer}>
-            <button onClick={handleSaveDraft} className={styles.buttonSave}>
-              Save Draft
-            </button>
+            <Btn
+              label="Save Draft"
+              onClick={handleSaveDraft}
+              icon={<Drafticon />}
+            />
           </div>
         </>
       )}

@@ -14,11 +14,13 @@ export const AuthProvider = ({ children }) => {
     } else {
       setIsAuthenticated(false);
     }
-    setLoading(false); 
+    setLoading(false);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, loading }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, setIsAuthenticated, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );

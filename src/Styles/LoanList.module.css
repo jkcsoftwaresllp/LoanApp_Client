@@ -1,64 +1,79 @@
 .container {
-    position: relative;
-    width: 550px;
-    height: 500px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-shrink: 0;
-    box-sizing: border-box;
+  position: relative;
+  width: 550px;
+  max-height: 600px;
+  margin: 0 auto;
+  background-color: var(--color-bg-secondary);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content */
+  box-sizing: border-box;
 }
 
-.container:hover {
-    transform: scale(1.02);
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - var(--header-height));
 }
 
 .title {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.tableContainer {
-    flex: 1;
-    overflow: hidden;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    height: 100%;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-}
-
-th {
-    background-color: #4CAF50;
-    color: white;
-}
-
-tr:hover {
-    background-color: #f7fafc;
-}
-
-.noLoansText {
-    text-align: center;
-    font-size: 1.125rem;
-    color: #6b7280;
-    margin-top: 20px;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .error {
-    color: red;
-    margin-bottom: 1rem;
-    text-align: center;
+  color: red;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.tableWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.tableContainer {
+  width: 100%;
+
+  overflow-y: auto;
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-text-primary);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #4caf50;
+  color: white;
+}
+
+.noLoansText {
+  text-align: center;
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin-top: 20px;
+}
+
+.error {
+  color: red;
+  margin-bottom: 1rem;
+  text-align: center;
 }

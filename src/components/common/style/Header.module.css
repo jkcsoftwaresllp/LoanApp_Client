@@ -10,9 +10,18 @@
 .rightSection {
   display: flex;
   align-items: center;
-  gap: 15px; /* Adds spacing between theme switch and logout icon */
+  gap: 20px;
+  background-color: var(--color-bg-primary);
+  padding: 5px 10px 0 10px;
+  border-radius: var(--font-size-large);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
+.actionBtn {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin-top: -5px;
+}
 .checkboxWrapper {
   --size: 50px;
 }
@@ -57,7 +66,6 @@
   border-radius: 100px 100px 30px 100px;
 }
 
-.logoutIcon {
-  color: var(--color-text-primary);
+.Icon {
   cursor: pointer;
 }

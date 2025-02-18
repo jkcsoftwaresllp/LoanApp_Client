@@ -1,17 +1,44 @@
 .container {
   position: relative;
   width: 500px;
-  height: 420px;
+  max-height: 500px;
   margin: 0 auto;
-  background-color: #fbfefb;
+  background-color: var(--color-bg-secondary);
   padding: 1.5rem;
+
   border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
   display: flex;
   flex-direction: column;
   gap: 10px;
   flex-shrink: 0;
   box-sizing: border-box;
+}
+
+.detailContainer {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  background-color: #fbfeff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.header {
+  color: black;
+  font-size: var(--font-size-medium);
+}
+.text {
+  color: #212121;
+}
+strong {
+  color: black;
 }
 .icon {
   position: absolute;
@@ -19,9 +46,17 @@
   right: 10px;
   transform: translateY(-50%);
   pointer-events: none; /* Prevents clicking on the icon */
-  color: #555;
+  color: black;
   font-size: 1.2rem;
 }
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - var(--header-height));
+}
+
 .submitLoanContainer {
   position: absolute;
   bottom: 20px;
@@ -29,20 +64,45 @@
 }
 
 .title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 10px;
   text-align: center;
-  color: #0f0f0f;
+  color: var(--color-text-primary);
+}
+.detailTitle {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 10px;
+  text-align: center;
+  color: black;
 }
 
-.inputField {
-  margin-bottom: 1rem;
+.loanField {
+  background-color: #c8f7dc;
+  padding: 15px;
+  border-radius: var(--border-radius-medium);
+}
+.repayDField {
+  background-color: #e9e7fd;
+  padding: 15px;
+  border-radius: var(--border-radius-medium);
+}
+
+.repaySField {
+  background-color: #dbf6fd;
+  padding: 15px;
+  border-radius: var(--border-radius-medium);
 }
 
 .label {
   font-size: var(--font-size-medium);
-  color: #0f0f0f;
+  color: #333;
+  font-weight: var(--font-weight-light);
+}
+.llabel {
+  font-size: var(--font-size-medium);
+  color: var(--color-text-primary);
   font-weight: var(--font-weight-light);
 }
 .input {

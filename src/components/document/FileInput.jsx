@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import style from "./style/File.module.css";
+import DownloadBtn from "../common/downloadBtn";
 import { CloseIcon } from "../../components/common/assets";
 export const FileInput = ({ file, onFileChange }) => {
   const fileInputRef = useRef(null);
@@ -41,13 +42,15 @@ export const FileInput = ({ file, onFileChange }) => {
           <button
             type="button"
             onClick={handleClearFile}
-            className="absolute top-7 right-0 text-red-500"
+            className="absolute top-3 right-0 text-red-500"
           >
             <CloseIcon />
           </button>
         </div>
       ) : (
-        <p className="text-black">Drag & Drop or Click to Upload</p>
+        <div className={style.upload}>
+          <DownloadBtn />
+        </div>
       )}
     </div>
   );

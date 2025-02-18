@@ -6,6 +6,7 @@ import { DocumentTypeSelect } from "../components/document/DocumentTypeSelect";
 import { Button } from "../components/common/Button";
 import styles from "../Styles/PageSlider.module.css";
 import { showToast } from "../utils/toastUtils";
+import { Loader } from "../components/common/Loader";
 const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
   const [file, setFile] = useState(null);
   const [documentType, setDocumentType] = useState("");
@@ -110,7 +111,9 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
           {loading && (
             <div className="spinner" style={{ textAlign: "center" }}>
-              <div className="spinner-border" role="status"></div> Uploading...
+              <div className="spinner-border" role="status">
+                <Loader />
+              </div>
             </div>
           )}
           <div className={styles.buttonWrapper}>

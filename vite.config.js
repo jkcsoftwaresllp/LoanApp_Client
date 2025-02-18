@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5100, // Set the development server port
+    port: 5175, // Set the development server port
     watch: {
       usePolling: true, // Enables polling for environments with limited file watching
     },

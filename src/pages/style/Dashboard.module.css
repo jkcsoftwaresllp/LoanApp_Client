@@ -1,8 +1,10 @@
-.dashboardContainer {
+.container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
+  flex-direction: column; /* Stacks the child elements vertically */
+  align-items: center; /* Centers the content horizontally */
+  gap: 2rem; /* Adds spacing between the sections */
+  margin: 0 auto; /* Ensures the container is centered */
+  width: 100%;
 }
 
 h1 {
@@ -27,15 +29,16 @@ h1 {
   justify-content: center;
   margin-top: 30px;
 }
-
 .btnSection {
   display: flex;
   gap: 1rem;
-  justify-content: center; /* Centers the buttons horizontally */
-  align-items: center; /* Centers the buttons vertically */
+  justify-content: center; /* Centers items horizontally */
+  align-items: center; /* Centers items vertically */
+  flex-wrap: nowrap; /* Ensures items stay in a single row */
   width: 500px;
-  margin: 0 auto; /* Ensures the section itself is centered */
-  text-align: center; /* Centers inline elements if any */
+  max-width: 100%; /* Prevents overflow on smaller screens */
+  margin: 0 auto; /* Centers the section */
+  text-align: center; /* Centers inline elements */
 }
 
 @media (max-width: 768px) {
@@ -46,7 +49,6 @@ h1 {
 
 @media (min-width: 768px) {
   .btnSection {
-    justify-content: flex-start;
   }
 }
 
