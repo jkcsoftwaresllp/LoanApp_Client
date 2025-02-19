@@ -6,10 +6,10 @@ export const CustomTextInput = ({ config, onChange }) => {
 
   return (
     !hidden && (
-      <div className={style.customTextInput}>
-        <label htmlFor={id} className={style.input}>
+      <div className={style.textInput}>
+        <p htmlFor={id} className={style.CustomLabel}>
           {label}
-        </label>
+        </p>
         <input
           id={id}
           name={id}

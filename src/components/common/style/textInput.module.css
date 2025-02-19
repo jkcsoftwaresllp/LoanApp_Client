@@ -15,11 +15,14 @@
 .textInput {
   padding: 5px;
 }
-.customTextInput {
-  display: flex;
-  flex-direction: row;
+.CustomTextInput {
+  padding: 5px;
 }
-
+.CustomLabel {
+  font-size: var(--font-size-medium);
+  color: #212121;
+  margin-bottom: 5px;
+}
 .input {
   border: none;
   width: 100%;

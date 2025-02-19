@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TextInput } from "../components/common/TextInput";
+import { CustomTextInput } from "../components/common/CustomTextInput";
 import { Button } from "../components/common/Button";
 import { inputFieldConfig } from "../config/inputFieldConfig";
 import { apiprof, mailotp, prupdate } from "../utils/Api";
@@ -171,7 +171,7 @@ const Profile = () => {
                   {/* Input fields in a 2x1 grid */}
                   <div className={styles.fieldsContainer}>
                     {stepData.fields.map((field) => (
-                      <TextInput
+                      <CustomTextInput
                         key={field.id}
                         config={{
                           ...field,
