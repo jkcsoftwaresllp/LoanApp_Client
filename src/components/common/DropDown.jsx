@@ -14,7 +14,7 @@ const Dropdown = ({ options, label, onChange, selectedValue }) => {
   };
 
   return (
-    <div className={styles.dropdownArea}>
+    <div className={styles.dropdownArea} onClick={() => setIsOpen(!isOpen)}>
       <p className={styles.label}>{label}</p>
       <div className={styles.dropdown}>
         <button

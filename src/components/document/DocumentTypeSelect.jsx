@@ -1,26 +1,20 @@
 import style from "./style/File.module.css";
+import Dropdown from "../common/Dropdown";
 
 export const DocumentTypeSelect = ({ value, onChange }) => {
+  const documentOptions = ["ID Proof", "Aadhar", "PAN", "Other"];
+
   return (
     <div className="flex justify-center items-center w-full ml-2">
-      <div className="w-4/5 max-w-lg">
+      <div className=" max-w-lg">
         <label htmlFor="type" className={style.fileName}>
           Document Type
         </label>
-        <select
-          id="type"
-          name="type"
-          value={value}
-          onChange={onChange}
-          className={`${style.select} w-4/5 max-w-lg`}
-          required
-        >
-          <option value="">Select Document Type</option>
-          <option value="id_proof">ID Proof</option>
-          <option value="aadhar">Aadhar</option>
-          <option value="pan">PAN</option>
-          <option value="other">Other</option>
-        </select>
+        <Dropdown
+          options={documentOptions}
+          selectedValue={value}
+          onChange={onChange} // Pass selected option back
+        />
       </div>
     </div>
   );
