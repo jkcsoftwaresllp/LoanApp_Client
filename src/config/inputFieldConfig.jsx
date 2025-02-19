@@ -172,7 +172,7 @@ export const inputFieldConfig = (
         disabled: false,
       },
 
-      // KYC & Documentation
+      // KYC & Documentation (File Upload Fields)
       {
         label: "Aadhaar Number",
         id: "aadhaar",
@@ -184,25 +184,25 @@ export const inputFieldConfig = (
       {
         label: "Voter ID / Driving License / Passport",
         id: "idProof",
-        type: "text",
-        value: value.idProof || "",
-        placeholder: "Enter ID proof details",
+        type: "file",
+        value: "",
+        placeholder: "Upload ID proof",
         disabled: false,
       },
       {
         label: "Latest Salary Slips / ITR / Form 16",
         id: "incomeProof",
-        type: "text",
-        value: value.incomeProof || "",
-        placeholder: "Enter income proof details",
+        type: "file",
+        value: "",
+        placeholder: "Upload income proof",
         disabled: false,
       },
       {
         label: "Bank Statements (Last 6 Months)",
         id: "bankStatements",
-        type: "text",
-        value: value.bankStatements || "",
-        placeholder: "Enter bank statement details",
+        type: "file",
+        value: "",
+        placeholder: "Upload bank statements",
         disabled: false,
       },
     ];
