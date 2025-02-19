@@ -6,6 +6,7 @@ import { inputFieldConfig } from "../config/inputFieldConfig";
 import { apiprof, mailotp, prupdate } from "../utils/Api";
 import { Loader } from "../components/common/Loader";
 import { CustomFileInput } from "../components/document/CustomFileInput";
+import Dropdown from "../components/common/Dropdown";
 import LogoutButton from "./LogoutButton";
 import {
   fetchProfile,
@@ -13,7 +14,6 @@ import {
   updateProfile,
 } from "../components/helper/profileService";
 import styles from "../Styles/Profile.module.css";
-
 const Profile = () => {
   const navigate = useNavigate();
 
@@ -58,6 +58,10 @@ const Profile = () => {
       ],
     },
   ];
+
+  const handleDropdownChange = (fieldId, selectedOption) => {
+    setUpdatedProfile({ ...updatedProfile, [fieldId]: selectedOption });
+  };
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -190,6 +194,16 @@ const Profile = () => {
                             { target: { files: [file] } },
                             field.id
                           )
+                        }
+                      />
+                    ) : field.type === "select" ? (
+                      <Dropdown
+                        label={field.label}
+                        key={field.id}
+                        options={field.options}
+                        selectedValue={updatedProfile[field.id]}
+                        onChange={(selected) =>
+                          handleDropdownChange(field.id, selected)
                         }
                       />
                     ) : (

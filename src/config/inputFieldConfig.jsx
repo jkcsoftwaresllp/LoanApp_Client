@@ -147,20 +147,20 @@ export const inputFieldConfig = (
         disabled: false,
       },
       {
-        label: "Account Number",
-        id: "accountNumber",
-        type: "text",
-        value: value.accountNumber || "",
-        placeholder: "Enter account number",
-        disabled: false,
-      },
-      {
         label: "Account Type",
         id: "accountType",
         type: "select",
         options: ["Savings", "Current"],
         value: value.accountType || "",
         placeholder: "Select account type",
+        disabled: false,
+      },
+      {
+        label: "Account Number",
+        id: "accountNumber",
+        type: "text",
+        value: value.accountNumber || "",
+        placeholder: "Enter account number",
         disabled: false,
       },
       {
