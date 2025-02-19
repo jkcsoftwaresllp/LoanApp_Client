@@ -37,7 +37,7 @@ export const inputFieldConfig = (
     return [
       // Personal Information
       {
-        label: "Full Name",
+        label: "Full Name (as per PAN)",
         id: "name",
         type: "text",
         value: value.name || "",
@@ -179,6 +179,14 @@ export const inputFieldConfig = (
         type: "text",
         value: value.aadhaar || "",
         placeholder: "Enter Aadhaar number",
+        disabled: false,
+      },
+      {
+        label: "PAN Number",
+        id: "pan",
+        type: "text",
+        value: value.pan || "",
+        placeholder: "Enter PAN number",
         disabled: false,
       },
       {
