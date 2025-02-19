@@ -5,6 +5,7 @@ import { Button } from "../components/common/Button";
 import { inputFieldConfig } from "../config/inputFieldConfig";
 import { apiprof, mailotp, prupdate } from "../utils/Api";
 import { Loader } from "../components/common/Loader";
+import { CustomFileInput } from "../components/document/CustomFileInput";
 import LogoutButton from "./LogoutButton";
 import {
   fetchProfile,
@@ -45,12 +46,17 @@ const Profile = () => {
   const steps = [
     { title: "Personal Information", fields: formFields.slice(0, 8) },
     { title: "Employment & Income Details", fields: formFields.slice(8, 12) },
-
     {
       title: "Banking & Financial Information",
       fields: formFields.slice(12, 16),
     },
-    { title: "Kyc Details", fields: formFields.slice(16) },
+    {
+      title: "KYC Details",
+      fields: [
+        ...formFields.slice(16),
+        { id: "kycDocument", label: "Upload KYC Document", type: "file" },
+      ],
+    },
   ];
 
   const nextStep = () => setStep(step + 1);
@@ -76,9 +82,13 @@ const Profile = () => {
     }
   }, [navigate]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedProfile({ ...updatedProfile, [name]: value });
+  const handleInputChange = (e, fieldId) => {
+    if (e.target?.files) {
+      setUpdatedProfile({ ...updatedProfile, [fieldId]: e.target.files[0] });
+    } else {
+      const { name, value } = e.target;
+      setUpdatedProfile({ ...updatedProfile, [name]: value });
+    }
   };
 
   const handleSendOtp = () => {
@@ -161,16 +171,28 @@ const Profile = () => {
         </div>
       ) : (
         <form onSubmit={handleUpdateProfile} className={styles.updatedForm}>
-          {steps.map(
-            (stepData, index) =>
-              step === index + 1 && (
-                <div key={index} className={styles.stepContainer}>
-                  {/* Title at the top and centered */}
-                  <h3 className={styles.title}>{stepData.title}</h3>
+          {steps.map((stepData, index) =>
+            step === index + 1 ? (
+              <div key={index} className={styles.stepContainer}>
+                {/* Title at the top and centered */}
+                <h3 className={styles.title}>{stepData.title}</h3>
 
-                  {/* Input fields in a 2x1 grid */}
-                  <div className={styles.fieldsContainer}>
-                    {stepData.fields.map((field) => (
+                {/* Input fields in a 2x1 grid */}
+                <div className={styles.fieldsContainer}>
+                  {stepData.fields.map((field) =>
+                    field.type === "file" ? (
+                      <CustomFileInput
+                        key={field.id}
+                        label={field.label}
+                        file={updatedProfile[field.id]}
+                        onFileChange={(file) =>
+                          handleInputChange(
+                            { target: { files: [file] } },
+                            field.id
+                          )
+                        }
+                      />
+                    ) : (
                       <CustomTextInput
                         key={field.id}
                         config={{
@@ -180,28 +202,29 @@ const Profile = () => {
                         }}
                         onChange={handleInputChange}
                       />
-                    ))}
-                  </div>
-
-                  {/* Buttons */}
-                  <div className={styles.buttonContainer}>
-                    {step > 1 ? (
-                      <Button text="Previous" onClick={prevStep} />
-                    ) : (
-                      <Button
-                        text="Cancel"
-                        onClick={() => setIsEditing(false)}
-                        className={styles.cancelButton}
-                      />
-                    )}
-                    {step < steps.length ? (
-                      <Button text="Next" onClick={nextStep} />
-                    ) : (
-                      <Button text="Submit" type="submit" />
-                    )}
-                  </div>
+                    )
+                  )}
                 </div>
-              )
+
+                {/* Buttons */}
+                <div className={styles.buttonContainer}>
+                  {step > 1 ? (
+                    <Button text="Previous" onClick={prevStep} />
+                  ) : (
+                    <Button
+                      text="Cancel"
+                      onClick={() => setIsEditing(false)}
+                      className={styles.cancelButton}
+                    />
+                  )}
+                  {step < steps.length ? (
+                    <Button text="Next" onClick={nextStep} />
+                  ) : (
+                    <Button text="Submit" type="submit" />
+                  )}
+                </div>
+              </div>
+            ) : null
           )}
         </form>
       )}

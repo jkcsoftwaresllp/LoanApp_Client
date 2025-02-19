@@ -12,17 +12,15 @@
   max-height: 80px;
 }
 
-.uploadBox:hover {
-  background-color: #f4f4f4;
-  border-radius: var(--border-radius-large);
-}
-
 .fileName {
-  color: #0f0f0f;
+  color: #333;
   width: 80%;
   margin-left: 10px;
-  font-size: var(--font-size-medium);
-  padding-bottom: 5px;
+  font-size: var(--font-size-small);
+}
+.fileLabel {
+  color: #0f0f0f;
+  margin-top: 10px;
 }
 
 .select {
@@ -37,6 +35,11 @@
   box-shadow: 0 0 0 2px #3b82f6;
 }
 .upload {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.CustomUpload {
   display: flex;
   flex-direction: row;
   gap: 10px;
