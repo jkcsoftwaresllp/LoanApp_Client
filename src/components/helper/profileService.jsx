@@ -13,7 +13,7 @@ export const fetchProfile = async (
     setProfile(data.userProfile);
     setUpdatedProfile(data.userProfile);
   } catch (error) {
-    alert(error.message);
+    showToast("error", error.message);
     if (error.message === "Session expired. Please log in again.") {
       localStorage.removeItem("accessToken");
       showToast("error", "Session expired. Please log in again");
@@ -35,7 +35,7 @@ export const sendOtp = async (
     showToast("info", "OTP sent to the new email address.");
     setOtpSent(true);
   } catch (error) {
-    alert(error.message);
+    showToast("error", error.message);
     console.log(error);
   }
 };
@@ -59,6 +59,6 @@ export const updateProfile = async (
     setOtp("");
     setOtpSent(false);
   } catch (error) {
-    alert(error.message);
+    showToast("error", error.message);
   }
 };

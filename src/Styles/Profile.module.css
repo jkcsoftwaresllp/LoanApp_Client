@@ -77,19 +77,61 @@
 
 .form {
   width: 100%;
-  max-width: 600px; /* Adjust as needed */
-  margin: auto; /* Centers horizontally */
+  max-width: 600px;
+  margin: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centers vertically */
-  align-items: center; /* Centers horizontally */
+  justify-content: center;
+  align-items: center;
   color: var(--color-text-primary);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   border-radius: var(--border-radius-large);
   padding: 20px;
-  min-height: calc(
-    100vh- (var(--header-height))
-  ); /* Ensures full viewport height */
+  min-height: calc(100vh- (var(--header-height)));
+}
+
+.updatedForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border-radius: var(--border-radius-large);
+}
+
+/* Center the title */
+.title {
+  text-align: center;
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+}
+
+.fieldsContainer {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+}
+
+@media (max-width: 1023px) {
+  .fieldsContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inputContainer,
+.otpButton,
+.buttonContainer {
+  width: 100%;
+}
+
+.buttonSave,
+.buttonCancel {
+  width: 100%;
 }
 
 .buttonContainer {

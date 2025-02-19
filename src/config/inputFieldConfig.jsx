@@ -1,4 +1,8 @@
-export const inputFieldConfig = (isLogin = false, isProfileUpdate = false, value = {}) => {
+export const inputFieldConfig = (
+  isLogin = false,
+  isProfileUpdate = false,
+  value = {}
+) => {
   if (isLogin) {
     return [
       {
@@ -24,35 +28,181 @@ export const inputFieldConfig = (isLogin = false, isProfileUpdate = false, value
         value: value.otp || "",
         placeholder: "Enter the OTP sent to your mobile",
         disabled: false,
-        hidden: true, 
+        hidden: true,
       },
     ];
   }
 
   if (isProfileUpdate) {
     return [
+      // Personal Information
       {
-        label: "Name",
+        label: "Full Name",
         id: "name",
         type: "text",
         value: value.name || "",
-        placeholder: "Enter your full name",
+        placeholder: "Enter full name",
         disabled: false,
       },
       {
-        label: "Address",
-        id: "address",
+        label: "Father’s / Mother’s Name",
+        id: "parentName",
         type: "text",
-        value: value.address || "",
-        placeholder: "Enter your address",
+        value: value.parentName || "",
+        placeholder: "Enter parent's name",
         disabled: false,
       },
       {
-        label: "Email",
+        label: "Marital Status",
+        id: "maritalStatus",
+        type: "select",
+        options: ["Single", "Married", "Divorced", "Widowed"],
+        value: value.maritalStatus || "",
+        placeholder: "Select marital status",
+        disabled: false,
+      },
+      {
+        label: "Current Address",
+        id: "currentAddress",
+        type: "text",
+        value: value.currentAddress || "",
+        placeholder: "Enter current address",
+        disabled: false,
+      },
+      {
+        label: "Permanent Address",
+        id: "permanentAddress",
+        type: "text",
+        value: value.permanentAddress || "",
+        placeholder: "Enter permanent address",
+        disabled: false,
+      },
+      {
+        label: "Mobile Number",
+        id: "mobileNumber",
+        type: "text",
+        value: value.mobileNumber || "",
+        placeholder: "Enter mobile number",
+        disabled: false,
+      },
+      {
+        label: "Email ID",
         id: "email",
         type: "email",
         value: value.email || "",
-        placeholder: "Enter your email",
+        placeholder: "Enter email",
+        disabled: false,
+      },
+      {
+        label: "Educational Qualification",
+        id: "education",
+        type: "text",
+        value: value.education || "",
+        placeholder: "Enter qualification",
+        disabled: false,
+      },
+
+      // Employment & Income Details
+      {
+        label: "Employment Type",
+        id: "employmentType",
+        type: "select",
+        options: ["Salaried", "Self-employed"],
+        value: value.employmentType || "",
+        placeholder: "Select employment type",
+        disabled: false,
+      },
+      {
+        label: "Company Name",
+        id: "companyName",
+        type: "text",
+        value: value.companyName || "",
+        placeholder: "Enter company name",
+        disabled: false,
+      },
+      {
+        label: "Current Job Designation",
+        id: "jobTitle",
+        type: "text",
+        value: value.jobTitle || "",
+        placeholder: "Enter job title",
+        disabled: false,
+      },
+      {
+        label: "Annual Income",
+        id: "annualIncome",
+        type: "number",
+        value: value.annualIncome || "",
+        placeholder: "Enter annual income",
+        disabled: false,
+      },
+
+      // Banking & Financial Information
+      {
+        label: "Bank Name & Branch",
+        id: "bankName",
+        type: "text",
+        value: value.bankName || "",
+        placeholder: "Enter bank name & branch",
+        disabled: false,
+      },
+      {
+        label: "Account Number",
+        id: "accountNumber",
+        type: "text",
+        value: value.accountNumber || "",
+        placeholder: "Enter account number",
+        disabled: false,
+      },
+      {
+        label: "Account Type",
+        id: "accountType",
+        type: "select",
+        options: ["Savings", "Current"],
+        value: value.accountType || "",
+        placeholder: "Select account type",
+        disabled: false,
+      },
+      {
+        label: "Credit Score",
+        id: "creditScore",
+        type: "number",
+        value: value.creditScore || "",
+        placeholder: "Enter credit score",
+        disabled: false,
+      },
+
+      // KYC & Documentation
+      {
+        label: "Aadhaar Number",
+        id: "aadhaar",
+        type: "text",
+        value: value.aadhaar || "",
+        placeholder: "Enter Aadhaar number",
+        disabled: false,
+      },
+      {
+        label: "Voter ID / Driving License / Passport",
+        id: "idProof",
+        type: "text",
+        value: value.idProof || "",
+        placeholder: "Enter ID proof details",
+        disabled: false,
+      },
+      {
+        label: "Latest Salary Slips / ITR / Form 16",
+        id: "incomeProof",
+        type: "text",
+        value: value.incomeProof || "",
+        placeholder: "Enter income proof details",
+        disabled: false,
+      },
+      {
+        label: "Bank Statements (Last 6 Months)",
+        id: "bankStatements",
+        type: "text",
+        value: value.bankStatements || "",
+        placeholder: "Enter bank statement details",
         disabled: false,
       },
     ];
@@ -90,7 +240,7 @@ export const inputFieldConfig = (isLogin = false, isProfileUpdate = false, value
       value: value.otp || "",
       placeholder: "Enter the OTP sent to your mobile",
       disabled: false,
-      hidden: true, 
+      hidden: true,
     },
   ];
 };

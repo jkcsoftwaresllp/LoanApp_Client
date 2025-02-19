@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextInput } from "../components/common/TextInput";
-import { CustomTextInput } from "../components/common/CustomTextInput";
 import { Button } from "../components/common/Button";
 import { inputFieldConfig } from "../config/inputFieldConfig";
 import { apiprof, mailotp, prupdate } from "../utils/Api";
@@ -22,12 +21,9 @@ const Profile = () => {
     address: "",
     email: "",
   });
-  const getInitials = (name) => {
-    if (!name) return "U"; // Default if no name
-    const nameParts = name.trim().split(" ");
-    if (nameParts.length === 1) return nameParts[0][0].toUpperCase();
-    return (nameParts[0][0] + nameParts[1][0]).toUpperCase();
-  };
+
+  const [formData, setFormData] = useState({});
+
   const [isEditing, setIsEditing] = useState(false);
   const [updatedProfile, setUpdatedProfile] = useState({
     name: "",
@@ -35,6 +31,7 @@ const Profile = () => {
     email: "",
   });
   const [otp, setOtp] = useState("");
+  const [step, setStep] = useState(1);
   const [otpSent, setOtpSent] = useState(false);
   const [otpMessage, setOtpMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -43,6 +40,24 @@ const Profile = () => {
     setIsAuthenticated(false);
     navigate("/login");
     showToast("info", "Session expired , please login again!");
+  };
+  const formFields = inputFieldConfig(false, true, formData);
+  const steps = [
+    { title: "Personal Information", fields: formFields.slice(0, 8) },
+    { title: "Employment & Income Details", fields: formFields.slice(8, 12) },
+
+    {
+      title: "Banking & Financial Information",
+      fields: formFields.slice(12, 16),
+    },
+    { title: "Kyc Details", fields: formFields.slice(16) },
+  ];
+
+  const nextStep = () => setStep(step + 1);
+  const prevStep = () => setStep(step - 1);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Final Form Data:", formData);
   };
 
   useEffect(() => {
@@ -82,6 +97,13 @@ const Profile = () => {
         }
       }
     );
+  };
+
+  const getInitials = (name) => {
+    if (!name) return "U"; // Default if no name
+    const nameParts = name.trim().split(" ");
+    if (nameParts.length === 1) return nameParts[0][0].toUpperCase();
+    return (nameParts[0][0] + nameParts[1][0]).toUpperCase();
   };
 
   const handleUpdateProfile = (e) => {
@@ -138,60 +160,49 @@ const Profile = () => {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleUpdateProfile} className={styles.form}>
-          {inputFieldConfig(false, true, updatedProfile).map((field) => {
-            if (field.id === "email" && otpSent) return null;
+        <form onSubmit={handleUpdateProfile} className={styles.updatedForm}>
+          {steps.map(
+            (stepData, index) =>
+              step === index + 1 && (
+                <div key={index} className={styles.stepContainer}>
+                  {/* Title at the top and centered */}
+                  <h3 className={styles.title}>{stepData.title}</h3>
 
-            return (
-              <div className={styles.inputContainer} key={field.id}>
-                <TextInput
-                  key={field.id}
-                  config={{
-                    ...field,
-                    value: updatedProfile[field.id] || "",
-                    disabled: otpSent && field.id === "email",
-                  }}
-                  onChange={handleInputChange}
-                />
-              </div>
-            );
-          })}
-          <div className={styles.otpButton}>
-            {updatedProfile.email !== profile.email && !otpSent && (
-              <Button text="Send OTP" onClick={handleSendOtp} />
-            )}
-          </div>
+                  {/* Input fields in a 2x1 grid */}
+                  <div className={styles.fieldsContainer}>
+                    {stepData.fields.map((field) => (
+                      <TextInput
+                        key={field.id}
+                        config={{
+                          ...field,
+                          value: updatedProfile[field.id] || "",
+                          disabled: otpSent && field.id === "email",
+                        }}
+                        onChange={handleInputChange}
+                      />
+                    ))}
+                  </div>
 
-          {otpSent && (
-            <>
-              <TextInput
-                config={{
-                  label: "Enter  OTP",
-                  id: "otp",
-                  type: "text",
-                  placeholder: "Enter OTP",
-                  disabled: false,
-                  value: otp,
-                }}
-                onChange={(e) => setOtp(e.target.value)}
-              />
-              <p className="text-green-500 mt-2">{otpMessage}</p>
-            </>
+                  {/* Buttons */}
+                  <div className={styles.buttonContainer}>
+                    {step > 1 ? (
+                      <Button text="Previous" onClick={prevStep} />
+                    ) : (
+                      <Button
+                        text="Cancel"
+                        onClick={() => setIsEditing(false)}
+                        className={styles.cancelButton}
+                      />
+                    )}
+                    {step < steps.length ? (
+                      <Button text="Next" onClick={nextStep} />
+                    ) : (
+                      <Button text="Submit" type="submit" />
+                    )}
+                  </div>
+                </div>
+              )
           )}
-
-          <div className={styles.buttonContainer}>
-            <Button
-              type="submit"
-              text="Update"
-              className={`${styles.buttonSave} w-full`}
-            />
-            <Button
-              type="button"
-              text="Cancel"
-              className={`${styles.buttonCancel} w-full mt-2`}
-              onClick={() => setIsEditing(false)}
-            />
-          </div>
         </form>
       )}
     </div>
