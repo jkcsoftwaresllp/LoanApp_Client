@@ -7,16 +7,18 @@ import { showToast } from "../utils/toastUtils";
 import { Loader } from "../components/common/Loader";
 import { CalendarIcon, Drafticon } from "../components/common/assets";
 import Btn from "../components/common/Btn";
+import Dropdown from "../components/common/Dropdown";
 
 const LoanForm = () => {
   const navigate = useNavigate();
   const { updateLoanData } = useContext(LoanContext);
   const [amount, setAmount] = useState("");
   const [startDate, setStartDate] = useState("");
-  const [frequency, setFrequency] = useState("");
   const [interestRate, setInterestRate] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [frequency, setFrequency] = useState("Yearly");
+  const frequencyOptions = ["Weekly", "Monthly", "Quarterly", "Yearly"];
 
   const handleSaveDraft = async () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -112,11 +114,10 @@ const LoanForm = () => {
           <div className={styles.inputRow}>
             <div className={styles.inputField}>
               <label className={styles.llabel}>Frequency</label>
-              <input
-                type="text"
-                value={frequency}
-                onChange={(e) => setFrequency(e.target.value)}
-                className={styles.input}
+              <Dropdown
+                options={frequencyOptions}
+                selectedValue={frequency}
+                onChange={setFrequency} // Updates frequency state on selection
               />
             </div>
 
