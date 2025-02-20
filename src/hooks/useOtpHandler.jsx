@@ -2,17 +2,21 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { saveTokens } from "../utils/tokenUtils";
-import { handleGenerateOtp, handleValidateOtp } from "../components/helper/otpHandlers"; 
-import { showToast } from "../utils/toastUtils"; 
-import { inputFieldConfig } from "../config/inputFieldConfig"; 
-import { buttonConfig } from "../config/buttonConfig"; 
+import {
+  handleGenerateOtp,
+  handleValidateOtp,
+} from "../components/helper/otpHandlers";
+import { showToast } from "../utils/toastUtils";
+import { inputFieldConfig } from "../config/inputFieldConfig";
+import { buttonConfig } from "../config/buttonConfig";
+import { EyeCloseIcon, EyeIcon } from "../components/common/assets";
 
 const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
   const { setIsAuthenticated } = useAuthContext();
   const [formData, setFormData] = useState({
     mobileNumber: "",
     email: "",
-    password: "", 
+    password: "",
     otp: "",
   });
   const [otpGenerated, setOtpGenerated] = useState(false);
@@ -25,7 +29,7 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
   };
 
   const handleGenerateOtpWrapper = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     handleGenerateOtp(
       formData,
       apiBaseUrl,
@@ -37,7 +41,7 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
   };
 
   const handleValidateOtpWrapper = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     handleValidateOtp(
       formData,
       apiBaseUrl,
@@ -72,6 +76,5 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
     })),
   };
 };
-
 
 export default useOtpHandler;

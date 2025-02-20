@@ -6,6 +6,7 @@ import { apilog } from "../utils/Api";
 import { useNavigate } from "react-router-dom";
 import style from "./style/LoginForm.module.css";
 import { Loader } from "../components/common/Loader";
+import { EyeCloseIcon, EyeIcon } from "../components/common/assets";
 
 const Login = () => {
   const navigate = useNavigate();

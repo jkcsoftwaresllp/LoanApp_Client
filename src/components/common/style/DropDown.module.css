@@ -106,7 +106,7 @@
   align-items: center;
 }
 .trigger:before {
-  content: "›";
+  content: "<";
   rotate: -90deg;
   width: 17px;
   height: 17px;

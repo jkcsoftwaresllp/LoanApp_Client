@@ -15,11 +15,11 @@ const CustomDashboardCard = ({
         <p className={styles.titleTextCustom}>{title}</p>
       </div>
       <div className={styles.data}>
-        <p className={styles.valueTitle}>{valueTitle}</p>
         <p className={styles.valueCustom}>{value}</p>
+        <p className={styles.valueTitle}>{valueTitle}</p>
         <p className={styles.divider}></p>
-        <p className={styles.valueTitle}>{valueTitle2}</p>
         <p className={styles.valueCustom}>{value2}</p>
+        <p className={styles.valueTitle}>{valueTitle2}</p>
       </div>
     </div>
   );
