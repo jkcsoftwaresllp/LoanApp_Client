@@ -2,42 +2,49 @@ import React, { useState, useEffect } from "react";
 import useOtpHandler from "../hooks/useOtpHandler";
 import { TextInput } from "../components/common/TextInput";
 import { Button } from "../components/common/Button";
-import { apilog } from "../utils/Api";
 import { useNavigate } from "react-router-dom";
 import style from "./style/LoginForm.module.css";
 import { Loader } from "../components/common/Loader";
-import { EyeCloseIcon, EyeIcon } from "../components/common/assets";
 
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [isInvestor, setIsInvestor] = useState(false);
+
+  const apiBaseUrl = isInvestor
+    ? "http://localhost:5000/api/investor/login"
+    : "http://localhost:5000/api/login";
+
+  const onSuccessRedirect = isInvestor ? "/investor-dashboard" : "/profile";
+
   const { otpGenerated, handleChange, message, inputFields, buttonFields } =
     useOtpHandler({
-      apiBaseUrl: apilog,
-      onSuccessRedirect: "/profile",
+      apiBaseUrl,
+      onSuccessRedirect,
       isLogin: true,
     });
 
   useEffect(() => {
-    // Simulate loading completion after 1 second
     setTimeout(() => {
       setLoading(false);
     }, 500);
   }, []);
 
   const goToRegister = () => {
-    navigate("/register"); // Navigate to the /register page
+    navigate("/register");
   };
 
   return (
     <>
       {loading ? (
         <div className={style.loaderContainer}>
-          <Loader /> {/* Show loader when loading is true */}
+          <Loader />
         </div>
       ) : (
         <div className={style.form}>
-          <h1 className={style.h1}>Login</h1>
+          <h1 className={style.h1}>
+            {isInvestor ? "Investor Login" : "Login"}
+          </h1>
           <div className={style.flexColumn}>
             <form className="space-y-4">
               {inputFields
@@ -61,6 +68,14 @@ const Login = () => {
                   />
                 ))}
             </form>
+
+            <Button
+              type="button"
+              text={isInvestor ? "Switch to User Login" : "Login as Investor"}
+              onClick={() => setIsInvestor(!isInvestor)}
+              className={style.investorButton}
+            />
+
             <p className={style.p}>
               Don't have an account?{" "}
               <span onClick={goToRegister} className={style.span}>

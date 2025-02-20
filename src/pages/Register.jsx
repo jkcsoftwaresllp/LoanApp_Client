@@ -1,42 +1,51 @@
-import React, { useState, useEffect } from "react"; // Import useState and useEffect
+import React, { useState, useEffect } from "react";
 import useOtpHandler from "../hooks/useOtpHandler";
 import { TextInput } from "../components/common/TextInput";
 import { Button } from "../components/common/Button";
-import { apireg } from "../utils/Api";
 import { useNavigate } from "react-router-dom";
 import style from "./style/LoginForm.module.css";
 import { Loader } from "../components/common/Loader";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true); // Define state for loading
+  const [loading, setLoading] = useState(true);
+  const [isInvestor, setIsInvestor] = useState(false);
+
+  // Move these below state initialization
+  const apiBaseUrl = isInvestor
+    ? "http://localhost:5000/api/investor/register"
+    : "http://localhost:5000/api/register";
+
+  const onSuccessRedirect = isInvestor ? "/investor-dashboard" : "/profile";
+
   const { otpGenerated, handleChange, message, inputFields, buttonFields } =
     useOtpHandler({
-      apiBaseUrl: apireg,
-      onSuccessRedirect: "/profile",
+      apiBaseUrl,
+      onSuccessRedirect,
       isLogin: false,
     });
 
   useEffect(() => {
-    // Simulate loading completion after 1 second
     setTimeout(() => {
       setLoading(false);
     }, 500);
   }, []);
 
   const goToLogin = () => {
-    navigate("/login"); // Navigate to the /login page
+    navigate("/login");
   };
 
   return (
     <>
       {loading ? (
         <div className={style.loaderContainer}>
-          <Loader /> {/* Show loader when loading is true */}
+          <Loader />
         </div>
       ) : (
         <div className={style.form}>
-          <h1 className={style.h1}>Register</h1>
+          <h1 className={style.h1}>
+            {isInvestor ? "Investor Register" : "Register"}
+          </h1>
           <div className={style.flexColumn}>
             <form className="space-y-4">
               {inputFields
@@ -57,10 +66,19 @@ const Register = () => {
                     type={button.type}
                     text={button.text}
                     onClick={button.onClick}
-                    className={button.className}
                   />
                 ))}
             </form>
+
+            <Button
+              type="button"
+              text={
+                isInvestor ? "Switch to User Register" : "Register as Investor"
+              }
+              onClick={() => setIsInvestor(!isInvestor)}
+              className={style.investorButton}
+            />
+
             <p className={style.p}>
               Already have an account?{" "}
               <span onClick={goToLogin} className={style.span}>
