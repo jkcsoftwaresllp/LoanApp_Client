@@ -1,7 +1,7 @@
 import { Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import Profile from "../../pages/Profile";
-
+import PortfolioDashboard from "../investor/pages/PortfolioDashboard";
 import PageSlider from "../../pages/PageSlider";
 import Loan from "../../pages/Loan";
 import LoanForm from "../../pages/LoanForm";
@@ -27,6 +27,15 @@ export const privateRoutes = (
         </PrivateRoute>
       }
     />
+    <Route
+      path="/portfolio"
+      element={
+        <PrivateRoute>
+          <PortfolioDashboard />
+        </PrivateRoute>
+      }
+    />
+
     <Route
       path="/emi"
       element={
