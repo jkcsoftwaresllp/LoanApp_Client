@@ -27,17 +27,19 @@ export const handleGenerateOtp = async (
     handleApiError(error, setMessage, showToast);
   }
 };
-
 export const handleValidateOtp = async (
   formData,
   apiBaseUrl,
   setIsAuthenticated,
+  setUser,
   navigate,
   onSuccessRedirect,
   setMessage,
   showToast
 ) => {
   try {
+    console.log("Validating OTP with data:", formData);
+
     const response = await validateOtp(
       formData.mobileNumber,
       formData.otp,
@@ -45,19 +47,40 @@ export const handleValidateOtp = async (
       apiBaseUrl
     );
 
-    if (response.status === "success") {
+    console.log("OTP Validation Response:", response); // Debugging
+
+    if (response?.status === "success") {
       showToast("success", "OTP validated successfully");
 
-      const { accessToken, refreshToken, loanData } = response;
+      const { accessToken, refreshToken, uniqueCode, role } = response;
 
-      if (accessToken) {
-        saveTokens(accessToken, refreshToken, loanData || null); 
+      if (accessToken && uniqueCode && role) {
+        // ✅ Fix: Correct LocalStorage Key Name & Store Refresh Token
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("role", role);
+        localStorage.setItem("user", JSON.stringify({ uniqueCode, role })); 
+
         setIsAuthenticated(true);
+        setUser({ uniqueCode, role });
+        
+        console.log("User set in context:", { uniqueCode, role });
+
+        // ✅ Debugging: Check Storage Values
+        console.log("Saved in Local Storage:", {
+          accessToken: localStorage.getItem("accessToken"),
+          refreshToken: localStorage.getItem("refreshToken"),
+          role: localStorage.getItem("role"),
+          user: localStorage.getItem("user"),
+        });
+      } else {
+        console.error("Access token, uniqueCode, or role missing in response");
       }
 
+      console.log("Navigating to:", onSuccessRedirect);
       navigate(onSuccessRedirect);
     } else {
-      const errorMessage = response.message || "OTP verification failed";
+      const errorMessage = response?.message || "OTP verification failed";
       showToast("error", errorMessage);
       setMessage(errorMessage);
     }
@@ -66,9 +89,10 @@ export const handleValidateOtp = async (
   }
 };
 
+// 🔥 Improved Error Handling
 const handleApiError = (error, setMessage, showToast) => {
-  const errorMessage = error.response?.data?.message || "Something went wrong";
-  console.error("API Error:", error.response?.data || error); // Improved logging
+  const errorMessage = error?.response?.data?.message || "Something went wrong";
+  console.error("API Error:", error?.response?.data || error);
   setMessage(errorMessage);
   showToast("error", errorMessage);
 };

@@ -1,8 +1,8 @@
 // src/AppContent.js
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
-import { publicRoutes } from "./PublicRoute"; // Import public routes
-import { privateRoutes } from "./PrivateRoute"; // Import private routes
+import { publicRoutes } from "./PublicRoute"; 
+import { privateRoutes } from "./PrivateRoute"; 
 import NotFound from "../../pages/NotFound";
 
 const AppContent = () => {

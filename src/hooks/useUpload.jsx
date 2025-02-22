@@ -39,7 +39,7 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Clear previous error messages
+    setErrorMessage(""); 
     const token = localStorage.getItem("accessToken");
 
     if (!token) {

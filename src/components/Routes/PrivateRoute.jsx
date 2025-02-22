@@ -12,51 +12,62 @@ import LoanList from "../../pages/LoanList";
 import Dashboard from "../../pages/Dashboard";
 import EmiCalculator from "../../pages/EmiCalc";
 
-const PrivateRoute = ({ children }) => {
-  const { isAuthenticated } = useAuthContext();
-  return isAuthenticated ? children : <Navigate to="/login" />;
+const PrivateRoute = ({ children, allowedRoles }) => {
+  const { isAuthenticated, user } = useAuthContext(); 
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user?.role)) {
+    return <Navigate to="/not-authorized" />;
+  }
+
+  return children;
 };
 
 export const privateRoutes = (
   <>
+    
     <Route
       path="/profile"
       element={
-        <PrivateRoute>
+        <PrivateRoute allowedRoles={["investor", "user"]}>
           <Profile />
         </PrivateRoute>
       }
     />
     <Route
-      path="/portfolio"
+      path="/dashboard"
       element={
-        <PrivateRoute>
-          <PortfolioDashboard />
+        <PrivateRoute allowedRoles={["investor", "user"]}>
+          <Dashboard />
         </PrivateRoute>
       }
     />
-
     <Route
       path="/emi"
       element={
-        <PrivateRoute>
+        <PrivateRoute allowedRoles={["investor", "user"]}>
           <EmiCalculator />
         </PrivateRoute>
       }
     />
 
     <Route
-      path="/dashboard"
+      path="/portfolio"
       element={
-        <PrivateRoute>
-          <Dashboard />
+        <PrivateRoute allowedRoles={["investor"]}>
+          <PortfolioDashboard />
         </PrivateRoute>
       }
     />
+
+ 
     <Route
       path="/upload"
       element={
-        <PrivateRoute>
+        <PrivateRoute allowedRoles={["user"]}>
           <PageSlider />
         </PrivateRoute>
       }
@@ -64,7 +75,7 @@ export const privateRoutes = (
     <Route
       path="/loan"
       element={
-        <PrivateRoute>
+        <PrivateRoute allowedRoles={["user"]}>
           <Loan />
         </PrivateRoute>
       }
@@ -72,7 +83,7 @@ export const privateRoutes = (
     <Route
       path="/loan/form"
       element={
-        <PrivateRoute>
+        <PrivateRoute allowedRoles={["user"]}>
           <LoanForm />
         </PrivateRoute>
       }
@@ -80,7 +91,7 @@ export const privateRoutes = (
     <Route
       path="/loan/submit"
       element={
-        <PrivateRoute>
+        <PrivateRoute allowedRoles={["user"]}>
           <SubmitLoan />
         </PrivateRoute>
       }
@@ -88,24 +99,24 @@ export const privateRoutes = (
     <Route
       path="/loan/details"
       element={
-        <PrivateRoute>
+        <PrivateRoute allowedRoles={["user"]}>
           <LoanDetails />
-        </PrivateRoute>
-      }
-    />
-    <Route
-      path="/loanl"
-      element={
-        <PrivateRoute>
-          <LoanList />
         </PrivateRoute>
       }
     />
     <Route
       path="/loan/update"
       element={
-        <PrivateRoute>
+        <PrivateRoute allowedRoles={["user"]}>
           <UpdateLoanDetails />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/loanl"
+      element={
+        <PrivateRoute allowedRoles={["user"]}>
+          <LoanList />
         </PrivateRoute>
       }
     />

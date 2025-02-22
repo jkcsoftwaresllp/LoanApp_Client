@@ -11,7 +11,7 @@ const Register = () => {
   const [loading, setLoading] = useState(true);
   const [isInvestor, setIsInvestor] = useState(false);
 
-  // Move these below state initialization
+
   const apiBaseUrl = isInvestor
     ? "http://localhost:5000/api/investor/register"
     : "http://localhost:5000/api/register";

@@ -4,8 +4,13 @@ import Login from "../../pages/Login";
 import Register from "../../pages/Register";
 
 const PublicRoute = ({ children }) => {
-  const { isAuthenticated } = useAuthContext();
-  return !isAuthenticated ? children : <Navigate to="/dashboard" />;
+  const { isAuthenticated, user } = useAuthContext();
+  
+  if (isAuthenticated) {
+    return <Navigate to={user?.role === "investor" ? "/portfolio" : "/dashboard"} />;
+  }
+
+  return children;
 };
 
 export const publicRoutes = (

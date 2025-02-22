@@ -12,7 +12,9 @@ import { buttonConfig } from "../config/buttonConfig";
 import { EyeCloseIcon, EyeIcon } from "../components/common/assets";
 
 const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
-  const { setIsAuthenticated } = useAuthContext();
+  const { setIsAuthenticated, setUser } = useAuthContext();
+
+
   const [formData, setFormData] = useState({
     mobileNumber: "",
     email: "",
@@ -42,16 +44,19 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
 
   const handleValidateOtpWrapper = (e) => {
     e.preventDefault();
+    console.log("onSuccessRedirect:", onSuccessRedirect); 
     handleValidateOtp(
       formData,
       apiBaseUrl,
       setIsAuthenticated,
+      setUser,
       navigate,
-      onSuccessRedirect,
+      onSuccessRedirect, 
       setMessage,
       showToast
     );
   };
+  
 
   return {
     formData,
