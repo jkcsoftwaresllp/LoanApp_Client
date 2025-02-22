@@ -1,0 +1,116 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - var(--header-height));
+  background-color: var(--color-bg-primary);
+  padding: 16px;
+  user-select: none;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - var(--header-height));
+}
+
+.card {
+  width: 90%;
+  max-width: 280px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  background-color: #fbfeff;
+  color: #0f0f0f;
+  padding: clamp(16px, 2.5vw, 24px);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Hover effect for a smooth scale transformation */
+.card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Medium screens (tablets) */
+@media (min-width: 768px) {
+  .card {
+    max-width: 400px;
+    padding: 20px;
+  }
+}
+
+/* Small screens (phones) */
+@media (max-width: 768px) {
+  .card {
+    max-width: 350px;
+    padding: 16px;
+    border-radius: 8px;
+  }
+}
+
+.title {
+  font-size: var(--font-size-large);
+  color: #0f0f0f;
+
+  font-weight: bold;
+  text-align: center;
+}
+
+.subtitle {
+  color: #333;
+  text-align: center;
+  font-size: var(--font-size-medium);
+  margin-top: 8px;
+}
+
+.emojiContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  gap: 16px;
+  overflow-x: scroll;
+}
+
+.emojiButton {
+  font-size: 1.875rem;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.emojiButton:hover {
+  background-color: #d1d5db;
+}
+
+.selectedEmoji {
+  background-color: #a7f3d0 !important;
+}
+
+.selectedLabel {
+  text-align: center;
+  color: #212121;
+  margin-top: 8px;
+}
+
+.textarea {
+  width: 100%;
+  margin-top: 16px;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  resize: none;
+  outline: none;
+  border: 1px solid #34d399;
+}
+
+.textarea:focus {
+  border-color: #34d399;
+  box-shadow: 0 0 5px #34d399;
+}
+
+.submitButton {
+  margin-top: 16px;
+}

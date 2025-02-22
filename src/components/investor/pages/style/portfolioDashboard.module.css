@@ -62,9 +62,11 @@
 .buttonContainer {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 16px;
   margin-top: 16px;
-  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
 }
 
 /* Adjust button size on mobile */

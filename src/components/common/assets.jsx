@@ -262,3 +262,63 @@ export const EyeCloseIcon = () => (
     />
   </svg>
 );
+
+export const PortfolioIcon = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    className={className}
+  >
+    <path
+      fill="currentColor"
+      d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z"
+    />
+  </svg>
+);
+
+export const DashboardIcon = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    className={className}
+  >
+    <path
+      fill="currentColor"
+      d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h240v720H200Zm320 0v-360h320v280q0 33-23.5 56.5T760-120H520Zm0-440v-280h240q33 0 56.5 23.5T840-760v200H520Z"
+    />
+  </svg>
+);
+
+export const FeedbackIcon = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    className={className}
+  >
+    <path
+      fill="currentColor"
+      d="M280-240q-17 0-28.5-11.5T240-280v-80h520v-360h80q17 0 28.5 11.5T880-680v600L720-240H280ZM80-280v-560q0-17 11.5-28.5T120-880h520q17 0 28.5 11.5T680-840v360q0 17-11.5 28.5T640-440H240L80-280Z"
+    />
+  </svg>
+);
+
+export const OppIcon = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    className={className}
+  >
+    <path
+      fill="currentColor"
+      d="M480-320q-33 0-56.5-23.5T400-400q0-33 23.5-56.5T480-480q33 0 56.5 23.5T560-400q0 33-23.5 56.5T480-320ZM295-680h370l80-160H215l80 160Zm41 560h288q90 0 153-62.5T840-336q0-38-13-74t-37-65L686-600H274L170-475q-24 29-37 65t-13 74q0 91 62.5 153.5T336-120Z"
+    />
+  </svg>
+);

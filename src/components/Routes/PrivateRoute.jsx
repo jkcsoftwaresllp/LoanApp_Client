@@ -1,7 +1,6 @@
 import { Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import Profile from "../../pages/Profile";
-import PortfolioDashboard from "../investor/pages/PortfolioDashboard";
 import PageSlider from "../../pages/PageSlider";
 import Loan from "../../pages/Loan";
 import LoanForm from "../../pages/LoanForm";
@@ -12,8 +11,12 @@ import LoanList from "../../pages/LoanList";
 import Dashboard from "../../pages/Dashboard";
 import EmiCalculator from "../../pages/EmiCalc";
 
+import PortfolioDashboard from "../investor/pages/PortfolioDashboard";
+import InvestmentOpportunities from "../investor/pages/OppPage";
+import FeedbackForm from "../investor/pages/FeedbackForm";
+
 const PrivateRoute = ({ children, allowedRoles }) => {
-  const { isAuthenticated, user } = useAuthContext(); 
+  const { isAuthenticated, user } = useAuthContext();
 
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
@@ -28,7 +31,6 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 
 export const privateRoutes = (
   <>
-    
     <Route
       path="/profile"
       element={
@@ -62,8 +64,23 @@ export const privateRoutes = (
         </PrivateRoute>
       }
     />
+    <Route
+      path="/make-investment"
+      element={
+        <PrivateRoute allowedRoles={["investor"]}>
+          <InvestmentOpportunities />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/feedback"
+      element={
+        <PrivateRoute allowedRoles={["investor"]}>
+          <FeedbackForm />
+        </PrivateRoute>
+      }
+    />
 
- 
     <Route
       path="/upload"
       element={
