@@ -21,7 +21,10 @@ const MenuBar = () => {
             type="radio"
           />
           <label htmlFor="choose1">
-            <li className={styles.li} onClick={() => navigate("/dashboard")}>
+            <li
+              className={styles.li}
+              onClick={() => navigate("/inv-dashboard")}
+            >
               <DashboardIcon className={styles.svg} />
             </li>
           </label>

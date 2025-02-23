@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { UserIcon } from "./assets";
 import Notification from "./Notification";
 import { useAuthContext } from "../../context/AuthContext";
+import LogoutButton from "../../pages/LogoutButton";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ export const Header = () => {
       <div className={style.textLoan} onClick={goToHome}>
         Loan
       </div>
+      {isAuthenticated && <LogoutButton />}
       <div className={style.rightSection}>
         <div className={style.checkboxWrapper}>
           <input

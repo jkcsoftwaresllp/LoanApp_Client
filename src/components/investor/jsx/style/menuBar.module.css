@@ -1,7 +1,7 @@
 #navbody {
   width: 100%;
   max-width: 300px;
-  height: 60px;
+  height: var(--header-height);
   background-color: rgb(255, 255, 255);
   border-radius: 40px;
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.041);

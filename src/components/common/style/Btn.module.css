@@ -9,5 +9,22 @@
   border-radius: var(--border-radius-large);
   height: 50px;
   width: 100%;
+  padding: 5px;
   cursor: pointer;
+}
+.IconBtn {
+  background-color: var(--color-btn);
+  color: white;
+  font-size: var(--font-size-medium);
+  border: 0.5px solid var(--color-border-primary);
+  font-weight: var(--font-weight-regular);
+  border-radius: var(--border-radius-large);
+  height: 50px;
+  width: 50px;
+  margin-top: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 }

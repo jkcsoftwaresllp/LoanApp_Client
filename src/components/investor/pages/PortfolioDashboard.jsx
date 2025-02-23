@@ -3,7 +3,6 @@ import { Card } from "../jsx/card";
 import { CardContent } from "../jsx/cardContent";
 import { Button } from "../../common/Button";
 import { useNavigate } from "react-router-dom";
-import GradientButton from "../../common/GradientButton";
 import styles from "./style/PortfolioDashboard.module.css";
 import axios from "axios";
 
@@ -18,7 +17,6 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import MenuBar from "../jsx/MenuBar";
 
 const PortfolioDashboard = () => {
   const navigate = useNavigate();
@@ -68,6 +66,10 @@ const PortfolioDashboard = () => {
 
   return (
     <>
+      <div className={styles.header}>
+        <h1>Portfolio</h1>
+      </div>
+
       <div className={styles.dashboardContainer}>
         <Card>
           <CardContent>
@@ -133,9 +135,6 @@ const PortfolioDashboard = () => {
             </LineChart>
           </ResponsiveContainer>
         </div>
-      </div>
-      <div className={styles.buttonContainer}>
-        <MenuBar />
       </div>
     </>
   );

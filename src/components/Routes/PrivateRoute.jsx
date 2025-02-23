@@ -11,6 +11,8 @@ import LoanList from "../../pages/LoanList";
 import Dashboard from "../../pages/Dashboard";
 import EmiCalculator from "../../pages/EmiCalc";
 
+import Layout from "../investor/layout/layout";
+
 import PortfolioDashboard from "../investor/pages/PortfolioDashboard";
 import InvestmentOpportunities from "../investor/pages/OppPage";
 import FeedbackForm from "../investor/pages/FeedbackForm";
@@ -56,30 +58,40 @@ export const privateRoutes = (
       }
     />
 
-    <Route
-      path="/portfolio"
-      element={
-        <PrivateRoute allowedRoles={["investor"]}>
-          <PortfolioDashboard />
-        </PrivateRoute>
-      }
-    />
-    <Route
-      path="/make-investment"
-      element={
-        <PrivateRoute allowedRoles={["investor"]}>
-          <InvestmentOpportunities />
-        </PrivateRoute>
-      }
-    />
-    <Route
-      path="/feedback"
-      element={
-        <PrivateRoute allowedRoles={["investor"]}>
-          <FeedbackForm />
-        </PrivateRoute>
-      }
-    />
+    <Route path="/" element={<Layout />}>
+      <Route
+        path="inv-dashboard"
+        element={
+          <PrivateRoute allowedRoles={["investor"]}>
+            <FeedbackForm />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="portfolio"
+        element={
+          <PrivateRoute allowedRoles={["investor"]}>
+            <PortfolioDashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="make-investment"
+        element={
+          <PrivateRoute allowedRoles={["investor"]}>
+            <InvestmentOpportunities />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="feedback"
+        element={
+          <PrivateRoute allowedRoles={["investor"]}>
+            <FeedbackForm />
+          </PrivateRoute>
+        }
+      />
+    </Route>
 
     <Route
       path="/upload"

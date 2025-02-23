@@ -1,5 +1,5 @@
 .dashboardContainer {
-  padding: 24px;
+  padding: 20px;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 10px;
@@ -9,6 +9,7 @@
 @media (min-width: 768px) {
   .dashboardContainer {
     grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 20px;
   }
 }
 
@@ -22,6 +23,10 @@
   font-size: var(--font-size-large);
   font-weight: var(--font-weight-bold);
   color: #0f0f0f;
+}
+.header {
+  display: flex;
+  justify-content: center; /* Centers content horizontally */
 }
 
 .cardValue {

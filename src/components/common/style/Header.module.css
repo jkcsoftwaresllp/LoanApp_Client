@@ -22,6 +22,8 @@
 }
 .textLoan {
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
 }
 
 .actionBtn {
