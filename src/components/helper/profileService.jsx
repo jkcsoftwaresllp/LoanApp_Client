@@ -10,8 +10,16 @@ export const fetchProfile = async (
 ) => {
   try {
     const data = await apiRequest("get", apiUrl, null, accessToken, setLoading);
-    setProfile(data.userProfile);
-    setUpdatedProfile(data.userProfile);
+    console.log("Fetched Profile Data:", data); // ✅ Debug the response structure
+
+    if (data?.profile) {
+      setProfile(data.profile); // ✅ Ensure correct key
+      setUpdatedProfile(data.profile);
+    } else {
+      console.warn("Profile data is missing in response:", data);
+      setProfile({}); // ✅ Avoid undefined errors
+      setUpdatedProfile({});
+    }
   } catch (error) {
     showToast("error", error.message);
     if (error.message === "Session expired. Please log in again.") {
