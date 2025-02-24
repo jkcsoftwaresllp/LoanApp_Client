@@ -21,6 +21,11 @@ export default function FeedbackForm() {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async () => {
+    if (!comment.trim()) {
+      showToast("error", "Please enter feedback before submitting.");
+      return;
+    }
+
     setLoading(true);
     setMessage("");
     const feedbackData = {
@@ -52,6 +57,7 @@ export default function FeedbackForm() {
     }
     setLoading(false);
   };
+
   if (loading) {
     return (
       <div className={styles.center}>
@@ -59,6 +65,7 @@ export default function FeedbackForm() {
       </div>
     );
   }
+
   return (
     <div className={styles.container}>
       <FeedbackCard className={styles.card}>
@@ -71,7 +78,10 @@ export default function FeedbackForm() {
           {feelings.map((feeling, index) => (
             <motion.button
               key={index}
-              whileTap={{ scale: 0.9 }}
+              animate={{
+                scale: selected === index ? 1 : 0.9,
+                transition: { type: "spring", stiffness: 300, damping: 10 },
+              }}
               onClick={() => setSelected(index)}
               className={`${styles.emojiButton} ${
                 selected === index ? styles.selectedEmoji : ""

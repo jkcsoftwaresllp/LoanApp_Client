@@ -115,7 +115,7 @@ export const EarningsRepayment = () => {
 
       setEarnings(mockData);
       setLoading(false);
-    }, 2000);
+    }, 100);
   }, []);
 
   if (loading)

@@ -68,14 +68,14 @@
   justify-content: center;
   margin-top: 16px;
   gap: 16px;
+  height: 70px;
   overflow-x: scroll;
 }
 
 .emojiButton {
-  font-size: 1.875rem;
+  font-size: 2rem;
   padding: 8px;
   border-radius: 50%;
-  background-color: #e5e7eb;
   transition: background-color 0.3s ease;
   border: none;
   cursor: pointer;

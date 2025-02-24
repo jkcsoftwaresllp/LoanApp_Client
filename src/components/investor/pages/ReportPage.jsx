@@ -27,7 +27,6 @@ const ReportsAnalytics = () => {
     setReport(response);
   };
 
-  // Mock Data
   const riskData = [
     { name: "Low Risk", value: 40 },
     { name: "Medium Risk", value: 35 },
@@ -57,12 +56,14 @@ const ReportsAnalytics = () => {
         <input
           type="date"
           value={filters.dateRange}
+          className={styles.filterInput}
           onChange={(e) =>
             setFilters({ ...filters, dateRange: e.target.value })
           }
         />
         <select
           value={filters.riskLevel}
+          className={styles.filterInput}
           onChange={(e) =>
             setFilters({ ...filters, riskLevel: e.target.value })
           }
