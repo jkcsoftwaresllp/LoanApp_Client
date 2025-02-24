@@ -20,12 +20,7 @@ import {
 
 const PortfolioDashboard = () => {
   const navigate = useNavigate();
-  const [portfolio, setPortfolio] = useState({
-    total_funds: 0,
-    active_loans: 0,
-    roi: 0,
-    monthly_earnings: 0,
-  });
+  const [portfolio, setPortfolio] = useState(null);
 
   useEffect(() => {
     const fetchPortfolio = async () => {
@@ -33,9 +28,12 @@ const PortfolioDashboard = () => {
         const response = await axios.get("/portfolio");
         if (response.data.uniqueCode === "PT24") {
           setPortfolio(response.data.data);
+        } else {
+          setPortfolio(null);
         }
       } catch (error) {
         console.error("Error fetching portfolio data:", error);
+        setPortfolio(null);
       }
     };
     fetchPortfolio();
@@ -45,13 +43,15 @@ const PortfolioDashboard = () => {
     navigate("/make-investment");
   };
 
-  const pieData = [
-    { name: "Active Loans", value: portfolio.active_loans * 10000 },
-    {
-      name: "Remaining Funds",
-      value: portfolio.total_funds - portfolio.active_loans * 10000,
-    },
-  ];
+  const pieData = portfolio
+    ? [
+        { name: "Active Loans", value: portfolio.active_loans * 10000 },
+        {
+          name: "Remaining Funds",
+          value: portfolio.total_funds - portfolio.active_loans * 10000,
+        },
+      ]
+    : [];
 
   const COLORS = ["#0088FE", "#00C49F"];
 
@@ -73,67 +73,82 @@ const PortfolioDashboard = () => {
       <div className={styles.dashboardContainer}>
         <Card>
           <CardContent>
-            <p className={styles.cardValue}>₹{portfolio.total_funds}</p>
+            <p className={styles.cardValue}>₹{portfolio?.total_funds || 0}</p>
             <h3 className={styles.cardTitle}>Total Funds</h3>
           </CardContent>
         </Card>
         <Card>
           <CardContent>
-            <p className={styles.cardValue}>{portfolio.active_loans}</p>
+            <p className={styles.cardValue}>{portfolio?.active_loans || 0}</p>
             <h3 className={styles.cardTitle}>Active Loans</h3>
           </CardContent>
         </Card>
         <Card>
           <CardContent>
-            <p className={styles.cardValue}>{portfolio.roi}%</p>
+            <p className={styles.cardValue}>{portfolio?.roi || 0}%</p>
             <h3 className={styles.cardTitle}>Return Of Investment</h3>
           </CardContent>
         </Card>
         <Card>
           <CardContent>
-            <p className={styles.cardValue}>₹{portfolio.monthly_earnings}</p>
+            <p className={styles.cardValue}>
+              ₹{portfolio?.monthly_earnings || 0}
+            </p>
             <h3 className={styles.cardTitle}>Monthly Earnings</h3>
           </CardContent>
         </Card>
 
         <div className={styles.chartContainer}>
           <h3 className={styles.chartTitle}>Fund Allocation</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {pieData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
+          {pieData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={50} // Donut effect
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className={styles.emptyChartState}>
+              <h3 className="text-black">Please start investing</h3>
+            </div>
+          )}
         </div>
 
         <div className={styles.chartContainer}>
           <h3 className={styles.chartTitle}>ROI Trends</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={lineData}>
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="roi"
-                stroke="#8884d8"
-                strokeWidth={2}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          {lineData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={lineData}>
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="roi"
+                  stroke="#8884d8"
+                  strokeWidth={2}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className={styles.emptyChartState}>
+              <h3 className="text-black">No data available</h3>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -189,44 +189,56 @@ export const EarningsRepayment = () => {
         {/* Line Chart */}
         <div className={styles.chartBox}>
           <h3 className={styles.chartTitle}>ROI Trends</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={chartData}>
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="amount"
-                stroke="#8884d8"
-                strokeWidth={2}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          {chartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={chartData}>
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="amount"
+                  stroke="#8884d8"
+                  strokeWidth={2}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className={styles.emptyChartState}>
+              <h3 className="text-black">No data available</h3>
+            </div>
+          )}
         </div>
 
         {/* Donut Chart */}
         <div className={styles.chartBox}>
           <h3 className={styles.chartTitle}>Paid vs Pending Payments</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={donutChartData}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={80}
-                fill="#8884d8"
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {donutChartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
+          {donutChartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie
+                  data={donutChartData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {donutChartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className={styles.emptyChartState}>
+              <h3 className="text-black">No data available</h3>
+            </div>
+          )}
         </div>
       </div>
     </div>
