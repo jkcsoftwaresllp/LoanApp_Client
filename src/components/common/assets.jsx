@@ -68,12 +68,13 @@ export const CalendarIcon = () => (
   </svg>
 );
 
-export const RupeesIcon = () => (
+export const RupeesIcon = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="24px"
     viewBox="0 -960 960 960"
     width="24px"
+    className={className}
   >
     <path
       fill="currentColor"
@@ -263,7 +264,7 @@ export const EyeCloseIcon = () => (
   </svg>
 );
 
-export const PortfolioIcon = ({ className }) => (
+export const AnalyticIcon = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="24px"

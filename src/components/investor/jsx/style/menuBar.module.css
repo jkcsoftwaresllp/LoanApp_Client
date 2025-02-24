@@ -1,6 +1,6 @@
 #navbody {
   width: 100%;
-  max-width: 300px;
+  max-width: 350px;
   height: var(--header-height);
   background-color: rgb(255, 255, 255);
   border-radius: 40px;
@@ -15,15 +15,25 @@
 /* Responsive Design */
 @media (max-width: 400px) {
   #navbody {
-    max-width: 280px;
+    max-width: 300px;
     height: 50px;
+  }
+  .svg {
+    width: 60px;
+    height: 60px;
+    padding: 13px 13px;
   }
 }
 
 @media (max-width: 320px) {
   #navbody {
-    max-width: 270px;
+    max-width: 300px;
     height: 45px;
+  }
+  .svg {
+    width: 50px;
+    height: 50px;
+    padding: 7px 13px;
   }
 }
 
@@ -45,8 +55,8 @@
 }
 
 .svg {
-  width: 70px;
-  height: 70px;
+  width: 65px;
+  height: 65px;
   opacity: 80%;
   cursor: pointer;
   padding: 13px 20px;

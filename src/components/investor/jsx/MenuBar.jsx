@@ -1,9 +1,10 @@
 import styles from "./style/menuBar.module.css";
 import {
-  PortfolioIcon,
+  AnalyticIcon,
   DashboardIcon,
   FeedbackIcon,
   OppIcon,
+  RupeesIcon,
 } from "../../common/assets";
 import { useNavigate } from "react-router-dom";
 
@@ -23,9 +24,9 @@ const MenuBar = () => {
           <label htmlFor="choose1">
             <li
               className={styles.li}
-              onClick={() => navigate("/inv-dashboard")}
+              onClick={() => navigate("/earnings-repayment")}
             >
-              <DashboardIcon className={styles.svg} />
+              <RupeesIcon className={styles.svg} />
             </li>
           </label>
           <input
@@ -36,7 +37,7 @@ const MenuBar = () => {
           />
           <label htmlFor="choose2">
             <li className={styles.li} onClick={() => navigate("/portfolio")}>
-              <PortfolioIcon className={styles.svg} />
+              <DashboardIcon className={styles.svg} />
             </li>
           </label>
           <input
@@ -45,6 +46,17 @@ const MenuBar = () => {
             id="choose3"
             type="radio"
           />
+          <input
+            className={styles.radio}
+            name="rad"
+            id="choose5"
+            type="radio"
+          />
+          <label htmlFor="choose5">
+            <li className={styles.li} onClick={() => navigate("/feedback")}>
+              <AnalyticIcon className={styles.svg} />
+            </li>
+          </label>
           <label htmlFor="choose3">
             <li
               className={styles.li}
