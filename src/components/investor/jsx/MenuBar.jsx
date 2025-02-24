@@ -53,7 +53,7 @@ const MenuBar = () => {
             type="radio"
           />
           <label htmlFor="choose5">
-            <li className={styles.li} onClick={() => navigate("/feedback")}>
+            <li className={styles.li} onClick={() => navigate("/report")}>
               <AnalyticIcon className={styles.svg} />
             </li>
           </label>

@@ -17,6 +17,7 @@ import PortfolioDashboard from "../investor/pages/PortfolioDashboard";
 import InvestmentOpportunities from "../investor/pages/OppPage";
 import FeedbackForm from "../investor/pages/FeedbackForm";
 import { EarningsRepayment } from "../investor/pages/EarningPage";
+import ReportsAnalytics from "../investor/pages/ReportPage";
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { isAuthenticated, user } = useAuthContext();
@@ -65,6 +66,14 @@ export const privateRoutes = (
         element={
           <PrivateRoute allowedRoles={["investor"]}>
             <EarningsRepayment />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="report"
+        element={
+          <PrivateRoute allowedRoles={["investor"]}>
+            <ReportsAnalytics />
           </PrivateRoute>
         }
       />
