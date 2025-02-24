@@ -10,6 +10,7 @@ const InvestmentOpportunities = () => {
   const [loans, setLoans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedLoan, setSelectedLoan] = useState(null);
   const [filters, setFilters] = useState({ amount: "", roi: "", tenure: "" });
   const [filteredLoans, setFilteredLoans] = useState([]);
 
@@ -80,6 +81,14 @@ const InvestmentOpportunities = () => {
     setFilteredLoans(loans);
   };
 
+  const openLoanDetails = (loan) => {
+    setSelectedLoan(loan);
+  };
+
+  const closeLoanDetails = () => {
+    setSelectedLoan(null);
+  };
+
   if (loading) {
     return (
       <div className={styles.center}>
@@ -146,12 +155,10 @@ const InvestmentOpportunities = () => {
                     <td className="py-2 px-4 text-center">{loan.roi}</td>
                     <td className="py-2 px-4 text-center">{loan.tenure}</td>
                     <td className="py-2 px-4 text-center">{loan.status}</td>
-                    <td>
+                    <td className="py-2 px-4 text-center">
                       <div className={styles.actions}>
                         <IconBtn
-                          onClick={() =>
-                            confirmInvestment(loan.loan_id, loan.amount)
-                          }
+                          onClick={() => openLoanDetails(loan)}
                           icon={<Infoicon />}
                         />
                         <Button
@@ -171,6 +178,30 @@ const InvestmentOpportunities = () => {
           <p>No investment opportunities available.</p>
         )}
       </div>
+
+      {selectedLoan && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <h2>Loan Details #{selectedLoan.loan_id}</h2>
+            <p>
+              <strong>Borrower Name:</strong> {selectedLoan.borrower_name}
+            </p>
+            <p>
+              <strong>Amount:</strong> {selectedLoan.amount}
+            </p>
+            <p>
+              <strong>ROI:</strong> {selectedLoan.roi}
+            </p>
+            <p>
+              <strong>Tenure:</strong> {selectedLoan.tenure}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedLoan.status}
+            </p>
+            <Button onClick={closeLoanDetails} text="Close" />
+          </div>
+        </div>
+      )}
     </>
   );
 };

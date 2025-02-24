@@ -15,7 +15,6 @@ const MenuBar = () => {
       <form action="#">
         <ul className={styles.ul}>
           <input
-            defaultChecked
             name="rad"
             className={styles.radio}
             id="choose1"
@@ -32,6 +31,7 @@ const MenuBar = () => {
           <input
             className={styles.radio}
             name="rad"
+            defaultChecked
             id="choose2"
             type="radio"
           />

@@ -162,3 +162,41 @@ th {
   align-items: center; /* Ensures vertical alignment */
   gap: 10px; /* Adds spacing between elements */
 }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #fbfeff;
+  user-select: none;
+  padding: 20px;
+  border-radius: var(--border-radius-small);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  flex-direction: row;
+}
+
+.modalContent h2 {
+  margin-bottom: 15px;
+  font-size: var(--font-size-large);
+  color: #212121;
+  user-select: text;
+}
+
+.modalContent p {
+  margin: 10px 0;
+  color: #333;
+}
