@@ -79,9 +79,10 @@ export default function FeedbackForm() {
             <motion.button
               key={index}
               animate={{
-                scale: selected === index ? 1 : 0.9,
+                scale: selected === index ? 1.1 : 1,
                 transition: { type: "spring", stiffness: 300, damping: 10 },
               }}
+              whileHover={{ scale: 1.2, transition: { duration: 0.3 } }}
               onClick={() => setSelected(index)}
               className={`${styles.emojiButton} ${
                 selected === index ? styles.selectedEmoji : ""
