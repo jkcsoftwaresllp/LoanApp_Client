@@ -1,14 +1,18 @@
-import React from "react";
 import style from "./style/Btn.module.css";
-
-export const IconBtn = ({ icon, onClick, className, type = "button" }) => {
+export const IconBtn = ({
+  icon,
+  onClick,
+  className,
+  type = "button",
+  label,
+}) => {
   return (
     <button
       type={type}
       onClick={onClick}
       className={`${style.IconBtn} ${className || ""}`}
     >
-      {icon}
+      <span className={style.Icon}>{icon}</span>
     </button>
   );
 };

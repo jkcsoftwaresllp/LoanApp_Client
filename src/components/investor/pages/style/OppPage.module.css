@@ -188,6 +188,11 @@ th {
   position: relative;
   flex-direction: row;
 }
+.modalActions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
 
 .modalContent h2 {
   margin-bottom: 15px;

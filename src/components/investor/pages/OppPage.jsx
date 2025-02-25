@@ -11,6 +11,7 @@ const InvestmentOpportunities = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedLoan, setSelectedLoan] = useState(null);
+  const [confirmModal, setConfirmModal] = useState(false);
   const [filters, setFilters] = useState({ amount: "", roi: "", tenure: "" });
   const [filteredLoans, setFilteredLoans] = useState([]);
 
@@ -43,7 +44,8 @@ const InvestmentOpportunities = () => {
     fetchLoans();
   }, []);
 
-  const confirmInvestment = async (loanId, amount) => {
+  const confirmInvestment = async () => {
+    if (!selectedLoan) return;
     try {
       const response = await fetch("http://localhost:5000/api/auth/confirm", {
         method: "POST",
@@ -51,7 +53,11 @@ const InvestmentOpportunities = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-        body: JSON.stringify({ loan_id: loanId, amount }),
+        body: JSON.stringify({
+          investor_id: "1", // Replace with actual investor ID
+          loan_id: selectedLoan.loan_id,
+          amount: selectedLoan.amount,
+        }),
       });
 
       const result = await response.json();
@@ -59,34 +65,25 @@ const InvestmentOpportunities = () => {
         throw new Error(result.message || "Failed to confirm investment");
       }
       showToast("success", "Investment confirmed successfully");
+      closeModals();
     } catch (err) {
       console.error("Error confirming investment:", err);
       showToast("error", err.message);
     }
   };
 
-  const applyFilters = () => {
-    showToast("info", "Filters applied successfully");
-    let filtered = loans.filter(
-      (loan) =>
-        (filters.amount ? loan.amount <= Number(filters.amount) : true) &&
-        (filters.roi ? loan.roi >= Number(filters.roi) : true) &&
-        (filters.tenure ? loan.tenure >= Number(filters.tenure) : true)
-    );
-    setFilteredLoans(filtered);
-  };
-
-  const clearFilters = () => {
-    setFilters({ amount: "", roi: "", tenure: "" });
-    setFilteredLoans(loans);
-  };
-
   const openLoanDetails = (loan) => {
     setSelectedLoan(loan);
   };
 
-  const closeLoanDetails = () => {
+  const openConfirmModal = (loan) => {
+    setSelectedLoan(loan);
+    setConfirmModal(true);
+  };
+
+  const closeModals = () => {
     setSelectedLoan(null);
+    setConfirmModal(false);
   };
 
   if (loading) {
@@ -103,68 +100,37 @@ const InvestmentOpportunities = () => {
         <h1>Investment Opportunities</h1>
       </div>
       <div className={styles.container}>
-        <div className={styles.filtersContainer}>
-          <input
-            type="number"
-            placeholder="Max Requested Amount"
-            value={filters.amount}
-            onChange={(e) => setFilters({ ...filters, amount: e.target.value })}
-            className={styles.filterInput}
-          />
-          <input
-            type="number"
-            placeholder="Min ROI"
-            value={filters.roi}
-            onChange={(e) => setFilters({ ...filters, roi: e.target.value })}
-            className={styles.filterInput}
-          />
-          <input
-            type="number"
-            placeholder="Min Tenure"
-            value={filters.tenure}
-            onChange={(e) => setFilters({ ...filters, tenure: e.target.value })}
-            className={styles.filterInput}
-          />
-          <div className={styles.btnsContainer}>
-            <IconBtn onClick={applyFilters} icon={<CheckIcon />} />
-            <IconBtn onClick={clearFilters} icon={<CloseIcon />} />
-          </div>
-        </div>
         {filteredLoans.length > 0 ? (
           <div className={styles.tableContainer}>
             <table>
               <thead>
                 <tr>
-                  <th className="py-2 px-4 text-center">SNO</th>
-                  <th className="py-2 px-4 text-center">Borrower Name</th>
-                  <th className="py-2 px-4 text-center">Requested Amount</th>
-                  <th className="py-2 px-4 text-center">ROI</th>
-                  <th className="py-2 px-4 text-center">Tenure</th>
-                  <th className="py-2 px-4 text-center">Status</th>
-                  <th className="py-2 px-4 text-center">Actions</th>
+                  <th>SNO</th>
+                  <th>Borrower Name</th>
+                  <th>Requested Amount</th>
+                  <th>ROI</th>
+                  <th>Tenure</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredLoans.map((loan, index) => (
                   <tr key={index}>
-                    <td className="py-2 px-4 text-center">{index + 1}</td>
-                    <td className="py-2 px-4 text-center">
-                      {loan.borrower_name}
-                    </td>
-                    <td className="py-2 px-4 text-center">{loan.amount}</td>
-                    <td className="py-2 px-4 text-center">{loan.roi}</td>
-                    <td className="py-2 px-4 text-center">{loan.tenure}</td>
-                    <td className="py-2 px-4 text-center">{loan.status}</td>
-                    <td className="py-2 px-4 text-center">
+                    <td>{index + 1}</td>
+                    <td>{loan.borrower_name}</td>
+                    <td>{loan.amount}</td>
+                    <td>{loan.roi}</td>
+                    <td>{loan.tenure}</td>
+                    <td>{loan.status}</td>
+                    <td>
                       <div className={styles.actions}>
                         <IconBtn
                           onClick={() => openLoanDetails(loan)}
                           icon={<Infoicon />}
                         />
                         <Button
-                          onClick={() =>
-                            confirmInvestment(loan.loan_id, loan.amount)
-                          }
+                          onClick={() => openConfirmModal(loan)}
                           text="Invest"
                         />
                       </div>
@@ -179,10 +145,13 @@ const InvestmentOpportunities = () => {
         )}
       </div>
 
-      {selectedLoan && (
+      {selectedLoan && !confirmModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h2>Loan Details #{selectedLoan.loan_id}</h2>
+            <h2>Loan Details</h2>
+            <p>
+              <strong>Loan ID:</strong> {selectedLoan.loan_id}
+            </p>
             <p>
               <strong>Borrower Name:</strong> {selectedLoan.borrower_name}
             </p>
@@ -198,7 +167,37 @@ const InvestmentOpportunities = () => {
             <p>
               <strong>Status:</strong> {selectedLoan.status}
             </p>
-            <Button onClick={closeLoanDetails} text="Close" />
+            <div className={styles.modalActions}>
+              <Button
+                onClick={() => openConfirmModal(selectedLoan)}
+                text="Invest"
+              />
+              <Button onClick={closeModals} text="Close" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {confirmModal && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <h2>Confirm Investment</h2>
+            <p>
+              <strong>Loan ID:</strong> {selectedLoan.loan_id}
+            </p>
+            <p>
+              <strong>Amount:</strong> {selectedLoan.amount}
+            </p>
+            <p>
+              <strong>ROI:</strong> {selectedLoan.roi}
+            </p>
+            <p>
+              <strong>Tenure:</strong> {selectedLoan.tenure}
+            </p>
+            <div className={styles.modalActions}>
+              <Button onClick={confirmInvestment} text="Confirm" />
+              <Button onClick={closeModals} text="Cancel" />
+            </div>
           </div>
         </div>
       )}
