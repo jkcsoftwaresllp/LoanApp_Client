@@ -53,9 +53,7 @@ const NotificationSettings = () => {
 
   return (
     <>
-      <div className={styles.header}>
-        <h1>Notification Settings</h1>
-      </div>
+      <h2 className={styles.title}>Investment Oppurtunity</h2>
       <div className={styles.container}>
         <h2 className={styles.h2}>Contact Information</h2>
         <p className={styles.p}>
