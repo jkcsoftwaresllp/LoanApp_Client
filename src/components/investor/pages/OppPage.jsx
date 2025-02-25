@@ -14,6 +14,7 @@ const InvestmentOpportunities = () => {
   const [confirmModal, setConfirmModal] = useState(false);
   const [filters, setFilters] = useState({ amount: "", roi: "", tenure: "" });
   const [filteredLoans, setFilteredLoans] = useState([]);
+  const [loadingLoans, setLoadingLoans] = useState(false);
 
   useEffect(() => {
     const fetchLoans = async () => {
@@ -64,8 +65,13 @@ const InvestmentOpportunities = () => {
       if (!response.ok) {
         throw new Error(result.message || "Failed to confirm investment");
       }
+
       showToast("success", "Investment confirmed successfully");
       closeModals();
+
+      // Show loader while fetching updated data
+      setLoadingLoans(true);
+
       const fetchLoans = async () => {
         try {
           const response = await fetch("http://localhost:5000/api/auth/oppr", {
@@ -87,6 +93,8 @@ const InvestmentOpportunities = () => {
           console.error("Error fetching loans:", err);
           setError(err.message);
           showToast("error", err.message);
+        } finally {
+          setLoadingLoans(false); // Hide loader after data is fetched
         }
       };
 
@@ -181,7 +189,11 @@ const InvestmentOpportunities = () => {
             ) : null}
           </div>
         </div>
-        {filteredLoans.length > 0 ? (
+        {loadingLoans ? (
+          <div className={styles.center}>
+            <Loader /> {/* Show loader when fetching loans */}
+          </div>
+        ) : filteredLoans.length > 0 ? (
           <div className={styles.tableContainer}>
             <table>
               <thead>
