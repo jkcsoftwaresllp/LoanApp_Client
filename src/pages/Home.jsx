@@ -12,7 +12,7 @@ const Home = () => {
   }, []);
 
   const userOptions = [
-    { name: "Apply for Loan", path: "/apply-loan" },
+    { name: "Apply for Loan", path: "/loan" },
     { name: "Dashboard", path: "/dashboard" },
     { name: "Profile", path: "/profile" },
   ];

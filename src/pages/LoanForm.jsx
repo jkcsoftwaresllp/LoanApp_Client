@@ -7,7 +7,6 @@ import { showToast } from "../utils/toastUtils";
 import { Loader } from "../components/common/Loader";
 import { CalendarIcon, Drafticon } from "../components/common/assets";
 import Btn from "../components/common/Btn";
-import Dropdown from "../components/common/Dropdown";
 
 const LoanForm = () => {
   const navigate = useNavigate();
@@ -24,7 +23,6 @@ const LoanForm = () => {
     const accessToken = localStorage.getItem("accessToken");
 
     if (!accessToken) {
-      setError("Access token not found. Please log in.");
       showToast("error", "Access token not found. Please log in.");
       navigate("/login");
       return;
@@ -32,14 +30,12 @@ const LoanForm = () => {
 
     const parsedAmount = parseFloat(amount);
     if (isNaN(parsedAmount) || parsedAmount <= 0) {
-      setError("Please enter a valid loan amount.");
       showToast("error", "Please enter a valid loan amount.");
       return;
     }
 
     const parsedInterestRate = parseFloat(interestRate);
     if (isNaN(parsedInterestRate) || parsedInterestRate <= 0) {
-      setError("Please enter a valid interest rate.");
       showToast("error", "Please enter a valid interest rate.");
       return;
     }
@@ -70,14 +66,10 @@ const LoanForm = () => {
       setError(err.message);
     }
   };
-  const getIcon = () => {
-    return <Drafticon />;
-  };
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Loan Form</h2>
-
       {error && <div className={styles.error}>{error}</div>}
 
       {loading ? (
@@ -114,11 +106,17 @@ const LoanForm = () => {
           <div className={styles.inputRow}>
             <div className={styles.inputField}>
               <label className={styles.llabel}>Frequency</label>
-              <Dropdown
-                options={frequencyOptions}
-                selectedValue={frequency}
-                onChange={setFrequency} // Updates frequency state on selection
-              />
+              <select
+                value={frequency}
+                onChange={(e) => setFrequency(e.target.value)}
+                className={styles.input}
+              >
+                {frequencyOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className={styles.inputField}>

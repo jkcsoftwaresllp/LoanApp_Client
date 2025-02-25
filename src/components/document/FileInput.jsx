@@ -15,12 +15,11 @@ export const FileInput = ({ file, onFileChange }) => {
 
   const handleClearFile = (e) => {
     e.stopPropagation();
-    console.log("Clear button clicked!");
+
     onFileChange(null);
 
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
-      console.log("Input field reset!");
     }
   };
 

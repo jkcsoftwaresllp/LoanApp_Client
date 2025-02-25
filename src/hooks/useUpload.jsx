@@ -2,24 +2,27 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FileInput } from "../components/document/FileInput";
-import { DocumentTypeSelect } from "../components/document/DocumentTypeSelect";
 import { Button } from "../components/common/Button";
 import styles from "../Styles/PageSlider.module.css";
 import { showToast } from "../utils/toastUtils";
 import { Loader } from "../components/common/Loader";
 
-const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
+const useUpload = ({ apiRoute, buttonText }) => {
   const [file, setFile] = useState(null);
   const [documentType, setDocumentType] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const allowedTypes = ["JPG", "PNG", "PDF"];
+
   const validateFile = (file) => {
-    const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024;
 
     if (!allowedTypes.includes(file.type)) {
-      showToast("error", "Invalid file type. Only JPG, PNG, and PDF are allowed.");
+      showToast(
+        "error",
+        "Invalid file type. Only JPG, PNG, and PDF are allowed."
+      );
       return false;
     }
     if (file.size > maxSize) {
@@ -41,19 +44,18 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); 
+    setErrorMessage("");
 
-    const token = localStorage.getItem("access token"); // Ensure correct token key
-
-    if (!token) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
       showToast("error", "No authentication token found.");
       return;
     }
 
-    if (!file) {
-      showToast("error", "Please choose a file.");
-      return;
-    }
+    // if (!file) {
+    //   showToast("error", "Please choose a file.");
+    //   return;
+    // }
 
     if (!documentType) {
       showToast("error", "Please specify the document type.");
@@ -64,25 +66,17 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
     formData.append("file", file);
     formData.append("type", documentType);
 
-    // Debugging FormData
-    console.log("Uploading to:", `http://localhost:5000/api/${apiRoute}`);
-    console.log("FormData content:");
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]); // Should log "file" and "type"
-    }
-
     try {
       setLoading(true);
       const response = await fetch(`http://localhost:5000/api/${apiRoute}`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`, // Ensure Bearer token is correctly formatted
+          Authorization: `Bearer ${accessToken}`,
         },
         body: formData,
       });
 
       const data = await response.json();
-      console.log("Upload response:", data); // Debugging response
 
       if (response.ok) {
         showToast("success", "File uploaded successfully.");
@@ -92,7 +86,6 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
         setErrorMessage(data.message || "Upload failed. Please try again.");
       }
     } catch (error) {
-      console.error("Error during file upload:", error);
       showToast("error", "Error during file upload. Please try again.");
     } finally {
       setLoading(false);
@@ -100,34 +93,43 @@ const useUpload = ({ apiRoute, documentTypeOptions, buttonText }) => {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div>
-        <h1 className={styles.header}>{buttonText || "Upload Document"}</h1>
+    <div className={styles.container}>
+      <h1 className={styles.header}>{buttonText || "Upload Document"}</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
-          {errorMessage && <div className={styles.errorMsg}>{errorMessage}</div>}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        {errorMessage && <div className={styles.errorMsg}>{errorMessage}</div>}
 
-          <FileInput file={file} onFileChange={handleFileChange} />
+        <FileInput file={file} onFileChange={handleFileChange} />
 
-          <DocumentTypeSelect
+        <div className={styles.inputField}>
+          <label className={styles.llabel}>Choose file type</label>
+          <select
             value={documentType}
             onChange={handleTypeChange}
-            options={documentTypeOptions}
-          />
+            className={styles.input}
+          >
+            {allowedTypes.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          {loading && (
-            <div className="spinner" style={{ textAlign: "center", justifyContent: "center" }}>
-              <div className="spinner-border" role="status">
-                <Loader />
-              </div>
-            </div>
-          )}
-
-          <div className={styles.buttonWrapper}>
-            <Button text={loading ? "Uploading..." : buttonText || "Upload"} type="submit" disabled={loading} />
+        {loading && (
+          <div className={styles.loaderWrapper}>
+            <Loader />
           </div>
-        </form>
-      </div>
+        )}
+
+        <div className={styles.buttonWrapper}>
+          <Button
+            text={loading ? "Uploading..." : buttonText || "Upload"}
+            type="submit"
+            disabled={loading}
+          />
+        </div>
+      </form>
     </div>
   );
 };
