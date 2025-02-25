@@ -20,6 +20,7 @@ h1 {
 .header {
   font-size: var(--font-size-large);
   text-align: center;
+  color: var(--color-text-primary);
 }
 
 .main {
