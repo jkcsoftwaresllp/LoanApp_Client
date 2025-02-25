@@ -1,8 +1,8 @@
 // src/AppContent.js
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
-import { publicRoutes } from "./PublicRoute"; 
-import { privateRoutes } from "./PrivateRoute"; 
+import { publicRoutes } from "./PublicRoute";
+import { privateRoutes } from "./PrivateRoute";
 import NotFound from "../../pages/NotFound";
 
 const AppContent = () => {
@@ -12,7 +12,7 @@ const AppContent = () => {
     <Routes>
       <Route
         path="/"
-        element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />}
+        element={<Navigate to={isAuthenticated ? "/" : "/login"} />}
       />
 
       {publicRoutes}

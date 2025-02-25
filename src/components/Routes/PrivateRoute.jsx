@@ -11,6 +11,8 @@ import LoanList from "../../pages/LoanList";
 import Dashboard from "../../pages/Dashboard";
 import EmiCalculator from "../../pages/EmiCalc";
 
+import Home from "../../pages/Home";
+
 import Layout from "../investor/layout/layout";
 
 import PortfolioDashboard from "../investor/pages/PortfolioDashboard";
@@ -36,6 +38,15 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 
 export const privateRoutes = (
   <>
+    <Route
+      path="/home"
+      element={
+        <PrivateRoute allowedRoles={["investor", "user"]}>
+          <Home />
+        </PrivateRoute>
+      }
+    />
+
     <Route
       path="/profile"
       element={

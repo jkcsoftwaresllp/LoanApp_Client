@@ -23,7 +23,7 @@ export const Header = () => {
   }, []);
 
   const goToHome = () => {
-    navigate("/"); // Redirects to the home page
+    navigate("/home"); // Redirects to the home page
   };
   const goToProfile = () => {
     navigate("/profile"); // Redirects to the profile page

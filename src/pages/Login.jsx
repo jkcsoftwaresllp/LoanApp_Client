@@ -15,7 +15,7 @@ const Login = () => {
     ? "http://localhost:5000/api/investor/login"
     : "http://localhost:5000/api/login";
 
-  const onSuccessRedirect = isInvestor ? "/portfolio" : "/profile";
+  const onSuccessRedirect = isInvestor ? "/portfolio" : "/home";
 
   const { otpGenerated, handleChange, message, inputFields, buttonFields } =
     useOtpHandler({
