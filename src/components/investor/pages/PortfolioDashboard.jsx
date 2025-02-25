@@ -66,10 +66,7 @@ const PortfolioDashboard = () => {
 
   return (
     <>
-      <div className={styles.header}>
-        <h1>Portfolio</h1>
-      </div>
-
+      <h2 className={styles.title}>Portfolio</h2>
       <div className={styles.dashboardContainer}>
         <Card>
           <CardContent>

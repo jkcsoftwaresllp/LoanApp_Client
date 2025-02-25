@@ -5,7 +5,12 @@
   gap: 10px;
   user-select: none;
 }
-
+.title {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 20px;
+  text-align: center;
+}
 @media (min-width: 768px) {
   .dashboardContainer {
     grid-template-columns: repeat(2, 1fr);
@@ -23,10 +28,6 @@
   font-size: var(--font-size-large);
   font-weight: var(--font-weight-bold);
   color: #0f0f0f;
-}
-.header {
-  display: flex;
-  justify-content: center; /* Centers content horizontally */
 }
 
 .cardValue {

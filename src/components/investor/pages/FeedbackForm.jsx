@@ -68,8 +68,10 @@ export default function FeedbackForm() {
 
   return (
     <div className={styles.container}>
+      <h2 className={styles.title}>Feedback Form</h2>
+
       <FeedbackCard className={styles.card}>
-        <h2 className={styles.title}>Got feedback for us?</h2>
+        <h2 className={styles.Ftitle}>Got feedback for us?</h2>
         <p className={styles.subtitle}>
           Your input helps us improve our service.
         </p>

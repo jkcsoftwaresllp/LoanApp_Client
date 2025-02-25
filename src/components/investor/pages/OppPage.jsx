@@ -96,9 +96,7 @@ const InvestmentOpportunities = () => {
 
   return (
     <>
-      <div className={styles.header}>
-        <h1>Investment Opportunities</h1>
-      </div>
+      <h2 className={styles.title}>Investment Oppurtunity</h2>
       <div className={styles.container}>
         {filteredLoans.length > 0 ? (
           <div className={styles.tableContainer}>

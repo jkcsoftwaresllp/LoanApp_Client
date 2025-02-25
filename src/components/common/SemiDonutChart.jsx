@@ -10,6 +10,7 @@ const SemiDonutChart = ({ paid, total }) => {
         className={`${styles["semi-donut-model-2"]} ${styles.margin}`}
         style={{ "--percentage": percentPaid, "--fill": "#01e056" }}
       ></div>
+
       <p className={styles.percentageText}>{percentPaid.toFixed(1)}% Paid</p>
     </div>
   );
