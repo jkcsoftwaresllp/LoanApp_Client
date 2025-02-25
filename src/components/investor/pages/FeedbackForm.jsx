@@ -9,13 +9,13 @@ import { showToast } from "../../../utils/toastUtils";
 const feelings = [
   { emoji: "😢", label: "Very Bad", rating: 1 },
   { emoji: "😔", label: "Bad", rating: 2 },
-  { emoji: "😐", label: "Medium", rating: 3 },
+  { emoji: "😐", label: "Nuetral", rating: 3 },
   { emoji: "🙂", label: "Good", rating: 4 },
   { emoji: "🥰", label: "Very Happy", rating: 5 },
 ];
 
 export default function FeedbackForm() {
-  const [selected, setSelected] = useState(2);
+  const [selected, setSelected] = useState(4);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
