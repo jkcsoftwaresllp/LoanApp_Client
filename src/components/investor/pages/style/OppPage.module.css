@@ -50,7 +50,12 @@
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-
+.btnArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
 .btnsContainer {
   display: flex;
   justify-content: center;

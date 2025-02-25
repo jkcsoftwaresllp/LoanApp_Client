@@ -66,6 +66,31 @@ const InvestmentOpportunities = () => {
       }
       showToast("success", "Investment confirmed successfully");
       closeModals();
+      const fetchLoans = async () => {
+        try {
+          const response = await fetch("http://localhost:5000/api/auth/oppr", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          });
+
+          const result = await response.json();
+          if (!response.ok) {
+            throw new Error(result.message || "Failed to fetch loans");
+          }
+
+          setLoans(result.data || []);
+          setFilteredLoans(result.data || []);
+        } catch (err) {
+          console.error("Error fetching loans:", err);
+          setError(err.message);
+          showToast("error", err.message);
+        }
+      };
+
+      fetchLoans();
     } catch (err) {
       console.error("Error confirming investment:", err);
       showToast("error", err.message);
@@ -86,6 +111,27 @@ const InvestmentOpportunities = () => {
     setConfirmModal(false);
   };
 
+  const applyFilters = () => {
+    setFilteredLoans(
+      loans.filter((loan) => {
+        return (
+          (filters.amount === "" || loan.amount <= Number(filters.amount)) &&
+          (filters.roi === "" || loan.roi >= Number(filters.roi)) &&
+          (filters.tenure === "" || loan.tenure <= Number(filters.tenure))
+        );
+      })
+    );
+  };
+
+  const clearFilters = () => {
+    setFilters({ amount: "", roi: "", tenure: "" });
+    setFilteredLoans(loans);
+  };
+
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
   if (loading) {
     return (
       <div className={styles.center}>
@@ -98,6 +144,43 @@ const InvestmentOpportunities = () => {
     <>
       <h2 className={styles.title}>Investment Oppurtunity</h2>
       <div className={styles.container}>
+        <div className={styles.filtersContainer}>
+          <input
+            type="number"
+            placeholder="Amount"
+            className={styles.filterInput}
+            value={filters.amount}
+            onChange={(e) => handleFilterChange("amount", e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="ROI"
+            className={styles.filterInput}
+            value={filters.roi}
+            onChange={(e) => setFilters({ ...filters, roi: e.target.value })}
+          />
+          <input
+            type="number"
+            placeholder="Tenure"
+            className={styles.filterInput}
+            value={filters.tenure}
+            onChange={(e) => setFilters({ ...filters, tenure: e.target.value })}
+          />
+          <div className={styles.btnArea}>
+            <IconBtn
+              onClick={applyFilters}
+              icon={<CheckIcon />}
+              tooltip="Apply Filters"
+            />
+            {filters.amount || filters.roi || filters.tenure ? (
+              <IconBtn
+                onClick={clearFilters}
+                icon={<CloseIcon />}
+                tooltip="Clear Filters"
+              />
+            ) : null}
+          </div>
+        </div>
         {filteredLoans.length > 0 ? (
           <div className={styles.tableContainer}>
             <table>
