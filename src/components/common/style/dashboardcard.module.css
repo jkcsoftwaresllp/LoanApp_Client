@@ -1,21 +1,11 @@
 .card {
   padding: 1rem;
-  background-color: #fff;
+  background-color: #f3ecfa;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
   width: 300px;
   height: 150px;
-  border-radius: 20px;
-}
-.cardCustom {
-  padding: 1rem;
-  background-color: #fff;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  width: 300px;
-  height: 100%;
-  min-height: 320px;
-  border-radius: 20px;
+  border-radius: var(--border-radius-large);
 }
 
 .main {
@@ -30,6 +20,7 @@
   color: #333;
   font-size: var(--font-size-medium);
   display: flex;
+  font-weight: var(--font-weight-bold);
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -80,4 +71,50 @@
   border-top: 3px solid #0100005d; /* Create a thin, light gray line */
 
   margin-top: 5px; /* Add some spacing above and below the line */
+}
+.cardCustom {
+  padding: 0.4rem;
+  background-color: #f3ecfa;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  width: 610px;
+  height: 150px;
+  border-radius: var(--border-radius-large);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dataCustom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 70px;
+  margin-top: -10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cardCustom {
+    width: 100%;
+    height: auto;
+  }
+
+  .dataCustom {
+    flex-direction: row;
+    gap: 30px;
+    justify-content: space-between;
+  }
+}
+@media (max-width: 639px) {
+  .cardCustom {
+    width: 100%;
+    height: auto;
+  }
+
+  .dataCustom {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

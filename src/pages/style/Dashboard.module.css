@@ -2,21 +2,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  margin: 0 auto;
+  gap: 10px;
   width: 100%;
   user-select: none;
+  position: relative; /* Default position for small screens */
+  padding-top: var(--header-height); /* Prevents overlap with header */
 }
-@media (min-width: 768px) {
+
+@media (min-width: 1068px) {
   .container {
     justify-content: center;
     height: calc(100vh - var(--header-height));
+    position: absolute; /* Apply absolute positioning on large screens */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 0; /* Remove padding since it's centered */
   }
 }
 
 h1 {
   color: var(--color-text-primary);
 }
+
 .header {
   font-size: var(--font-size-large);
   text-align: center;
@@ -24,70 +32,59 @@ h1 {
 }
 
 .main {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  max-width: 1000px;
   padding: 10px;
 }
-.cards {
+
+.leftSection,
+.rightSection {
+  flex: 1;
   display: flex;
-  justify-content: space-around;
-  margin: 2px 0;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-}
+.cardArea,
+.rightSection,
 .btnSection {
   display: flex;
+  flex-direction: row;
   gap: 10px;
-  justify-content: center; /* Centers items horizontally */
-  align-items: center; /* Centers items vertically */
-  flex-wrap: nowrap; /* Ensures items stay in a single row */
-  width: 450px;
-  max-width: 100%; /* Prevents overflow on smaller screens */
-  margin: 0 auto; /* Centers the section */
-  text-align: center; /* Centers inline elements */
+}
+.btnSection {
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media (max-width: 639px) {
+  .cardArea,
+  .rightSection,
   .btnSection {
-    display: flex;
     flex-direction: column;
   }
 }
-
-.cardArea {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-@media (min-width: 768px) {
-  .cardArea {
-    grid-column: span 1;
-  }
-}
-.main {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-@media (min-width: 768px) {
-  .main {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media (min-width: 1024px) {
-  .main {
-    grid-template-columns: repeat(3, 1fr);
+  .rightSection {
+    flex-direction: column;
   }
 }
-
-.container {
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1rem;
+@media (min-width: 768px) and (max-width: 1024px) {
+  .rightSection {
+    flex-direction: row;
+  }
+  .main {
+    flex-direction: column;
+  }
 }
