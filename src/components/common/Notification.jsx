@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NotificationBody from "./notificationBody";
 import styles from "./style/Notification.module.css";
 import { NotificationIcon } from "../common/assets";
-import { CloseIcon } from "../common/assets";
+import { useNavigate } from "react-router-dom";
+import { CloseIcon, NotiSettingicon } from "../common/assets";
 
 const Notification = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isInvestor, setIsInvestor] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userRole = localStorage.getItem("role");
+    setIsInvestor(userRole === "investor");
+  }, []);
 
   const toggleNotification = () => {
     setIsOpen(!isOpen);
   };
 
-  // Dummy data for notifications
+  const goToSettings = () => {
+    navigate("/notification");
+  };
+
   const notifications = [
     {
       title: "Payment Due",
@@ -60,6 +71,11 @@ const Notification = () => {
               />
             ))}
           </div>
+          {isInvestor && (
+            <p className={styles.notificationSettings} onClick={goToSettings}>
+              Notification Settings <NotiSettingicon />
+            </p>
+          )}
         </div>
       )}
     </div>

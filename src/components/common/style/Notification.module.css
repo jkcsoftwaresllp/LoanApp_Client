@@ -60,6 +60,16 @@
   display: none;
 }
 
+.notificationSettings {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  color: #212121;
+  margin-top: 15px;
+  margin-left: auto;
+  justify-content: flex-end;
+}
+
 /* Adjust width at different screen sizes */
 @media (min-width: 1024px) {
   .messagesSection {
