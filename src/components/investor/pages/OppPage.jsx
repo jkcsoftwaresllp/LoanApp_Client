@@ -105,25 +105,27 @@ const InvestmentOpportunities = () => {
             <table>
               <thead>
                 <tr>
-                  <th>SNO</th>
-                  <th>Borrower Name</th>
-                  <th>Requested Amount</th>
-                  <th>ROI</th>
-                  <th>Tenure</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th className="py-2 px-4 text-center">SNO</th>
+                  <th className="py-2 px-4 text-center">Borrower Name</th>
+                  <th className="py-2 px-4 text-center">Requested Amount</th>
+                  <th className="py-2 px-4 text-center">ROI</th>
+                  <th className="py-2 px-4 text-center">Tenure</th>
+                  <th className="py-2 px-4 text-center">Status</th>
+                  <th className="py-2 px-4 text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredLoans.map((loan, index) => (
                   <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{loan.borrower_name}</td>
-                    <td>{loan.amount}</td>
-                    <td>{loan.roi}</td>
-                    <td>{loan.tenure}</td>
-                    <td>{loan.status}</td>
-                    <td>
+                    <td className="py-2 px-4 text-center">{index + 1}</td>
+                    <td className="py-2 px-4 text-center">
+                      {loan.borrower_name}
+                    </td>
+                    <td className="py-2 px-4 text-center">{loan.amount}</td>
+                    <td className="py-2 px-4 text-center">{loan.roi}</td>
+                    <td className="py-2 px-4 text-center">{loan.tenure}</td>
+                    <td className="py-2 px-4 text-center">{loan.status}</td>
+                    <td className="py-2 px-4 text-center">
                       <div className={styles.actions}>
                         <IconBtn
                           onClick={() => openLoanDetails(loan)}
