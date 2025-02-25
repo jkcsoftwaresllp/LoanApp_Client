@@ -14,7 +14,7 @@ const NotificationSettings = () => {
     const fetchNotificationPreferences = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/auth/notifications/preferences",
+          "http://localhost:5000/api/auth/preferences",
           {
             method: "GET",
             headers: {
