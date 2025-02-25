@@ -40,12 +40,7 @@ const MenuBar = () => {
               <DashboardIcon className={styles.svg} />
             </li>
           </label>
-          <input
-            className={styles.radio}
-            name="rad"
-            id="choose3"
-            type="radio"
-          />
+
           <input
             className={styles.radio}
             name="rad"
@@ -57,6 +52,12 @@ const MenuBar = () => {
               <AnalyticIcon className={styles.svg} />
             </li>
           </label>
+          <input
+            className={styles.radio}
+            name="rad"
+            id="choose3"
+            type="radio"
+          />
           <label htmlFor="choose3">
             <li
               className={styles.li}
