@@ -15,6 +15,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  Legend,
   ResponsiveContainer,
 } from "recharts";
 
@@ -43,15 +44,15 @@ const PortfolioDashboard = () => {
     navigate("/make-investment");
   };
 
-  const pieData = portfolio
-    ? [
-        { name: "Active Loans", value: portfolio.active_loans * 10000 },
-        {
-          name: "Remaining Funds",
-          value: portfolio.total_funds - portfolio.active_loans * 10000,
-        },
-      ]
-    : [];
+  // const pieData = portfolio
+  //   ? [
+  //       { name: "Active Loans", value: portfolio.active_loans * 10000 },
+  //       {
+  //         name: "Remaining Funds",
+  //         value: portfolio.total_funds - portfolio.active_loans * 10000,
+  //       },
+  //     ]
+  //   : [];
 
   const COLORS = ["#0088FE", "#00C49F"];
 
@@ -62,6 +63,10 @@ const PortfolioDashboard = () => {
     { month: "Apr", roi: 13 },
     { month: "May", roi: 14 },
     { month: "Jun", roi: 15 },
+  ];
+  const pieData = [
+    { name: "Active Loans", value: 4000 },
+    { name: "Remaining Funds", value: 3000 },
   ];
 
   return (
@@ -108,6 +113,9 @@ const PortfolioDashboard = () => {
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
+                  label={({ name, percent }) =>
+                    `${name} (${(percent * 100).toFixed(1)}%)`
+                  } // Adds label with percentage
                 >
                   {pieData.map((entry, index) => (
                     <Cell
@@ -116,6 +124,12 @@ const PortfolioDashboard = () => {
                     />
                   ))}
                 </Pie>
+                <Tooltip />
+                <Legend
+                  layout="horizontal"
+                  align="center"
+                  verticalAlign="bottom"
+                />
               </PieChart>
             </ResponsiveContainer>
           ) : (

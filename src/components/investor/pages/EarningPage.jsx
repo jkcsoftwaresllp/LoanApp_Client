@@ -211,6 +211,7 @@ export const EarningsRepayment = () => {
         </div>
 
         {/* Donut Chart */}
+        {/* Donut Chart */}
         <div className={styles.chartBox}>
           <h3 className={styles.chartTitle}>Paid vs Pending Payments</h3>
           {donutChartData.length > 0 ? (
@@ -225,6 +226,9 @@ export const EarningsRepayment = () => {
                   fill="#8884d8"
                   paddingAngle={5}
                   dataKey="value"
+                  label={({ name, percent }) =>
+                    `${name} (${(percent * 100).toFixed(1)}%)`
+                  } // Adds label with percentage
                 >
                   {donutChartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index]} />
