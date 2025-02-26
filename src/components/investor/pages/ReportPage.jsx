@@ -1,4 +1,6 @@
 import { useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import {
   LineChart,
   Line,
@@ -11,34 +13,28 @@ import {
   Cell,
   BarChart,
   Bar,
+  Legend,
 } from "recharts";
 import styles from "./style/ReportPage.module.css";
 
 const ReportsAnalytics = () => {
   const [filters, setFilters] = useState({ dateRange: "", riskLevel: "" });
-  const [report, setReport] = useState(null);
-
-  const handleGenerateReport = async () => {
-    // Mock API call to generate report
-    const response = {
-      report_id: "401",
-      download_link: "https://example.com/report.pdf",
-    };
-    setReport(response);
-  };
+  const [filteredData, setFilteredData] = useState(null);
 
   const riskData = [
-    { name: "Low Risk", value: 40 },
-    { name: "Medium Risk", value: 35 },
-    { name: "High Risk", value: 25 },
+    { name: "Low Risk", value: 40, level: "Low" },
+    { name: "Medium Risk", value: 35, level: "Medium" },
+    { name: "High Risk", value: 25, level: "High" },
   ];
   const colors = ["#28a745", "#ffc107", "#dc3545"];
 
   const roiData = [
-    { month: "Jan", roi: 5 },
-    { month: "Feb", roi: 7 },
-    { month: "Mar", roi: 6 },
-    { month: "Apr", roi: 8 },
+    { month: "Jan", roi: 10 },
+    { month: "Feb", roi: 12 },
+    { month: "Mar", roi: 11 },
+    { month: "Apr", roi: 13 },
+    { month: "May", roi: 14 },
+    { month: "Jun", roi: 15 },
   ];
 
   const loanData = [
@@ -47,11 +43,48 @@ const ReportsAnalytics = () => {
     { type: "Mortgage", count: 20 },
   ];
 
+  const handleGenerateReport = () => {
+    let filteredRiskData = riskData;
+    if (filters.riskLevel) {
+      filteredRiskData = riskData.filter((d) => d.level === filters.riskLevel);
+    }
+    setFilteredData(filteredRiskData);
+    generatePDF(filteredRiskData);
+  };
+
+  const generatePDF = (data) => {
+    const doc = new jsPDF();
+    const timestamp = new Date().toISOString().replace(/[-T:.Z]/g, "");
+    const fileName = `Report_${timestamp}.pdf`;
+
+    doc.text("Reports & Analytics", 14, 10);
+
+    const tableData = data.map((item) => [item.name, item.value]);
+    doc.autoTable({ head: [["Risk Level", "Value"]], body: tableData });
+
+    doc.text("Loan Distribution", 14, doc.autoTable.previous.finalY + 10);
+    const loanTableData = loanData.map((item) => [item.type, item.count]);
+    doc.autoTable({
+      head: [["Loan Type", "Count"]],
+      body: loanTableData,
+      startY: doc.autoTable.previous.finalY + 15,
+    });
+
+    doc.text("ROI Trends", 14, doc.autoTable.previous.finalY + 10);
+    const roiTableData = roiData.map((item) => [item.month, item.roi]);
+    doc.autoTable({
+      head: [["Month", "ROI"]],
+      body: roiTableData,
+      startY: doc.autoTable.previous.finalY + 15,
+    });
+
+    doc.save(fileName);
+  };
+
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Reports & Analytics</h2>
 
-      {/* Filters */}
       <div className={styles.filters}>
         <input
           type="date"
@@ -96,16 +129,19 @@ const ReportsAnalytics = () => {
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
-                data={riskData}
+                data={filteredData || riskData}
                 dataKey="value"
                 nameKey="name"
-                outerRadius={80}
+                innerRadius={50}
+                outerRadius={75}
+                label
               >
-                {riskData.map((entry, index) => (
+                {(filteredData || riskData).map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={colors[index]} />
                 ))}
               </Pie>
               <Tooltip />
+              <Legend />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -127,22 +163,6 @@ const ReportsAnalytics = () => {
           </LineChart>
         </ResponsiveContainer>
       </div>
-
-      {/* Export Report */}
-      {report && (
-        <div className={styles.exportSection}>
-          <p>
-            Report Generated:{" "}
-            <a
-              href={report.download_link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Download Report
-            </a>
-          </p>
-        </div>
-      )}
     </div>
   );
 };
