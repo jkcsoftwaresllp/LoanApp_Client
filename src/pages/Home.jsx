@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./style/Home.module.css";
-import HomeImg from "./assets/home.jpg";
+import EmiCard from "../components/common/EmiCard";
 
 const HomePage = () => {
   const [userRole, setUserRole] = useState("");
@@ -11,6 +11,10 @@ const HomePage = () => {
     const role = localStorage.getItem("role");
     setUserRole(role);
   }, []);
+
+  const goToemi = () => {
+    navigate("/emi");
+  };
 
   const userOptions = [
     { name: "Apply for Loan", path: "/loan" },
@@ -60,7 +64,7 @@ const HomePage = () => {
         </div>
       </div>
       {/* Left Side */}
-      <div className={styles.left}>
+      {/* <div className={styles.left}>
         <div className={styles.box}>
           <h2 className={styles.h2}>Instructions</h2>
           <ul className={styles.instructionsList}>
@@ -69,8 +73,7 @@ const HomePage = () => {
             ))}
           </ul>
         </div>
-        <div className={styles.box}></div>
-      </div>
+      </div> */}
     </div>
   );
 };
