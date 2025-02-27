@@ -17,8 +17,9 @@ const HomePage = () => {
   };
 
   const userOptions = [
-    { name: "Apply for Loan", path: "/loan" },
     { name: "Dashboard", path: "/dashboard" },
+    { name: "Apply for Loan", path: "/loan" },
+    { name: "Calculate EMI", path: "/emi" },
     { name: "Profile", path: "/profile" },
   ];
 
