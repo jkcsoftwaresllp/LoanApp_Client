@@ -14,7 +14,7 @@ const NotFound = () => {
         <p className={styles.pA}>
           Oops! The page you're looking for doesn't exist.
         </p>
-        <p className={styles.goHome} onClick={() => navigate("/")}>
+        <p className={styles.goHome} onClick={() => navigate("/home")}>
           Go Back Home
         </p>
       </div>

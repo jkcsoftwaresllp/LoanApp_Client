@@ -16,7 +16,7 @@ const Dashboard = () => {
     pendingApplications: 3,
     financialHistory: {
       totalBorrowed: 15000,
-      repaymentsMade: 7000,
+      repaymentsMade: 13000,
     },
   };
 

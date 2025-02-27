@@ -12,8 +12,8 @@ html {
 :root {
   --header-height: 60px;
   /* Default (Light Mode) Variables */
-  --color-bg-primary: #f3ecfa;
-  --color-bg-secondary: #f3f6fd;
+  --color-bg-primary: #f9f9f9;
+  --color-bg-secondary: #eeeeee;
   --color-bg-tertiary: #e0e0e0;
 
   --color-text-primary: #0f0f0f;
@@ -41,8 +41,8 @@ html {
 
 /* Dark Mode Overrides */
 .dark-mode {
-  --color-bg-primary: #111827;
-  --color-bg-secondary: #1f2937;
+  --color-bg-primary: #060714;
+  --color-bg-secondary: #0c0c1e;
   --color-bg-tertiary: #2a2a2a;
 
   --color-text-primary: #e0e0e0;
