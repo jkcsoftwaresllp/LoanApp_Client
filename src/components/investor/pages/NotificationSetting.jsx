@@ -63,7 +63,7 @@ const NotificationSettings = () => {
           <strong>Mobile:</strong> {contactInfo.mobile || "Not Available"}
         </p>
 
-        <h2>Mandatory Notifications</h2>
+        <h2 className={styles.h2}>Mandatory Notifications</h2>
         {notifications.length > 0 ? (
           <ul className={styles.ul}>
             {notifications.map((notification, index) => (

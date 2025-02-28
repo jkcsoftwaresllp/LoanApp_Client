@@ -48,6 +48,7 @@ export const Header = () => {
       <div className={style.textLoan} onClick={goToHome}>
         Loan
       </div>
+      <LogoutButton />
 
       <div className={style.rightSection}>
         <div className={style.checkboxWrapper}>
