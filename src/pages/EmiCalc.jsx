@@ -32,12 +32,13 @@ ChartJS.register(
   LineElement
 );
 
-const COLORS = ["#4CAF50", "#FF9800"]; // Define colors for PieChart
+const COLORS = ["#4CAF50", "#FF9800"];
 
 const EmiCalculator = () => {
   const [loanAmount, setLoanAmount] = useState(2500000);
   const [interestRate, setInterestRate] = useState(10.5);
   const [loanTenure, setLoanTenure] = useState(20);
+  const [tenureType, setTenureType] = useState("years");
   const [emi, setEmi] = useState(0);
   const [totalInterest, setTotalInterest] = useState(0);
   const [totalPayment, setTotalPayment] = useState(0);
@@ -45,7 +46,10 @@ const EmiCalculator = () => {
   const calculateEMI = () => {
     const principal = parseFloat(loanAmount);
     const rate = parseFloat(interestRate) / 12 / 100;
-    const tenure = parseFloat(loanTenure) * 12;
+    const tenure =
+      tenureType === "years"
+        ? parseFloat(loanTenure) * 12
+        : parseFloat(loanTenure);
 
     if (rate === 0) {
       setEmi((principal / tenure).toFixed(2));
@@ -71,8 +75,28 @@ const EmiCalculator = () => {
     { name: "Total Int.", value: parseFloat(totalInterest) },
   ];
 
+  const generateBarLabels = () => {
+    const labels = [];
+    const today = new Date();
+    for (let i = 0; i < loanTenure; i++) {
+      const newDate = new Date(today);
+      if (tenureType === "years") {
+        newDate.setFullYear(today.getFullYear() + i);
+        labels.push(newDate.getFullYear());
+      } else {
+        newDate.setMonth(today.getMonth() + i);
+        labels.push(
+          `${newDate.toLocaleString("default", {
+            month: "short",
+          })} ${newDate.getFullYear()}`
+        );
+      }
+    }
+    return labels;
+  };
+
   const barData = {
-    labels: Array.from({ length: loanTenure }, (_, i) => 2025 + i),
+    labels: generateBarLabels(),
     datasets: [
       {
         label: "Principal",
@@ -90,7 +114,6 @@ const EmiCalculator = () => {
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
-        {/* Left Side - EMI Calculator */}
         <div className={styles.calculator}>
           <h2 className={styles.title}>EMI Calculator</h2>
           <div className={styles.inputGroup}>
@@ -112,16 +135,38 @@ const EmiCalculator = () => {
             />
           </div>
           <div className={styles.inputGroup}>
-            <label>Loan Tenure (Years)</label>
-            <input
-              type="number"
-              value={loanTenure}
-              onChange={(e) => setLoanTenure(parseFloat(e.target.value) || 0)}
-              className={styles.input}
-            />
-          </div>
-          <Button onClick={calculateEMI} text="Calculate Emi" />
+            <label>Loan Tenure</label>
+            <div className={styles.inputGroupTenure}>
+              <input
+                type="number"
+                value={loanTenure}
+                onChange={(e) => setLoanTenure(parseFloat(e.target.value) || 0)}
+                className={styles.input}
+              />
 
+              <button
+                className={`px-4 py-2 rounded-lg ${
+                  tenureType === "years"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200"
+                }`}
+                onClick={() => setTenureType("years")}
+              >
+                Years
+              </button>
+              <button
+                className={`px-4 py-2 rounded-lg ${
+                  tenureType === "months"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200"
+                }`}
+                onClick={() => setTenureType("months")}
+              >
+                Months
+              </button>
+            </div>
+          </div>
+          <Button onClick={calculateEMI} text="Calculate EMI" />
           <div className={styles.resultContainer}>
             <p>
               <strong>Loan EMI</strong>
@@ -137,8 +182,6 @@ const EmiCalculator = () => {
             </p>
           </div>
         </div>
-
-        {/* Right Side - Charts */}
         <div className={styles.chartsContainer}>
           <div className={styles.chartBox}>
             <h3 className={styles.title}>EMI Payment Schedule</h3>

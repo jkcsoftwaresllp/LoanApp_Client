@@ -17,12 +17,13 @@ const LoanForm = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [frequency, setFrequency] = useState("Yearly");
-  const frequencyOptions = ["Weekly", "Monthly", "Quarterly", "Yearly"];
+  const frequencyOptions = ["weekly", "monthly", "quarterly", "yearly"];
 
   const handleSaveDraft = async () => {
     const accessToken = localStorage.getItem("accessToken");
 
     if (!accessToken) {
+      setError("Access token not found. Please log in.");
       showToast("error", "Access token not found. Please log in.");
       navigate("/login");
       return;
@@ -30,12 +31,14 @@ const LoanForm = () => {
 
     const parsedAmount = parseFloat(amount);
     if (isNaN(parsedAmount) || parsedAmount <= 0) {
+      setError("Please enter a valid loan amount.");
       showToast("error", "Please enter a valid loan amount.");
       return;
     }
 
     const parsedInterestRate = parseFloat(interestRate);
     if (isNaN(parsedInterestRate) || parsedInterestRate <= 0) {
+      setError("Please enter a valid interest rate.");
       showToast("error", "Please enter a valid interest rate.");
       return;
     }
@@ -70,6 +73,7 @@ const LoanForm = () => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Loan Form</h2>
+
       {error && <div className={styles.error}>{error}</div>}
 
       {loading ? (

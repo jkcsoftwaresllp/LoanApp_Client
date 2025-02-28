@@ -36,6 +36,14 @@ label {
 .inputGroup {
   margin-bottom: 15px;
 }
+.inputGroupTenure {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.inputGroupTenure input {
+  width: 50%;
+}
 
 .input {
   width: 100%;
