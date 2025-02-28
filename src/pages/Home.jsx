@@ -2,10 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./style/Home.module.css";
 import EmiCard from "../components/common/EmiCard";
+import { useAuthContext } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 const HomePage = () => {
   const [userRole, setUserRole] = useState("");
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuthContext();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
 
   useEffect(() => {
     const role = localStorage.getItem("role");

@@ -48,7 +48,7 @@ export const Header = () => {
       <div className={style.textLoan} onClick={goToHome}>
         Loan
       </div>
-      {isAuthenticated && <LogoutButton />}
+
       <div className={style.rightSection}>
         <div className={style.checkboxWrapper}>
           <input

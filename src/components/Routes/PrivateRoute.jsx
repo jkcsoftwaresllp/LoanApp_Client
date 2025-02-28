@@ -46,6 +46,14 @@ export const privateRoutes = (
         </PrivateRoute>
       }
     />
+    <Route
+      path="/"
+      element={
+        <PrivateRoute allowedRoles={["investor", "user"]}>
+          <Home />
+        </PrivateRoute>
+      }
+    />
 
     <Route
       path="/profile"
