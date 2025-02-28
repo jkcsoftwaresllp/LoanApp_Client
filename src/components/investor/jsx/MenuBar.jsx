@@ -12,7 +12,7 @@ const MenuBar = () => {
   const navigate = useNavigate();
   return (
     <div id={styles.navbody}>
-      <form action="#">
+      <form action="">
         <ul className={styles.ul}>
           <input
             name="rad"

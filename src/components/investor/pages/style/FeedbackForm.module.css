@@ -30,13 +30,14 @@
 }
 .card {
   width: 90%;
-  max-width: 280px;
+  max-width: 300px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   border-radius: var(--border-radius-medium);
   background-color: #fbfeff;
   color: #0f0f0f;
   padding: clamp(16px, 2.5vw, 24px);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  margin-bottom: 50px;
 }
 
 /* Hover effect for a smooth scale transformation */
