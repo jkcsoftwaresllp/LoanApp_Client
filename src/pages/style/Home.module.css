@@ -58,6 +58,7 @@
   border-radius: var(--border-radius-large);
   gap: 0.5rem;
   transition: all 0.3s ease-in-out;
+  font-weight: var(--font-weight-regular);
 }
 
 /* Medium screens (Tablets) */
@@ -85,7 +86,10 @@
 }
 
 .optionButton:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
+  padding-left: 50px;
+  color: rgb(21, 150, 193);
+  font-weight: var(--font-weight-bold);
 }
 
 .h2 {
