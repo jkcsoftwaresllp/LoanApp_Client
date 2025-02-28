@@ -36,6 +36,10 @@
   border-radius: 5px;
   background-color: #fef2f2;
 }
+p {
+  color: #0f0f0f;
+  padding: 5px;
+}
 
 .toggleButton {
   background-color: #3ad03f;
