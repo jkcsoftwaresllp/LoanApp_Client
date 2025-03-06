@@ -47,7 +47,9 @@ const Loan = () => {
 
   const handleBack = () => {
     if (currentSubStep === 0) {
-      if (currentStep > 0) {
+      if (currentStep === 0) {
+        navigate(-1);
+      } else if (currentStep > 0) {
         setCurrentStep(currentStep - 1);
         setCurrentSubStep(1);
       }
