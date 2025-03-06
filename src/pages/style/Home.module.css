@@ -5,6 +5,11 @@
   width: 100vw;
   padding: 16px;
   gap: 16px;
+  background-color: var(--color-bg-primary);
+  /* background-image: url("../assets/homeWallpaper.webp"); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 @media (min-width: 768px) {
@@ -86,7 +91,7 @@
 }
 
 .optionButton:hover {
-  transform: scale(1.1);
+  transform: scale(1);
   padding-left: 50px;
   color: rgb(21, 150, 193);
   font-weight: var(--font-weight-bold);
