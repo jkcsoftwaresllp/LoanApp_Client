@@ -155,7 +155,7 @@ const Register = () => {
                 <>
                   <div
                     onClick={() => setIsInvestor(!isInvestor)}
-                    className={style.investorButton}
+                    className={style.p}
                   >
                     {isInvestor
                       ? "Switch to User Register"
