@@ -15,7 +15,7 @@
   border-radius: var(--border-radius-large);
   user-select: none;
 
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 .loaderContainer {
   position: fixed;
