@@ -5,6 +5,7 @@ import { UserIcon } from "./assets";
 import Notification from "./Notification";
 import { useAuthContext } from "../../context/AuthContext";
 import LogoutButton from "../../pages/LogoutButton";
+import "./style/RippleEffect.css"; // Add this import
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -31,24 +32,44 @@ export const Header = () => {
 
   // Handle checkbox change to toggle theme
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
+    // Create ripple element
+    const ripple = document.createElement("div");
+    ripple.className = "ripple-effect";
+    ripple.style.backgroundColor = isChecked ? "#f9f9f9" : "#100f1f";
+    document.body.appendChild(ripple);
 
-    // Toggle dark mode class on the body
-    if (!isChecked) {
-      document.body.classList.add("dark-mode");
-      localStorage.setItem("theme", "dark"); // Save the theme to localStorage
-    } else {
-      document.body.classList.remove("dark-mode");
-      localStorage.setItem("theme", "light"); // Save the theme to localStorage
-    }
+    // Position ripple at center
+    const rect = document.body.getBoundingClientRect();
+    ripple.style.left = `${rect.width / 2}px`;
+    ripple.style.top = `${rect.height / 2}px`;
+
+    // Start animation
+    setTimeout(() => {
+      ripple.style.transform = "scale(100)";
+    }, 10);
+
+    // Remove ripple after animation
+    setTimeout(() => {
+      ripple.remove();
+    }, 1000);
+
+    // Toggle theme after slight delay
+    setTimeout(() => {
+      setIsChecked(!isChecked);
+      if (!isChecked) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("theme", "light");
+      }
+    }, 200);
   };
-
   return (
     <header className={style.header}>
       <div className={style.textLoan} onClick={goToHome}>
         Loan
       </div>
-      <LogoutButton />
 
       <div className={style.rightSection}>
         <div className={style.checkboxWrapper}>
