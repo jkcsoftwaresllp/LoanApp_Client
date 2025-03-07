@@ -39,12 +39,15 @@ export const sendOtp = async (
 ) => {
   try {
     const data = await apiRequest("post", apiUrl, { email }, accessToken, null);
-
     showToast("info", "OTP sent to the new email address.");
     setOtpSent(true);
   } catch (error) {
     showToast("error", error.message);
-    console.log(error);
+    if (error.message === "Session expired. Please log in again.") {
+      localStorage.removeItem("accessToken");
+      showToast("error", "Session expired. Please log in again");
+      navigate("/login");
+    }
   }
 };
 

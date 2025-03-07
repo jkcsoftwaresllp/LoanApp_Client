@@ -12,6 +12,7 @@ const useUpload = ({ apiRoute, buttonText }) => {
   const [documentType, setDocumentType] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const validateFile = (file) => {
     const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
@@ -40,6 +41,7 @@ const useUpload = ({ apiRoute, buttonText }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
+    setUploadProgress(0);
     const token = localStorage.getItem("accessToken");
 
     if (!token) {
@@ -48,7 +50,6 @@ const useUpload = ({ apiRoute, buttonText }) => {
     }
 
     if (!file) {
-      showToast("error", "Please choose a file.");
       return;
     }
 
@@ -63,29 +64,41 @@ const useUpload = ({ apiRoute, buttonText }) => {
 
     try {
       setLoading(true);
-      const response = await fetch(
-        `http://localhost:5000/api/auth/${apiRoute}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
+
+      // Use XMLHttpRequest to track upload progress
+      const xhr = new XMLHttpRequest();
+
+      xhr.upload.addEventListener("progress", (event) => {
+        if (event.lengthComputable) {
+          const progress = Math.round((event.loaded / event.total) * 100);
+          setUploadProgress(progress);
         }
-      );
+      });
 
-      const data = await response.json();
+      xhr.open("POST", `http://localhost:5000/api/auth/${apiRoute}`);
+      xhr.setRequestHeader("Authorization", `Bearer ${token}`);
 
-      if (response.ok) {
-        showToast("success", "File uploaded successfully.");
-        setFile(null);
-        setDocumentType("");
-      } else {
-        setErrorMessage(data.message || "Upload failed. Please try again.");
-      }
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          const data = JSON.parse(xhr.responseText);
+          showToast("success", "File uploaded successfully.");
+          setFile(null);
+          setDocumentType("");
+        } else {
+          const data = JSON.parse(xhr.responseText);
+          setErrorMessage(data.message || "Upload failed. Please try again.");
+        }
+        setLoading(false);
+      };
+
+      xhr.onerror = function () {
+        showToast("error", "Error during file upload. Please try again.");
+        setLoading(false);
+      };
+
+      xhr.send(formData);
     } catch (error) {
       showToast("error", "Error during file upload. Please try again.");
-    } finally {
       setLoading(false);
     }
   };
@@ -118,12 +131,24 @@ const useUpload = ({ apiRoute, buttonText }) => {
           </div>
 
           {loading && (
-            <div
-              className="spinner"
-              style={{ textAlign: "center", justifyContent: "center" }}
-            >
-              <div className="spinner-border" role="status">
-                <Loader />
+            <div className="upload-progress-container">
+              <div className="progress" style={{ height: "20px" }}>
+                <div
+                  className="progress-bar"
+                  role="progressbar"
+                  style={{
+                    width: `${uploadProgress}%`,
+                    backgroundColor: "#4CAF50",
+                    height: "100%",
+                    borderRadius: "4px",
+                    transition: "width 0.3s ease",
+                  }}
+                  aria-valuenow={uploadProgress}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  {uploadProgress}%
+                </div>
               </div>
             </div>
           )}

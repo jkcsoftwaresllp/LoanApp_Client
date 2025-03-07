@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   padding: 10px;
+  margin-top: -50px;
 }
 @media (min-width: 768px) {
   .contentWrapper {
@@ -12,7 +13,7 @@
 }
 @media (max-width: 760px) {
   .contentWrapper {
-    padding-top: 100px;
+    padding-top: 60px;
   }
 }
 

@@ -44,15 +44,15 @@ const PortfolioDashboard = () => {
     navigate("/make-investment");
   };
 
-  // const pieData = portfolio
-  //   ? [
-  //       { name: "Active Loans", value: portfolio.active_loans * 10000 },
-  //       {
-  //         name: "Remaining Funds",
-  //         value: portfolio.total_funds - portfolio.active_loans * 10000,
-  //       },
-  //     ]
-  //   : [];
+  const pieData = portfolio
+    ? [
+        { name: "Active Loans", value: portfolio.active_loans * 10000 },
+        {
+          name: "Remaining Funds",
+          value: portfolio.total_funds - portfolio.active_loans * 10000,
+        },
+      ]
+    : [];
 
   const COLORS = ["#0088FE", "#00C49F"];
 
@@ -64,10 +64,10 @@ const PortfolioDashboard = () => {
     { month: "May", roi: 14 },
     { month: "Jun", roi: 15 },
   ];
-  const pieData = [
-    { name: "Active Loans", value: 4000 },
-    { name: "Remaining Funds", value: 3000 },
-  ];
+  // const pieData = [
+  //   { name: "Active Loans", value: 4000 },
+  //   { name: "Remaining Funds", value: 3000 },
+  // ];
 
   return (
     <>
@@ -134,7 +134,7 @@ const PortfolioDashboard = () => {
             </ResponsiveContainer>
           ) : (
             <div className={styles.emptyChartState}>
-              <h3 className="text-black">Please start investing</h3>
+              <h3 className="text-black text-center">Please start investing</h3>
             </div>
           )}
         </div>

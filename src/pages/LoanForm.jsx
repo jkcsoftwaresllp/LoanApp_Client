@@ -17,7 +17,7 @@ const LoanForm = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [frequency, setFrequency] = useState("Yearly");
-  const frequencyOptions = ["weekly", "monthly", "quarterly", "yearly"];
+  const frequencyOptions = ["weekly", "monthly", "yearly"];
 
   const handleSaveDraft = async () => {
     const accessToken = localStorage.getItem("accessToken");

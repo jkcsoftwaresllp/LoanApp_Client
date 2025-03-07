@@ -74,7 +74,7 @@ const UpdateLoanDetails = () => {
           <Loader />
         </div>
       ) : (
-        <div>
+        <div className={styles.body}>
           <div className={styles.inputField}>
             <label className={styles.label}>Amount</label>
             <input

@@ -36,6 +36,9 @@ strong {
   color: black;
   font-size: 1.2rem;
 }
+.body {
+  overflow-x: scroll;
+}
 
 .center {
   display: flex;
@@ -75,6 +78,7 @@ strong {
   background-color: #c8f7dc;
   padding: 15px;
   border-radius: var(--border-radius-medium);
+  overflow-x: scroll;
 }
 .repayDField {
   background-color: #e9e7fd;
