@@ -124,7 +124,7 @@ const LoanForm = () => {
             </div>
 
             <div className={styles.inputField}>
-              <label className={styles.llabel}>Interest Rate</label>
+              <label className={styles.llabel}>Interest %</label>
               <input
                 type="number"
                 value={interestRate}
