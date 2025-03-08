@@ -32,7 +32,17 @@ const LoanListPage = () => {
         );
 
         if (response.data && Array.isArray(response.data)) {
-          setLoans(response.data);
+          // Sort loans by status initially
+          const sortedLoans = response.data.sort((a, b) => {
+            const statusOrder = {
+              approved: 1,
+              pending: 2,
+              draft: 3
+            };
+            return (statusOrder[a.status.toLowerCase()] || 4) - 
+                   (statusOrder[b.status.toLowerCase()] || 4);
+          });
+          setLoans(sortedLoans);
         } else {
           setLoans([]);
         }
@@ -45,6 +55,24 @@ const LoanListPage = () => {
     };
     fetchLoans();
   }, []);
+
+  // Update getFilteredLoans to sort the filtered results
+  const getFilteredLoans = () => {
+    if (sortStatus === 'all') {
+      return loans.sort((a, b) => {
+        const statusOrder = {
+          approved: 1,
+          pending: 2,
+          draft: 3
+        };
+        return (statusOrder[a.status.toLowerCase()] || 4) - 
+               (statusOrder[b.status.toLowerCase()] || 4);
+      });
+    }
+    return loans.filter(loan => 
+      loan.status.toLowerCase() === sortStatus.toLowerCase()
+    );
+  };
 
   // Function to fetch loan details dynamically
   const fetchLoanDetails = async (loanId) => {
