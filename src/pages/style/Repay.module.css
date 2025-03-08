@@ -1,0 +1,65 @@
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+.tableContainer {
+  width: 100%;
+  min-width: none;
+  max-height: 550px;
+  overflow-y: auto;
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-text-primary);
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+td {
+  height: 130px;
+  justify-content: center;
+}
+
+th {
+  background-color: #4caf50;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.payButton {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.btnContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.payButton:hover {
+  background-color: #218838;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+.row {
+  height: 60px;
+  border-bottom: 1px solid #212121;
+}
+
+.row:last-child {
+  border-bottom: none;
+}

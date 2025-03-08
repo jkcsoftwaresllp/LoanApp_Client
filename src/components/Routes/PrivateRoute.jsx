@@ -10,6 +10,8 @@ import UpdateLoanDetails from "../../pages/UpdateLoanDetails";
 import LoanList from "../../pages/LoanList";
 import Dashboard from "../../pages/Dashboard";
 import EmiCalculator from "../../pages/EmiCalc";
+import LoanListPage from "../../pages/LoanListpage";
+import RepaymentSchedule from "../../pages/Repay";
 
 import Home from "../../pages/Home";
 
@@ -51,6 +53,22 @@ export const privateRoutes = (
       element={
         <PrivateRoute allowedRoles={["investor", "user"]}>
           <Home />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/loan-list"
+      element={
+        <PrivateRoute allowedRoles={["investor", "user"]}>
+          <LoanListPage />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/repay"
+      element={
+        <PrivateRoute allowedRoles={["user"]}>
+          <RepaymentSchedule />
         </PrivateRoute>
       }
     />

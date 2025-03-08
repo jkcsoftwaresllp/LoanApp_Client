@@ -7,6 +7,7 @@ import style from "./style/LoginForm.module.css";
 import { Loader } from "../components/common/Loader";
 import backgroundImage from "./assets/loginWallpaper.jpg";
 import { showToast } from "../utils/toastUtils";
+import OtpInput from "./OtpInput";
 
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -106,24 +107,24 @@ const Register = () => {
 
                 {/* Step 2: OTP Verification */}
                 {currentStep === 2 && (
-                  <p className={style.p}>
-                    OTP has been sent to{" "}
-                    {
-                      inputFields.find((field) => field.id === "mobileNumber")
-                        ?.value
-                    }
-                  </p>
+                  <>
+                    <p className={style.p}>
+                      Code sent to{" "}
+                      {
+                        inputFields.find((field) => field.id === "mobileNumber")
+                          ?.value
+                      }
+                    </p>
+                    <OtpInput length={4} onChange={handleChange} />
+                    <div className={style.p}>
+                      Didn't receive code?{" "}
+                      <span className={style.span} onClick={() => {}}>
+                        Request Again
+                      </span>
+                    </div>
+                  </>
                 )}
-                {currentStep === 2 &&
-                  inputFields
-                    .filter((field) => !field.hidden && field.id === "otp")
-                    .map((field) => (
-                      <TextInput
-                        key={field.id}
-                        config={field}
-                        onChange={handleChange}
-                      />
-                    ))}
+
                 <div style={{ display: "flex", gap: "10px" }}>
                   {currentStep === 1 &&
                     buttonFields
