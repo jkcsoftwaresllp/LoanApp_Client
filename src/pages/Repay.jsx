@@ -5,6 +5,7 @@ import { IconBtn } from "../components/common/IconBtn";
 import { Infoicon } from "../components/common/assets";
 import { Loader } from "../components/common/Loader";
 import { showToast } from "../utils/toastUtils";
+import { useNavigate } from "react-router-dom";
 
 const RepaymentSchedule = () => {
   const [loans, setLoans] = useState([]);
@@ -14,6 +15,7 @@ const RepaymentSchedule = () => {
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [selectedRepayment, setSelectedRepayment] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLoans = async () => {
@@ -79,7 +81,7 @@ const RepaymentSchedule = () => {
         {
           due_date: "2024-03-15",
           amount: 4442.44,
-          status: "Pending",
+          status: "Paid",
           loan_id: loanId,
         },
         {
@@ -147,40 +149,51 @@ const RepaymentSchedule = () => {
       <h1 className={styles.title}>Loan Repayments</h1>
 
       {!selectedLoan ? (
-        <div className={styles.tableContainer}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Loan ID</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Tenure (months)</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loans
-                .filter(loan => loan.status === "Approved")
-                .map((loan) => (
-                  <tr key={loan.loan_id}>
-                    <td>{loan.loan_id}</td>
-                    <td>₹{loan.amount}</td>
-                    <td>{loan.status}</td>
-                    <td>{loan.tenure}</td>
-                    <td>
-                      <Button
-                        onClick={() => fetchRepaymentSchedule(loan.loan_id)}
-                        text="View"
-                      />
-                    </td>
-                  </tr>
-              ))}
-            </tbody>
-          </table>
-          {loans.filter(loan => loan.status === "Approved").length === 0 && (
-            <div className={styles.noLoans}>No approved loans found for repayment</div>
-          )}
-        </div>
+        <>
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Loan ID</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Tenure (months)</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {loans
+                  .filter((loan) => loan.status === "Approved")
+                  .map((loan) => (
+                    <tr key={loan.loan_id}>
+                      <td>{loan.loan_id}</td>
+                      <td>₹{loan.amount}</td>
+                      <td>{loan.status}</td>
+                      <td>{loan.tenure}</td>
+                      <td>
+                        <Button
+                          onClick={() => fetchRepaymentSchedule(loan.loan_id)}
+                          text="View"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+
+            {loans.filter((loan) => loan.status === "Approved").length ===
+              0 && (
+              <div className={styles.noLoans}>
+                No approved loans found for repayment
+              </div>
+            )}
+          </div>
+          <Button
+            onClick={() => navigate("/loan-list")}
+            text="View All Loans"
+            className={styles.viewAllButton}
+          />
+        </>
       ) : (
         <>
           <div className={styles.tableContainer}>
