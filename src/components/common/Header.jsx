@@ -32,28 +32,17 @@ export const Header = () => {
 
   // Handle checkbox change to toggle theme
   const handleCheckboxChange = () => {
-    // Create ripple element
-    const ripple = document.createElement("div");
-    ripple.className = "ripple-effect";
-    ripple.style.backgroundColor = isChecked ? "#f9f9f9" : "#100f1f";
-    document.body.appendChild(ripple);
-
-    // Position ripple at center
-    const rect = document.body.getBoundingClientRect();
-    ripple.style.left = `${rect.width / 2}px`;
-    ripple.style.top = `${rect.height / 2}px`;
-
-    // Start animation
-    setTimeout(() => {
-      ripple.style.transform = "scale(100)";
-    }, 10);
-
-    // Remove ripple after animation
-    setTimeout(() => {
-      ripple.remove();
-    }, 1000);
-
-    // Toggle theme after slight delay
+    // Create fade overlay
+    const overlay = document.createElement("div");
+    overlay.className = `fade-overlay ${isChecked ? 'light' : ''}`;
+    document.body.appendChild(overlay);
+    // Add transition class
+    document.body.classList.add("theme-transition");
+    // Start fade in
+    requestAnimationFrame(() => {
+      overlay.style.opacity = '1';
+    });
+    // Toggle theme
     setTimeout(() => {
       setIsChecked(!isChecked);
       if (!isChecked) {
@@ -63,7 +52,16 @@ export const Header = () => {
         document.body.classList.remove("dark-mode");
         localStorage.setItem("theme", "light");
       }
-    }, 200);
+      
+      // Start fade out
+      overlay.style.opacity = '0';
+      
+      // Cleanup
+      setTimeout(() => {
+        overlay.remove();
+        document.body.classList.remove("theme-transition");
+      }, 500);
+    }, 250);
   };
   return (
     <header className={style.header}>

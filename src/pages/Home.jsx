@@ -25,7 +25,7 @@ const HomePage = () => {
   const userOptions = [
     { name: "Dashboard", path: "/dashboard" },
     { name: "Apply for Loan", path: "/loan" },
-    { name: "Loans Lists", path: "/loan-list" },
+    { name: "Repayments", path: "/repay" },
     { name: "Calculate EMI", path: "/emi" },
     { name: "Profile", path: "/profile" },
   ];

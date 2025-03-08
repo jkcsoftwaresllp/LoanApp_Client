@@ -82,6 +82,14 @@ export const privateRoutes = (
       }
     />
     <Route
+      path="/notification"
+      element={
+        <PrivateRoute allowedRoles={["investor", "user"]}>
+          <NotificationSettings />
+        </PrivateRoute>
+      }
+    />
+    <Route
       path="/dashboard"
       element={
         <PrivateRoute allowedRoles={["investor", "user"]}>
@@ -136,14 +144,6 @@ export const privateRoutes = (
         element={
           <PrivateRoute allowedRoles={["investor"]}>
             <FeedbackForm />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="notification"
-        element={
-          <PrivateRoute allowedRoles={["investor"]}>
-            <NotificationSettings />
           </PrivateRoute>
         }
       />

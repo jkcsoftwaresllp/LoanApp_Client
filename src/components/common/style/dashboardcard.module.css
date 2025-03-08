@@ -34,7 +34,7 @@
 
 .value {
   color: #333;
-  font-size: 5.25rem;
+  font-size: 6rem;
   line-height: 2.5rem;
   font-weight: 700;
   text-align: center;
@@ -42,7 +42,7 @@
 }
 .valueCustom {
   color: #333;
-  font-size: 3.5rem;
+  font-size: 3rem;
   overflow: hidden;
   font-weight: 700;
   text-align: center;
