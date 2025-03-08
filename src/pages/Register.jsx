@@ -68,14 +68,7 @@ const Register = () => {
 
   return (
     <>
-      <div
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          height: `calc(100vh - ${headerHeight}px)`,
-          width: "100vw",
-        }}
-      >
+      <div className={style.container}>
         {loading ? (
           <div className={style.loaderContainer}>
             <Loader />

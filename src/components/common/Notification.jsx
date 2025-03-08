@@ -21,39 +21,52 @@ const Notification = () => {
   const fetchNotifications = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-
+  
       if (!accessToken) {
         console.error("No access token found");
         return;
       }
-
-      const response = await fetch("http://localhost:5000/api/loancount", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
+  
+      const response = await fetch(
+        "http://localhost:5000/api/auth/repayment-notification",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+  
       const data = await response.json();
-
-      if (response.ok && data.notifications) {
-        // Convert notifications to expected format
-        const formattedNotifications = data.notifications.map((notif) => ({
-          title: "Notification",
-          message: notif,
-          time: new Date().toLocaleDateString(), // Using current date as a placeholder
+  
+      if (response.ok && data.repayments && Array.isArray(data.repayments)) {
+        // Convert repayment data to notifications format
+        const formattedNotifications = data.repayments.map((repayment) => ({
+          title: repayment.status,
+          message: `Loan ID: ${repayment.loan_id} - Payment of ₹${repayment.amount} due on ${repayment.due_date}`,
+          time: repayment.due_date,
+          type: repayment.status === "Overdue" ? "error" : "warning"
         }));
-
+  
         setNotifications(formattedNotifications);
+      } else if (response.ok && data.message) {
+        // Handle case when no repayments are found
+        setNotifications([{
+          title: "No Pending Payments",
+          message: data.message,
+          time: new Date().toLocaleDateString(),
+          type: "info"
+        }]);
       } else {
         console.error("Failed to fetch notifications:", data.message);
+        setNotifications([]);
       }
     } catch (error) {
       console.error("Error fetching notifications:", error);
+      setNotifications([]);
     }
   };
-
   const toggleNotification = () => {
     setIsOpen(!isOpen);
   };

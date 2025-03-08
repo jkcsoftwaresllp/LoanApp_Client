@@ -27,7 +27,7 @@ const RepaymentSchedule = () => {
         }
 
         const response = await fetch(
-          "http://localhost:5000/api/auth/getAllLoansForUser",
+          "http://localhost:5000/api/auth/repayment-schedule",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -68,82 +68,47 @@ const RepaymentSchedule = () => {
     fetchLoans();
   }, []);
 
-  const fetchRepaymentSchedule = (loanId) => {
+  const fetchRepaymentSchedule = async (loanId) => {
     setLoading(true);
-    setTimeout(() => {
-      const fakeSchedule = [
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const response = await fetch(
+        "http://localhost:5000/api/auth/repayment-schedule",
         {
-          due_date: "2024-02-15",
-          amount: 4442.44,
-          status: "Paid",
-          loan_id: loanId,
-        },
-        {
-          due_date: "2024-03-15",
-          amount: 4442.44,
-          status: "Paid",
-          loan_id: loanId,
-        },
-        {
-          due_date: "2024-04-15",
-          amount: 4442.44,
-          status: "Pending",
-          loan_id: loanId,
-        },
-        {
-          due_date: "2024-05-15",
-          amount: 4442.44,
-          status: "Pending",
-          loan_id: loanId,
-        },
-        {
-          due_date: "2024-06-15",
-          amount: 4442.44,
-          status: "Pending",
-          loan_id: loanId,
-        },
-        {
-          due_date: "2024-07-15",
-          amount: 4442.44,
-          status: "Pending",
-          loan_id: loanId,
-        },
-      ];
-      setSchedule(fakeSchedule);
-      setSelectedLoan(loanId);
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.status === "success") {
+        // Find the specific loan's repayment schedule
+        const loanSchedule = data.data.find((loan) => loan.loan_id === loanId);
+
+        if (loanSchedule) {
+          setSchedule(loanSchedule.repayment_schedule);
+          setSelectedLoan(loanId);
+        } else {
+          showToast("error", "No repayment schedule found for this loan");
+        }
+      } else {
+        showToast(
+          "error",
+          data.message || "Failed to fetch repayment schedule"
+        );
+      }
+    } catch (err) {
+      console.error("Error fetching repayment schedule:", err);
+      showToast("error", "Failed to fetch repayment schedule");
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
-  // Show repayment details in modal
-  const showRepaymentDetails = (repayment) => {
-    setSelectedRepayment(repayment);
-    setModalOpen(true);
-  };
-
-  // Handle payment
-  const handlePayment = async (repaymentId) => {
-    alert(`Processing payment for repayment ID: ${repaymentId}`);
-  };
-
-  // Close modal
-  const closeModal = () => {
-    setSelectedRepayment(null);
-    setModalOpen(false);
-  };
-
-  if (loading) {
-    return (
-      <div className={styles.center}>
-        <Loader />
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div className={styles.error}>{error}</div>;
-  }
-
+  // Update the table rendering to match the API data structure
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Loan Repayments</h1>
@@ -154,30 +119,28 @@ const RepaymentSchedule = () => {
             <table className={styles.table}>
               <thead>
                 <tr>
+                  <th>S.No</th>
                   <th>Loan ID</th>
                   <th>Amount</th>
                   <th>Status</th>
-                  <th>Tenure (months)</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {loans
-                  .filter((loan) => loan.status === "Approved")
-                  .map((loan) => (
-                    <tr key={loan.loan_id}>
-                      <td>{loan.loan_id}</td>
-                      <td>₹{loan.amount}</td>
-                      <td>{loan.status}</td>
-                      <td>{loan.tenure}</td>
-                      <td>
-                        <Button
-                          onClick={() => fetchRepaymentSchedule(loan.loan_id)}
-                          text="View"
-                        />
-                      </td>
-                    </tr>
-                  ))}
+                {loans.map((loan, index) => (
+                  <tr key={loan.loan_id}>
+                    <td>{index + 1}</td>
+                    <td>{loan.loan_id}</td>
+                    <td>₹{loan.amount}</td>
+                    <td>{loan.status}</td>
+                    <td>
+                      <Button
+                        onClick={() => fetchRepaymentSchedule(loan.loan_id)}
+                        text="View"
+                      />
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
 
@@ -200,6 +163,7 @@ const RepaymentSchedule = () => {
             <table className={styles.table}>
               <thead>
                 <tr>
+                  <th>S.No</th>
                   <th>Due Date</th>
                   <th>EMI Amount</th>
                   <th>Status</th>
@@ -207,16 +171,17 @@ const RepaymentSchedule = () => {
                 </tr>
               </thead>
               <tbody>
-                {schedule.map((repayment) => (
-                  <tr key={repayment.due_date}>
-                    <td>{repayment.due_date}</td>
-                    <td>{repayment.amount}</td>
+                {schedule.map((repayment, index) => (
+                  <tr key={`${selectedLoan}-${index}`}>
+                    <td>{index + 1}</td>
+                    <td>{repayment.date}</td>
+                    <td>₹{repayment.amount}</td>
                     <td>{repayment.status}</td>
                     <td className={styles.btnContainer}>
                       {repayment.status === "Pending" && (
                         <>
                           <Button
-                            onClick={() => handlePayment(repayment.due_date)}
+                            onClick={() => handlePayment(repayment.date)}
                             text="Pay"
                           />
                           <IconBtn

@@ -156,6 +156,7 @@ export const EarningsRepayment = () => {
         <table className={styles.table}>
           <thead>
             <tr>
+              <th className="py-2 px-4 text-center">S.No</th>
               <th className="py-2 px-4 text-center">Loan ID</th>
               <th className="py-2 px-4 text-center">EMI Date</th>
               <th className="py-2 px-4 text-center">Amount</th>
@@ -165,6 +166,7 @@ export const EarningsRepayment = () => {
           <tbody>
             {earnings.map((earning, index) => (
               <tr key={index}>
+                <td className="py-2 px-4 text-center">{index + 1}</td>
                 <td className="py-2 px-4 text-center">{earning.loan_id}</td>
                 <td className="py-2 px-4 text-center">{earning.due_date}</td>
                 <td className="py-2 px-4 text-center">${earning.amount}</td>
