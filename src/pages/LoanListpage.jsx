@@ -136,7 +136,7 @@ const LoanListPage = () => {
                     <td className="py-2 px-4 text-left">{loan.loan_id}</td>
                     <td className="py-2 px-4 text-left">{loan.status}</td>
                     <td className="py-2 px-4 text-left">
-                      {loan.total_repayment}
+                      {Number(loan.total_repayment).toFixed(2)}
                     </td>
                     <td className="py-2 px-4">
                       <IconBtn

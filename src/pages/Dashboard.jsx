@@ -97,9 +97,9 @@ const Dashboard = () => {
               <CustomDashboardCard
                 title="Financial History"
                 valueTitle="Total Borrowed"
-                value={`${dashboardData.financial_history.totalamount}`}
+                value={`${Number(dashboardData.financial_history.totalamount).toFixed(2)}`}
                 valueTitle2="Repayments Made"
-                value2={`${dashboardData.financial_history.total_repaid}`}
+                value2={`${Number(dashboardData.financial_history.total_repaid).toFixed(2)}`}
                 desc="Your financial history."
               />
             </div>

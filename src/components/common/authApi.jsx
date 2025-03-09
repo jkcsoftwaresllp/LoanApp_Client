@@ -19,7 +19,8 @@ const apiRequest = async (method, url, payload, accessToken, setLoading) => {
       },
     });
 
-    if (response.data.status !== "success") {
+    // Check if the response is successful
+    if (response.status !== 200) {
       showToast("error", "Request failed.");
       throw new Error(response.data.message || "Request failed.");
     }
@@ -27,7 +28,7 @@ const apiRequest = async (method, url, payload, accessToken, setLoading) => {
     return response.data;
   } catch (error) {
     console.error("API request error:", error.response?.data || error.message);
-    showToast("error", "Something went wrong. Please try again.");
+    showToast("error", error.response?.data?.message || "Something went wrong. Please try again.");
     throw new Error(
       error.response?.data?.message || "Something went wrong. Please try again."
     );

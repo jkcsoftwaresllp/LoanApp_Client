@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./style/FAQ.module.css";
-
 import { Loader } from "../components/common/Loader";
+import apiRequest from "../components/common/authApi";
+import { showToast } from "../utils/toastUtils";
 
 const FAQ = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,49 +19,46 @@ const FAQ = () => {
     "General",
   ];
 
+  const [error, setError] = useState("");
+
   useEffect(() => {
-    // Simulate API call with mock data
-    setTimeout(() => {
-      const mockFaqs = [
-        {
-          id: 1,
-          category: "Loan Application",
-          question: "How do I apply for a loan?",
-          answer:
-            'To apply for a loan, log into your account, click on "Apply for Loan" button on the dashboard, fill in the required information, and submit your application with necessary documents.',
-        },
-        {
-          id: 2,
-          category: "Payments",
-          question: "How can I pay my EMI?",
-          answer:
-            "You can pay your EMI through various methods including net banking, UPI, or auto-debit facility. Visit the Repayment section for more details.",
-        },
-        {
-          id: 3,
-          category: "Account",
-          question: "How do I update my profile information?",
-          answer:
-            "Go to Profile Settings in your dashboard, click on Edit Profile, make the necessary changes, and click Save to update your information.",
-        },
-        {
-          id: 4,
-          category: "General",
-          question: "What documents are required for loan application?",
-          answer:
-            "Generally required documents include ID proof, address proof, income proof, and bank statements for the last 3 months.",
-        },
-        {
-          id: 5,
-          category: "Loan Application",
-          question: "What is the maximum loan amount?",
-          answer:
-            "The maximum loan amount depends on your income, credit score, and other eligibility factors. Login to check your personalized offer.",
-        },
-      ];
-      setFaqs(mockFaqs);
-      setLoading(false);
-    }, 1000);
+    const fetchFAQs = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        console.log("🛠 Access Token:", accessToken);
+
+        if (!accessToken) {
+          showToast("error", "Please log in.");
+          throw new Error("Access token is missing.");
+        }
+
+        const response = await apiRequest(
+          "GET",
+          "http://localhost:5000/api/auth/faq/list",
+          null,
+          accessToken,
+          setLoading
+        );
+
+        console.log("✅ API Response:", response);
+
+        // Extract the "faqs" array properly
+        if (response && Array.isArray(response.faqs)) {
+          setFaqs(response.faqs);
+        } else {
+          throw new Error("Invalid API response format.");
+        }
+      } catch (err) {
+        console.error("❌ API Error:", err.message || err);
+        setError("Failed to fetch FAQs. Please try again.");
+        showToast("error", "Failed to fetch FAQs.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFAQs();
   }, []);
 
   const filteredFaqs = faqs.filter((faq) => {
@@ -116,30 +114,23 @@ const FAQ = () => {
       <div className={styles.faqList}>
         {filteredFaqs.length > 0 ? (
           filteredFaqs.map((faq) => (
-            <div key={faq.id} className={styles.faqItem}>
+            <div key={faq.faq_id} className={styles.faqItem}>
               <div
                 className={styles.question}
-                onClick={() => toggleQuestion(faq.id)}
+                onClick={() => toggleQuestion(faq.faq_id)}
               >
                 <h3>{faq.question}</h3>
                 <span
                   className={`${styles.arrow} ${
-                    expandedId === faq.id ? styles.expanded : ""
+                    expandedId === faq.faq_id ? styles.expanded : ""
                   }`}
                 >
                   ▼
                 </span>
               </div>
-              {expandedId === faq.id && (
+              {expandedId === faq.faq_id && (
                 <div className={styles.answer}>
                   <p>{faq.answer}</p>
-                  <div className={styles.feedback}>
-                    <span>Was this helpful?</span>
-                    <button onClick={() => console.log("Helpful")}>👍</button>
-                    <button onClick={() => console.log("Not Helpful")}>
-                      👎
-                    </button>
-                  </div>
                 </div>
               )}
             </div>

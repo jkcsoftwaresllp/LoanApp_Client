@@ -77,7 +77,7 @@ const LoanList = () => {
                 <tr key={loan.loan_id} className={styles.row}>
                   <td className="py-2 px-4">{loan.loan_id}</td>
                   <td className="py-2 px-4">{loan.status}</td>
-                  <td className="py-2 px-4">{loan.total_repayment}</td>
+                  <td className="py-2 px-4">{Number(loan.total_repayment).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

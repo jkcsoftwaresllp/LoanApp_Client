@@ -107,6 +107,15 @@ const RepaymentSchedule = () => {
       setLoading(false);
     }
   };
+  const showRepaymentDetails = (repayment) => {
+    setSelectedRepayment(repayment);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedRepayment(null);
+  };
 
   // Update the table rendering to match the API data structure
   return (
@@ -119,21 +128,19 @@ const RepaymentSchedule = () => {
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>S.No</th>
-                  <th>Loan ID</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Action</th>
+                  <th className="py-2 px-4 text-center">S.No</th>
+                  <th className="py-2 px-4 text-center">Loan ID</th>
+
+                  <th className="py-2 px-4 text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {loans.map((loan, index) => (
                   <tr key={loan.loan_id}>
-                    <td>{index + 1}</td>
-                    <td>{loan.loan_id}</td>
-                    <td>₹{loan.amount}</td>
-                    <td>{loan.status}</td>
-                    <td>
+                    <td className="py-2 px-4 text-center">{index + 1}</td>
+                    <td className="py-2 px-4 text-center">{loan.loan_id}</td>
+
+                    <td className="py-2 px-4 text-left">
                       <Button
                         onClick={() => fetchRepaymentSchedule(loan.loan_id)}
                         text="View"
@@ -143,13 +150,6 @@ const RepaymentSchedule = () => {
                 ))}
               </tbody>
             </table>
-
-            {loans.filter((loan) => loan.status === "Approved").length ===
-              0 && (
-              <div className={styles.noLoans}>
-                No approved loans found for repayment
-              </div>
-            )}
           </div>
           <Button
             onClick={() => navigate("/loan-list")}
@@ -163,20 +163,24 @@ const RepaymentSchedule = () => {
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>S.No</th>
-                  <th>Due Date</th>
-                  <th>EMI Amount</th>
-                  <th>Status</th>
-                  <th>Action</th>
+                  <th className="py-2 px-4 text-center">S.No</th>
+                  <th className="py-2 px-4 text-center">Due Date</th>
+                  <th className="py-2 px-4 text-center">EMI Amount</th>
+                  <th className="py-2 px-4 text-center">Status</th>
+                  <th className="py-2 px-4 text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {schedule.map((repayment, index) => (
                   <tr key={`${selectedLoan}-${index}`}>
-                    <td>{index + 1}</td>
-                    <td>{repayment.date}</td>
-                    <td>₹{repayment.amount}</td>
-                    <td>{repayment.status}</td>
+                    <td className="py-2 px-4 text-center">{index + 1}</td>
+                    <td className="py-2 px-4 text-center">{repayment.date}</td>
+                    <td className="py-2 px-4 text-center">
+                      ₹{repayment.amount}
+                    </td>
+                    <td className="py-2 px-4 text-center">
+                      {repayment.status}
+                    </td>
                     <td className={styles.btnContainer}>
                       {repayment.status === "Pending" && (
                         <>
@@ -210,7 +214,7 @@ const RepaymentSchedule = () => {
           <div className={styles.modalContent}>
             <h2>Repayment Details</h2>
             <p>
-              <strong>Due Date:</strong> {selectedRepayment.due_date}
+              <strong>Due Date:</strong> {selectedRepayment.date}
             </p>
             <p>
               <strong>Amount:</strong> {selectedRepayment.amount}
