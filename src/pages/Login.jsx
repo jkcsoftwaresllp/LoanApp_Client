@@ -76,16 +76,23 @@ const Login = () => {
                 {currentStep === 2 && (
                   <>
                     <p className={style.p}>
-                      Code sent to{" "}
-                      {
-                        inputFields.find((field) => field.id === "mobileNumber")
-                          ?.value
-                      }
+                      Code sent to {inputFields.find((field) => field.id === "mobileNumber")?.value}
                     </p>
                     <OtpInput length={4} onChange={handleChange} />
                     <div className={style.p}>
                       Didn't receive code?{" "}
-                      <span className={style.span} onClick={() => {}}>
+                      <span 
+                        className={style.span} 
+                        onClick={(e) => {
+                          // Find and execute the generateOtp button's onClick handler
+                          const generateOtpButton = buttonFields.find(
+                            button => !button.hidden && button.id === "generateOtp"
+                          );
+                          if (generateOtpButton) {
+                            generateOtpButton.onClick(e);
+                          }
+                        }}
+                      >
                         Request Again
                       </span>
                     </div>

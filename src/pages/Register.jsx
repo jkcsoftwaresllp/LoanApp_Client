@@ -38,8 +38,7 @@ const Register = () => {
     ? "http://localhost:5000/api/investor/register"
     : "http://localhost:5000/api/register";
 
-  const onSuccessRedirect = isInvestor ? "/investor-dashboard" : "/profile";
-
+  const onSuccessRedirect = "/home";
   const {
     otpGenerated,
     handleChange,
@@ -111,7 +110,22 @@ const Register = () => {
                     <OtpInput length={4} onChange={handleChange} />
                     <div className={style.p}>
                       Didn't receive code?{" "}
-                      <span className={style.span} onClick={() => {}}>
+                      <span
+                        className={style.span}
+                        onClick={(e) => {
+                          if (!validateEmail(formData.email)) {
+                            showToast("error", "The email format is incorrect");
+                            return;
+                          }
+                          const generateOtpButton = buttonFields.find(
+                            (button) =>
+                              !button.hidden && button.id === "generateOtp"
+                          );
+                          if (generateOtpButton) {
+                            generateOtpButton.onClick(e);
+                          }
+                        }}
+                      >
                         Request Again
                       </span>
                     </div>

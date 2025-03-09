@@ -152,27 +152,32 @@ const Profile = () => {
           <Loader />
         </div>
       ) : !isEditing ? (
-        <div className={styles.profileCard}>
-          <div className={styles.logoutButton}>
-            <LogoutButton />
-          </div>
-          <div className={styles.profileHeader}>
-            <div className={styles.cardImage}> {getInitials(profile.name)}</div>
-          </div>
-          <h2 className={styles.profileName}>{profile.name || "N/A"}</h2>
-          <p className={styles.profileemail}>{profile.email || "N/A"}</p>
-          <p className={styles.profileLocation}>{profile.address || "N/A"}</p>
+        <>
+          <div className={styles.profileCard}>
+            <div className={styles.logoutButton}>
+              <LogoutButton />
+            </div>
+            <div className={styles.profileHeader}>
+              <div className={styles.cardImage}>
+                {" "}
+                {getInitials(profile.name)}
+              </div>
+            </div>
+            <h2 className={styles.profileName}>{profile.name || "N/A"}</h2>
+            <p className={styles.profileemail}>{profile.email || "N/A"}</p>
+            <p className={styles.profileLocation}>{profile.address || "N/A"}</p>
 
-          <div className={styles.buttonContainer}>
-            <Button
-              text="Edit Profile"
-              onClick={() => {
-                setUpdatedProfile({ ...profile });
-                setIsEditing(true);
-              }}
-            />
+            <div className={styles.buttonContainer}>
+              <Button
+                text="Edit Profile"
+                onClick={() => {
+                  setUpdatedProfile({ ...profile });
+                  setIsEditing(true);
+                }}
+              />
+            </div>
           </div>
-        </div>
+        </>
       ) : (
         <form onSubmit={handleUpdateProfile} className={styles.updatedForm}>
           {steps.map((stepData, index) =>

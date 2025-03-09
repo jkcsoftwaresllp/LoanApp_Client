@@ -12,6 +12,8 @@ import Dashboard from "../../pages/Dashboard";
 import EmiCalculator from "../../pages/EmiCalc";
 import LoanListPage from "../../pages/LoanListpage";
 import RepaymentSchedule from "../../pages/Repay";
+import Support from "../../pages/Support";
+import FAQ from "../../pages/FAQ";
 
 import Home from "../../pages/Home";
 
@@ -65,6 +67,22 @@ export const privateRoutes = (
       }
     />
     <Route
+      path="/support"
+      element={
+        <PrivateRoute allowedRoles={["investor", "user"]}>
+          <Support />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/faq"
+      element={
+        <PrivateRoute allowedRoles={["investor", "user"]}>
+          <FAQ />
+        </PrivateRoute>
+      }
+    />
+    <Route
       path="/repay"
       element={
         <PrivateRoute allowedRoles={["user"]}>
@@ -86,6 +104,14 @@ export const privateRoutes = (
       element={
         <PrivateRoute allowedRoles={["investor", "user"]}>
           <NotificationSettings />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/feedback"
+      element={
+        <PrivateRoute allowedRoles={["investor", "user"]}>
+          <FeedbackForm />
         </PrivateRoute>
       }
     />
@@ -136,14 +162,6 @@ export const privateRoutes = (
         element={
           <PrivateRoute allowedRoles={["investor"]}>
             <InvestmentOpportunities />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="feedback"
-        element={
-          <PrivateRoute allowedRoles={["investor"]}>
-            <FeedbackForm />
           </PrivateRoute>
         }
       />

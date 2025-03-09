@@ -324,9 +324,3 @@ p.text-green-500 {
   font-size: 14px;
   font-weight: bold;
 }
-
-.buttonContainer {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}

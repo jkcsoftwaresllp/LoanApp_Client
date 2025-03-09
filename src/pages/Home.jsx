@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 
 const HomePage = () => {
   const [userRole, setUserRole] = useState("");
+  const [showSupportOptions, setShowSupportOptions] = useState(false);
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthContext();
 
@@ -18,70 +19,74 @@ const HomePage = () => {
     setUserRole(role);
   }, []);
 
-  const goToemi = () => {
-    navigate("/emi");
-  };
-
-  const userOptions = [
+  const mainOptions = [
     { name: "Dashboard", path: "/dashboard" },
     { name: "Apply for Loan", path: "/loan" },
     { name: "Repayments", path: "/repay" },
     { name: "Calculate EMI", path: "/emi" },
-    { name: "Profile", path: "/profile" },
+    { name: "Support", path: "" },
   ];
 
-  const investorOptions = [
+  const supportOptions = [
+    { name: "Support Center", path: "/support" },
+    { name: "FAQ", path: "/faq" },
+    { name: "Feedback", path: "/feedback" },
+  ];
+
+  const investorMainOptions = [
     { name: "Portfolio", path: "/portfolio" },
     { name: "Investment Opportunity", path: "/make-investment" },
     { name: "Earnings & Repayments", path: "/earnings-repayment" },
     { name: "View Report", path: "/report" },
-    { name: "Profile", path: "/profile" },
+    { name: "Support", path: "" },
   ];
 
-  const options = userRole === "investor" ? investorOptions : userOptions;
-
-  const userRules = [
-    "Ensure all personal details are updated.",
-    "Apply for loans responsibly and review terms.",
-    "Make timely repayments to maintain credit score.",
-  ];
-
-  const investorRules = [
-    "Review investment opportunities carefully.",
-    "Diversify investments to manage risk.",
-    "Monitor earnings and repayment schedules.",
-    "Review reports to track performance.",
-    "Ensure all personal details are updated.",
-  ];
-
-  const rules = userRole === "investor" ? investorRules : userRules;
+  const options = userRole === "investor" ? investorMainOptions : mainOptions;
 
   return (
     <div className={styles.container}>
       <div className={styles.right}>
         <div className={styles.optionsContainer}>
-          {options.map((option, index) => (
-            <div
-              key={index}
-              className={styles.optionButton}
-              onClick={() => navigate(option.path)}
-            >
-              {option.name}
-            </div>
-          ))}
+          {!showSupportOptions ? (
+            options.map((option, index) => (
+              <div
+                key={index}
+                className={styles.optionButton}
+                onClick={() => {
+                  if (option.name === "Support") {
+                    setShowSupportOptions(true);
+                  } else {
+                    navigate(option.path);
+                  }
+                }}
+              >
+                {option.name}
+              </div>
+            ))
+          ) : (
+            <>
+              {supportOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className={styles.optionButton}
+                  onClick={() => {
+                    navigate(option.path);
+                    setShowSupportOptions(false);
+                  }}
+                >
+                  {option.name}
+                </div>
+              ))}
+              <div
+                className={`${styles.optionButton} ${styles.backButton}`}
+                onClick={() => setShowSupportOptions(false)}
+              >
+                Back
+              </div>
+            </>
+          )}
         </div>
       </div>
-      {/* Left Side */}
-      {/* <div className={styles.left}>
-        <div className={styles.box}>
-          <h2 className={styles.h2}>Instructions</h2>
-          <ul className={styles.instructionsList}>
-            {rules.map((rule, index) => (
-              <li key={index}>{rule}</li>
-            ))}
-          </ul>
-        </div>
-      </div> */}
     </div>
   );
 };
