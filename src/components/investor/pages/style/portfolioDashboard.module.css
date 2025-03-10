@@ -1,5 +1,5 @@
 .dashboardContainer {
-  padding: 20px;
+  padding: 10px;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 10px;
@@ -10,6 +10,7 @@
   font-weight: var(--font-weight-bold);
   margin-bottom: 20px;
   text-align: center;
+  color: var(--color-text-primary);
 }
 @media (min-width: 768px) {
   .dashboardContainer {

@@ -184,10 +184,7 @@ const RepaymentSchedule = () => {
                     <td className={styles.btnContainer}>
                       {repayment.status === "Pending" && (
                         <>
-                          <Button
-                            onClick={() => handlePayment(repayment.date)}
-                            text="Pay"
-                          />
+                          <Button text="Pay" />
                           <IconBtn
                             icon={<Infoicon />}
                             onClick={() => showRepaymentDetails(repayment)}

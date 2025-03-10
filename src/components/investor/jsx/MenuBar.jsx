@@ -2,7 +2,6 @@ import styles from "./style/menuBar.module.css";
 import {
   AnalyticIcon,
   DashboardIcon,
-  FeedbackIcon,
   OppIcon,
   RupeesIcon,
 } from "../../common/assets";
@@ -64,17 +63,6 @@ const MenuBar = () => {
               onClick={() => navigate("/make-investment")}
             >
               <OppIcon className={styles.svg} />
-            </li>
-          </label>
-          <input
-            className={styles.radio}
-            name="rad"
-            id="choose4"
-            type="radio"
-          />
-          <label htmlFor="choose4">
-            <li className={styles.li} onClick={() => navigate("/feedback")}>
-              <FeedbackIcon className={styles.svg} />
             </li>
           </label>
         </ul>

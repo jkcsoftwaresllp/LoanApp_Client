@@ -8,9 +8,34 @@ const NotificationSettings = () => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [contactInfo, setContactInfo] = useState({ email: "", mobile: "" });
+  const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+  });
+  const [emailNotification, setEmailNotification] = useState(true);
 
   useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/auth/profile", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          setProfile(data.profile);
+        }
+      } catch (err) {
+        console.error("Error fetching profile:", err);
+        showToast("error", "Failed to fetch profile details");
+      }
+    };
+
     const fetchNotificationDetails = async () => {
       try {
         const response = await fetch(
@@ -50,6 +75,7 @@ const NotificationSettings = () => {
       }
     };
 
+    fetchUserProfile();
     fetchNotificationDetails();
   }, []);
 
@@ -57,6 +83,23 @@ const NotificationSettings = () => {
     <>
       <h2 className={styles.title}>Repayment Notifications</h2>
       <div className={styles.container}>
+        <div className={styles.profileSection}>
+          <div className={styles.contactInfo}>
+            <p><strong>Email:</strong> {profile.email}</p>
+            <p><strong>Mobile:</strong> {profile.mobile || 'Not provided'}</p>
+          </div>
+          <div className={styles.notificationPreference}>
+            <label className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                checked={emailNotification}
+                onChange={(e) => setEmailNotification(e.target.checked)}
+              />
+              Send notifications to email
+            </label>
+          </div>
+        </div>
+
         <h2 className={styles.h2}>Upcoming & Overdue Payments</h2>
         {notifications.length > 0 ? (
           <ul className={styles.ul}>

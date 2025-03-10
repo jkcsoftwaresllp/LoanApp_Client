@@ -44,7 +44,7 @@ const Notification = () => {
         // Convert repayment data to notifications format
         const formattedNotifications = data.repayments.map((repayment) => ({
           title: repayment.status,
-          message: `Loan ID: ${repayment.loan_id} - Payment of ₹${repayment.amount} due on ${repayment.due_date}`,
+          message: `<strong>Loan ID: ${repayment.loan_id}</strong> - Payment of <span style="color: #0066cc">₹${repayment.amount}</span> due on ${repayment.due_date}`,
           time: repayment.due_date,
           type: repayment.status === "Overdue" ? "error" : "warning"
         }));
@@ -95,8 +95,8 @@ const Notification = () => {
               notifications.map((notification, index) => (
                 <NotificationBody
                   key={index}
-                  title={notification.title}
-                  message={notification.message}
+                  title={<strong>{notification.title}</strong>}
+                  message={<div dangerouslySetInnerHTML={{ __html: notification.message }} />}
                   time={notification.time}
                 />
               ))
