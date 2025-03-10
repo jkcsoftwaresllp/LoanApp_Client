@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style/Notification.module.css";
-import { Loader } from "../../common/Loader";
 import { showToast } from "../../../utils/toastUtils";
-import { Button } from "../../common/Button";
 
 const NotificationSettings = () => {
   const [notifications, setNotifications] = useState([]);
@@ -11,7 +9,7 @@ const NotificationSettings = () => {
   const [profile, setProfile] = useState({
     name: "",
     email: "",
-    mobile: "",
+    phone: "",
   });
   const [emailNotification, setEmailNotification] = useState(true);
 
@@ -52,12 +50,12 @@ const NotificationSettings = () => {
         const data = await response.json();
 
         if (response.ok && data.repayments && Array.isArray(data.repayments)) {
-          const formattedNotifications = data.repayments.map(repayment => ({
+          const formattedNotifications = data.repayments.map((repayment) => ({
             type: repayment.status,
             message: `Loan ID: ${repayment.loan_id} - Payment of ₹${repayment.amount} due on ${repayment.due_date}`,
             dueDate: repayment.due_date,
             amount: repayment.amount,
-            loanId: repayment.loan_id
+            loanId: repayment.loan_id,
           }));
           setNotifications(formattedNotifications);
         } else {
@@ -85,8 +83,12 @@ const NotificationSettings = () => {
       <div className={styles.container}>
         <div className={styles.profileSection}>
           <div className={styles.contactInfo}>
-            <p><strong>Email:</strong> {profile.email}</p>
-            <p><strong>Mobile:</strong> {profile.mobile || 'Not provided'}</p>
+            <p>
+              <strong>Email:</strong> {profile.email}
+            </p>
+            <p>
+              <strong>Mobile:</strong> {profile.phone || "Not provided"}
+            </p>
           </div>
           <div className={styles.notificationPreference}>
             <label className={styles.checkboxLabel}>
@@ -104,9 +106,13 @@ const NotificationSettings = () => {
         {notifications.length > 0 ? (
           <ul className={styles.ul}>
             {notifications.map((notification, index) => (
-              <li 
-                key={index} 
-                className={`${styles.li} ${notification.type === "Overdue" ? styles.overdue : styles.upcoming}`}
+              <li
+                key={index}
+                className={`${styles.li} ${
+                  notification.type === "Overdue"
+                    ? styles.overdue
+                    : styles.upcoming
+                }`}
               >
                 <div className={styles.notificationHeader}>
                   <strong>{notification.type}</strong>
