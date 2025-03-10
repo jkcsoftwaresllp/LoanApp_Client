@@ -8,12 +8,14 @@ import { Loader } from "../components/common/Loader";
 import { CustomFileInput } from "../components/document/CustomFileInput";
 import Dropdown from "../components/common/Dropdown";
 import LogoutButton from "./LogoutButton";
+
 import {
   fetchProfile,
   sendOtp,
   updateProfile,
 } from "../components/helper/profileService";
 import styles from "../Styles/Profile.module.css";
+import { showToast } from "../utils/toastUtils";
 const Profile = () => {
   const navigate = useNavigate();
 
@@ -45,17 +47,14 @@ const Profile = () => {
   const formFields = inputFieldConfig(false, true, formData);
   const steps = [
     { title: "Personal Information", fields: formFields.slice(0, 8) },
-    { title: "Employment & Income Details", fields: formFields.slice(8, 12) },
+    { title: "Employment & Income Details", fields: formFields.slice(8, 18) },
     {
       title: "Banking & Financial Information",
-      fields: formFields.slice(12, 16),
+      fields: formFields.slice(18, 25),
     },
     {
       title: "KYC Details",
-      fields: [
-        ...formFields.slice(16),
-        { id: "kycDocument", label: "Upload KYC Document", type: "file" },
-      ],
+      fields: formFields.slice(25),
     },
   ];
 
@@ -120,7 +119,7 @@ const Profile = () => {
     return (nameParts[0][0] + nameParts[1][0]).toUpperCase();
   };
 
-  const handleUpdateProfile = (e) => {
+  const handleUpdateProfile = async (e) => {
     e.preventDefault();
 
     const accessToken = localStorage.getItem("accessToken");
@@ -133,6 +132,33 @@ const Profile = () => {
       payload.otp = otp;
     }
 
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/auth/update-profile",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (response.ok) {
+        const updatedData = await response.json();
+        setProfile(updatedData);
+        setIsEditing(false);
+        setOtp("");
+        setOtpSent(false);
+        showToast("success", "Profile updated successfully!");
+      } else {
+        showToast("error", "Failed to update profile. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      showToast("error", "An error occurred. Please try again.");
+    }
     updateProfile(
       payload,
       accessToken,
