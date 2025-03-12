@@ -16,45 +16,68 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
 
 
   const [formData, setFormData] = useState({
-    email: "", // Changed from mobileNumber
+    mobile_number: "",  // Changed from mobileNumber to mobile_number
+    email: "",
     password: "",
-    otp: "",
-  });
+    otp: ""
+});
   const [otpGenerated, setOtpGenerated] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    const { name, value } = e.target || e;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value, // ✅ This ensures password gets the correct value
+    }));
   };
-
-  const handleGenerateOtpWrapper = (e) => {
+  
+  
+  
+  
+  const handleGenerateOtpWrapper = async (e) => {
     e.preventDefault();
-    handleGenerateOtp(
-      formData,
-      apiBaseUrl,
-      isLogin,
-      setOtpGenerated,
-      setMessage,
-      showToast
-    );
+    console.log("Form Data Before Sending OTP:", formData);
+  
+    if (!formData.password) {
+      setMessage("Password is required.");
+      return;
+    }
+  
+    try {
+      await handleGenerateOtp(
+        formData,
+        apiBaseUrl,
+        isLogin,
+        setOtpGenerated,
+        setMessage,
+        showToast
+      );
+      setOtpGenerated(true);
+    } catch (error) {
+      console.error("OTP Generation Failed:", error);
+    }
   };
+  
 
   const handleValidateOtpWrapper = (e) => {
     e.preventDefault();
-    console.log("onSuccessRedirect:", onSuccessRedirect); 
+    console.log("Validating OTP with data:", formData);
+    console.log(apiBaseUrl); // Check what's being passed
     handleValidateOtp(
       formData,
       apiBaseUrl,
       setIsAuthenticated,
       setUser,
       navigate,
-      onSuccessRedirect, 
+      onSuccessRedirect,
       setMessage,
       showToast
     );
   };
+  
+  
   
 
   return {
@@ -65,9 +88,10 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
     inputFields: inputFieldConfig(isLogin).map((field) => ({
       ...field,
       value: formData[field.id],
-      disabled: field.id === "email" ? otpGenerated : field.disabled, // Changed from mobileNumber
+      disabled: (field.id === "email" || field.id === "mobile_number") ? otpGenerated : field.disabled,
       hidden: field.id === "otp" ? !otpGenerated : field.hidden,
     })),
+    
     buttonFields: buttonConfig(isLogin).map((button) => ({
       ...button,
       onClick:

@@ -298,14 +298,6 @@ export const inputFieldConfig = (
 
   return [
     {
-      label: "Mobile Number",
-      id: "mobileNumber",
-      type: "text",
-      value: value.mobileNumber || "",
-      placeholder: "Enter your mobile number",
-      disabled: false,
-    },
-    {
       label: "Email",
       id: "email",
       type: "email",
@@ -321,6 +313,16 @@ export const inputFieldConfig = (
       placeholder: "Create a password",
       disabled: false,
     },
+    {
+      label: "Mobile Number",
+      id: "mobile_number",
+      type: "text",
+      value: value.mobile_number || "",
+      placeholder: "Enter your mobile number",
+      disabled: false,
+    },
+    
+   
     {
       label: "Enter OTP",
       id: "otp",

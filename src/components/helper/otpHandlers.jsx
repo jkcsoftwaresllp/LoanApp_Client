@@ -11,12 +11,19 @@ export const handleGenerateOtp = async (
   showToast
 ) => {
   try {
+    if (!formData.email && !formData.mobile_number) {
+      setMessage("Please enter either email or mobile number.");
+      showToast("error", "Please enter either email or mobile number.");
+      return;
+    }
+
     const response = await generateOtp(
-      formData.email, // Changed from formData.mobileNumber
+      { email: formData.email, mobile_number: formData.mobile_number },
       formData.password,
       apiBaseUrl,
       isLogin
     );
+    
 
     const successMessage = response.message || "OTP sent successfully";
     setMessage(successMessage);
@@ -26,6 +33,7 @@ export const handleGenerateOtp = async (
     handleApiError(error, setMessage, showToast);
   }
 };
+
 export const handleValidateOtp = async (
   formData,
   apiBaseUrl,
@@ -38,15 +46,23 @@ export const handleValidateOtp = async (
 ) => {
   try {
     console.log("Validating OTP with data:", formData);
+console.log(apiBaseUrl);
+    if (!formData.email && !formData.mobile_number) {
+      setMessage("Please enter either email or mobile number.");
+      showToast("error", "Please enter either email or mobile number.");
+      return;
+    }
 
     const response = await validateOtp(
-      formData.email, // Changed from formData.mobileNumber
-      formData.otp,
-      formData.password,
+      formData.email,
+      formData.otp.target.value, // ✅ Extract the OTP value
       apiBaseUrl
     );
+    
+    
+    
 
-    console.log("OTP Validation Response:", response); // Debugging
+    console.log("OTP Validation Response:", response);
 
     if (response?.status === "success") {
       showToast("success", "OTP validated successfully");
@@ -54,30 +70,20 @@ export const handleValidateOtp = async (
       const { accessToken, refreshToken, uniqueCode, role } = response;
 
       if (accessToken && uniqueCode && role) {
-        // ✅ Fix: Correct LocalStorage Key Name & Store Refresh Token
         localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
+        if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("role", role);
-        localStorage.setItem("user", JSON.stringify({ uniqueCode, role })); 
+        localStorage.setItem("user", JSON.stringify({ uniqueCode, role }));
 
         setIsAuthenticated(true);
         setUser({ uniqueCode, role });
-        
+
         console.log("User set in context:", { uniqueCode, role });
 
-        // ✅ Debugging: Check Storage Values
-        console.log("Saved in Local Storage:", {
-          accessToken: localStorage.getItem("accessToken"),
-          refreshToken: localStorage.getItem("refreshToken"),
-          role: localStorage.getItem("role"),
-          user: localStorage.getItem("user"),
-        });
+        navigate(onSuccessRedirect || "/dashboard");
       } else {
         console.error("Access token, uniqueCode, or role missing in response");
       }
-
-      console.log("Navigating to:", onSuccessRedirect);
-      navigate(onSuccessRedirect);
     } else {
       const errorMessage = response?.message || "OTP verification failed";
       showToast("error", errorMessage);
@@ -87,6 +93,7 @@ export const handleValidateOtp = async (
     handleApiError(error, setMessage, showToast);
   }
 };
+
 
 // 🔥 Improved Error Handling
 const handleApiError = (error, setMessage, showToast) => {
