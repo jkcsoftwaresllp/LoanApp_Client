@@ -16,8 +16,7 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
 
 
   const [formData, setFormData] = useState({
-    mobileNumber: "",
-    email: "",
+    email: "", // Changed from mobileNumber
     password: "",
     otp: "",
   });
@@ -66,7 +65,7 @@ const useOtpHandler = ({ apiBaseUrl, onSuccessRedirect, isLogin }) => {
     inputFields: inputFieldConfig(isLogin).map((field) => ({
       ...field,
       value: formData[field.id],
-      disabled: field.id === "mobileNumber" ? otpGenerated : field.disabled,
+      disabled: field.id === "email" ? otpGenerated : field.disabled, // Changed from mobileNumber
       hidden: field.id === "otp" ? !otpGenerated : field.hidden,
     })),
     buttonFields: buttonConfig(isLogin).map((button) => ({

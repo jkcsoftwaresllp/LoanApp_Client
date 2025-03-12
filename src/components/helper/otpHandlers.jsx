@@ -12,8 +12,7 @@ export const handleGenerateOtp = async (
 ) => {
   try {
     const response = await generateOtp(
-      formData.mobileNumber,
-      formData.email,
+      formData.email, // Changed from formData.mobileNumber
       formData.password,
       apiBaseUrl,
       isLogin
@@ -41,7 +40,7 @@ export const handleValidateOtp = async (
     console.log("Validating OTP with data:", formData);
 
     const response = await validateOtp(
-      formData.mobileNumber,
+      formData.email, // Changed from formData.mobileNumber
       formData.otp,
       formData.password,
       apiBaseUrl

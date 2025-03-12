@@ -1,16 +1,16 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const generateOtp = async (mobileNumber, email, password, apiBaseUrl, isLogin) => {
-  const requestBody = isLogin
-    ? { mobile_number: mobileNumber }  
-    : { mobile_number: mobileNumber, email, password };  
-
+export const generateOtp = async (email, password, apiBaseUrl, isLogin) => {
   try {
-    const response = await axios.post(`${apiBaseUrl}/generate-otp`, requestBody);
+    const response = await axios.post(`${apiBaseUrl}/generate-otp`, {
+      email,
+      password,
+      isLogin,
+    });
     return response.data;
   } catch (error) {
     console.error("Error generating OTP:", error);
-    throw error;  
+    throw error;
   }
 };
 

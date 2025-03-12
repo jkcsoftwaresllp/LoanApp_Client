@@ -56,13 +56,13 @@ const Login = () => {
             </h1>
             <div className={style.flexColumn}>
               <form className="space-y-4">
-                {/* Step 1: Mobile and Password */}
+                {/* Step 1: Email and Password */}
                 {currentStep === 1 &&
                   inputFields
                     .filter(
                       (field) =>
                         !field.hidden &&
-                        (field.id === "mobileNumber" || field.id === "password")
+                        (field.id === "email" || field.id === "password")
                     )
                     .map((field) => (
                       <TextInput
@@ -76,7 +76,7 @@ const Login = () => {
                 {currentStep === 2 && (
                   <>
                     <p className={style.p}>
-                      Code sent to {inputFields.find((field) => field.id === "mobileNumber")?.value}
+                      Code sent to {inputFields.find((field) => field.id === "email")?.value}
                     </p>
                     <OtpInput length={4} onChange={handleChange} />
                     <div className={style.p}>

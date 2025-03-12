@@ -6,11 +6,11 @@ export const inputFieldConfig = (
   if (isLogin) {
     return [
       {
-        label: "Mobile Number",
-        id: "mobileNumber",
-        type: "text",
-        value: value.mobileNumber || "",
-        placeholder: "Enter your mobile number",
+        label: "Email",
+        id: "email",
+        type: "email",
+        value: value.email || "",
+        placeholder: "Enter your email",
         disabled: false,
       },
       {
@@ -26,7 +26,7 @@ export const inputFieldConfig = (
         id: "otp",
         type: "text",
         value: value.otp || "",
-        placeholder: "Enter the OTP sent to your mobile",
+        placeholder: "Enter the OTP sent to your email",
         disabled: false,
         hidden: true,
       },
