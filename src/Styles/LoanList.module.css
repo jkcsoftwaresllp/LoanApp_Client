@@ -3,6 +3,7 @@
   width: 90%;
   max-width: 700px;
   min-width: 280px;
+  height: 400px;
 
   margin: 0 auto;
   background-color: var(--color-bg-secondary);
@@ -103,8 +104,7 @@ td {
   text-align: center;
 }
 .row {
-  height: 60px;
-  border-bottom: 1px solid #212121;
+  height: 40px;
 }
 
 .row:last-child {

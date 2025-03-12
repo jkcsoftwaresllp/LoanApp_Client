@@ -6,7 +6,7 @@
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--border-radius-large);
   z-index: 1;
   margin-top: -10px;
 }
@@ -18,7 +18,7 @@
   gap: 10px;
   min-height: 40px;
   padding: 0 10px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-large);
   z-index: 1;
   background-color: #242a35;
   border: solid 1px #e8e8e82d;
@@ -40,7 +40,7 @@
   max-width: 90%;
   margin: 0 auto;
   z-index: -1;
-  border-radius: 4px;
+  border-radius: var(--border-radius-large);
   transform: translateY(0%);
   background-color: #01e056;
   border: solid 1px #01e0572d;

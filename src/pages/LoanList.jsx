@@ -67,17 +67,19 @@ const LoanList = () => {
           <table>
             <thead>
               <tr>
-                <th className="py-2 px-4 text-left">Loan ID</th>
-                <th className="py-2 px-4 text-left">Status</th>
-                <th className="py-2 px-4 text-left">Total Repayment</th>
+                <th className="py-2 px-4 text-center">Loan ID</th>
+                <th className="py-2 px-4 text-center">Status</th>
+                <th className="py-2 px-4 text-center">Total Repayment</th>
               </tr>
             </thead>
             <tbody>
               {loans.map((loan) => (
                 <tr key={loan.loan_id} className={styles.row}>
-                  <td className="py-2 px-4">{loan.loan_id}</td>
-                  <td className="py-2 px-4">{loan.status}</td>
-                  <td className="py-2 px-4">{Number(loan.total_repayment).toFixed(2)}</td>
+                  <td className="py-2 px-4 text-center">{loan.loan_id}</td>
+                  <td className="py-2 px-4 text-center">{loan.status}</td>
+                  <td className="py-2 px-4 text-center">
+                    {Number(loan.total_repayment).toFixed(2)}
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -5,7 +5,7 @@
   margin: 0 auto;
   background-color: #fbfeff;
   padding: 0.5rem;
-  border-radius: var(--border-radius-medium);
+  border-radius: var(--border-radius-large);
 
   display: flex;
   flex-direction: column;
@@ -17,7 +17,7 @@
   padding: 0.5rem;
   width: 100%;
   color: #0f0f0f;
-  border-radius: var(--border-radius-medium);
+  border-radius: var(--border-radius-large);
   border: 1px solid #0f0f0f;
 }
 

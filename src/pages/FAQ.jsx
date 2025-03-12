@@ -110,36 +110,37 @@ const FAQ = () => {
           </button>
         ))}
       </div>
-
-      <div className={styles.faqList}>
-        {filteredFaqs.length > 0 ? (
-          filteredFaqs.map((faq) => (
-            <div key={faq.faq_id} className={styles.faqItem}>
-              <div
-                className={styles.question}
-                onClick={() => toggleQuestion(faq.faq_id)}
-              >
-                <h3>{faq.question}</h3>
-                <span
-                  className={`${styles.arrow} ${
-                    expandedId === faq.faq_id ? styles.expanded : ""
-                  }`}
+      <div className={styles.faqListContainer}>
+        <div className={styles.faqList}>
+          {filteredFaqs.length > 0 ? (
+            filteredFaqs.map((faq) => (
+              <div key={faq.faq_id} className={styles.faqItem}>
+                <div
+                  className={styles.question}
+                  onClick={() => toggleQuestion(faq.faq_id)}
                 >
-                  ▼
-                </span>
-              </div>
-              {expandedId === faq.faq_id && (
-                <div className={styles.answer}>
-                  <p>{faq.answer}</p>
+                  <h3>{faq.question}</h3>
+                  <span
+                    className={`${styles.arrow} ${
+                      expandedId === faq.faq_id ? styles.expanded : ""
+                    }`}
+                  >
+                    ▼
+                  </span>
                 </div>
-              )}
+                {expandedId === faq.faq_id && (
+                  <div className={styles.answer}>
+                    <p>{faq.answer}</p>
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <div className={styles.noResults}>
+              No FAQs found matching your search
             </div>
-          ))
-        ) : (
-          <div className={styles.noResults}>
-            No FAQs found matching your search
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

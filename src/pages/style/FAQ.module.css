@@ -65,6 +65,10 @@
   background: #007bff;
   color: white;
 }
+.faqListContainer {
+  height: 52dvh;
+  overflow-x: scroll;
+}
 
 .faqList {
   display: flex;

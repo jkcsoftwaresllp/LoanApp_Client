@@ -95,30 +95,33 @@ const UpdateLoanDetails = () => {
             />
           </div>
 
-          <div className={styles.inputField}>
-            <label className={styles.label}>Start Date</label>
-            <div className={styles.inputWrapper}>
+          <div className={styles.rowContainer}>
+            <div className={styles.inputField}>
+              <label className={styles.label}>Start Date</label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className={styles.input}
+                />
+                <span className={styles.icon}>
+                  <CalendarIcon />
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.inputField}>
+              <label className={styles.label}>Repayment Schedule</label>
               <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                type="text"
+                value={frequency}
+                onChange={(e) => setFrequency(e.target.value)}
                 className={styles.input}
               />
-              <span className={styles.icon}>
-                <CalendarIcon />
-              </span>
             </div>
           </div>
 
-          <div className={styles.inputField}>
-            <label className={styles.label}>Repayment Schedule</label>
-            <input
-              type="text"
-              value={frequency}
-              onChange={(e) => setFrequency(e.target.value)}
-              className={styles.input}
-            />
-          </div>
           <div className={styles.update}>
             <Btn
               label="Update Loan"
