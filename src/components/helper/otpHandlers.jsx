@@ -1,7 +1,6 @@
 import { generateOtp, validateOtp } from "../../services/authService";
 import { saveTokens } from "../../utils/tokenUtils";
 
-
 export const handleGenerateOtp = async (
   formData,
   apiBaseUrl,
@@ -23,7 +22,6 @@ export const handleGenerateOtp = async (
       apiBaseUrl,
       isLogin
     );
-    
 
     const successMessage = response.message || "OTP sent successfully";
     setMessage(successMessage);
@@ -46,7 +44,7 @@ export const handleValidateOtp = async (
 ) => {
   try {
     console.log("Validating OTP with data:", formData);
-console.log(apiBaseUrl);
+    console.log(apiBaseUrl);
     if (!formData.email && !formData.mobile_number) {
       setMessage("Please enter either email or mobile number.");
       showToast("error", "Please enter either email or mobile number.");
@@ -55,12 +53,9 @@ console.log(apiBaseUrl);
 
     const response = await validateOtp(
       formData.email,
-      formData.otp.target.value, // ✅ Extract the OTP value
+      formData.otp.target.value,
       apiBaseUrl
     );
-    
-    
-    
 
     console.log("OTP Validation Response:", response);
 
@@ -93,7 +88,6 @@ console.log(apiBaseUrl);
     handleApiError(error, setMessage, showToast);
   }
 };
-
 
 // 🔥 Improved Error Handling
 const handleApiError = (error, setMessage, showToast) => {

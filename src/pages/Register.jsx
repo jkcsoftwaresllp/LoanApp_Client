@@ -8,8 +8,6 @@ import { Loader } from "../components/common/Loader";
 import { showToast } from "../utils/toastUtils";
 import OtpInput from "./OtpInput";
 
-
-
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -36,22 +34,16 @@ const Register = () => {
     : "http://localhost:5000/api/register";
 
   const onSuccessRedirect = "/home";
-  const {
-    otpGenerated,
-    handleChange,
-    message,
-    inputFields,
-    buttonFields,
-  } = useOtpHandler({
-    apiBaseUrl,
-    onSuccessRedirect,
-    isLogin: false,
-    setFormData, // Pass setFormData to update state
-  });
+  const { otpGenerated, handleChange, message, inputFields, buttonFields } =
+    useOtpHandler({
+      apiBaseUrl,
+      onSuccessRedirect,
+      isLogin: false,
+      setFormData, // Pass setFormData to update state
+    });
 
   // Handle OTP Generation
   const handleGenerateOtp = (e) => {
-   
     buttonFields.find((button) => button.id === "generateOtp")?.onClick(e);
     setCurrentStep(2);
   };
@@ -73,7 +65,6 @@ const Register = () => {
           </h1>
           <div className={style.flexColumn}>
             <form className="space-y-4">
-             
               {currentStep === 1 &&
                 inputFields
                   .filter(
@@ -85,45 +76,44 @@ const Register = () => {
                   )
                   .map((field) => (
                     <TextInput
-                    key={field.id}
-                    config={field}
-                    value={formData[field.id] || ""} // Ensure it's pulling from useOtpHandler
-                    onChange={handleChange}
-                  />
-                  
-
+                      key={field.id}
+                      config={field}
+                      value={formData[field.id] || ""} // Ensure it's pulling from useOtpHandler
+                      onChange={handleChange}
+                    />
                   ))}
 
               {/* Step 2: OTP Input */}
               {currentStep === 2 && (
-  <>
-    <p className={style.p}>
-      Code sent to {formData.mobile_number || "your registered mobile"}
-    </p>
-    <OtpInput
-  length={4}
-  onChange={(otp) => handleChange({ target: { name: "otp", value: otp } })} 
-/>
+                <>
+                  <p className={style.p}>
+                    Code sent to {formData.email || "your registered email"}
+                  </p>
+                  <OtpInput
+                    length={4}
+                    onChange={(otp) =>
+                      handleChange({ target: { name: "otp", value: otp } })
+                    }
+                  />
 
-
-    <div className={style.p}>
-      Didn't receive code?{" "}
-      <span
-        className={style.span}
-        onClick={(e) => {
-          const generateOtpButton = buttonFields.find(
-            (button) => button.id === "generateOtp"
-          );
-          if (generateOtpButton) {
-            generateOtpButton.onClick(e);
-          }
-        }}
-      >
-        Request Again
-      </span>
-    </div>
-  </>
-)}
+                  <div className={style.p}>
+                    Didn't receive code?{" "}
+                    <span
+                      className={style.span}
+                      onClick={(e) => {
+                        const generateOtpButton = buttonFields.find(
+                          (button) => button.id === "generateOtp"
+                        );
+                        if (generateOtpButton) {
+                          generateOtpButton.onClick(e);
+                        }
+                      }}
+                    >
+                      Request Again
+                    </span>
+                  </div>
+                </>
+              )}
 
               <div style={{ display: "flex", gap: "10px" }}>
                 {currentStep === 1 &&
