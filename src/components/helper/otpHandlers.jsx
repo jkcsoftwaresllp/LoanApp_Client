@@ -53,7 +53,8 @@ export const handleValidateOtp = async (
 
     const response = await validateOtp(
       formData.email,
-      formData.otp.target.value,
+      formData.password,
+      formData.otp.target.value, // ✅ Extract the OTP value
       apiBaseUrl
     );
 
@@ -89,7 +90,7 @@ export const handleValidateOtp = async (
   }
 };
 
-// 🔥 Improved Error Handling
+
 const handleApiError = (error, setMessage, showToast) => {
   const errorMessage = error?.response?.data?.message || "Something went wrong";
   console.error("API Error:", error?.response?.data || error);
