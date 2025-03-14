@@ -1,0 +1,121 @@
+.container {
+  position: relative;
+  width: 500px;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: #fbfeff;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-large);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  box-sizing: border-box;
+}
+.input {
+  padding: 0.5rem;
+  width: 100%;
+  color: #0f0f0f;
+  border-radius: var(--border-radius-large);
+  border: 1px solid #0f0f0f;
+}
+
+.header {
+  color: #0f0f0f;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.errorMsg {
+  color: #e53e3e;
+  border: 1px solid #e53e3e;
+  padding: 10px;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  background-color: #fef2f2;
+}
+p {
+  color: #0f0f0f;
+  padding: 5px;
+}
+
+.toggleButton {
+  background-color: #3ad03f;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  max-width: 120px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border: none;
+  border-radius: var(--border-radius-small);
+
+  transition: background-color 0.3s ease-in-out;
+
+  bottom: 20px;
+  right: 25px;
+}
+.llabel {
+  color: #0f0f0f;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonDisabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.toggleButton:hover {
+  background-color: #2e7d32;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.uploadButton {
+  position: absolute;
+  bottom: 20px;
+  left: 25px;
+  padding: 10px 0;
+  background-color: #4caf50;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 120px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.uploadButton:hover {
+  background-color: #45a049;
+}
+
+.uploadButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - var(--header-height));
+}
