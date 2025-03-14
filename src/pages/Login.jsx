@@ -7,6 +7,7 @@ import style from "./style/LoginForm.module.css";
 import { Loader } from "../components/common/Loader";
 import backgroundImage from "./assets/loginWallpaper.jpg";
 import OtpInput from "./OtpInput";
+import { showToast } from "../utils/toastUtils";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -79,7 +80,9 @@ const Login = () => {
                   <>
                     <p className={style.p}>
                       Code sent to{" "}
-                      {inputFields.find((field) => field.id === "email")?.value}
+                      <span style={{ color: '#007bff' }}>
+                        {inputFields.find((field) => field.id === "email")?.value}
+                      </span>
                     </p>
                     <OtpInput
                       length={4}
@@ -111,7 +114,8 @@ const Login = () => {
                   {currentStep === 1 &&
                     buttonFields
                       .filter(
-                        (button) => !button.hidden && button.id === "generateOtp"
+                        (button) =>
+                          !button.hidden && button.id === "generateOtp"
                       )
                       .map((button) => (
                         <Button

@@ -87,7 +87,10 @@ const Register = () => {
               {currentStep === 2 && (
                 <>
                   <p className={style.p}>
-                    Code sent to {formData.email || "your registered email"}
+                    Code has been sent to{" "}
+                    <span style={{ color: "#007bff" }}>
+                      {inputFields.find((field) => field.id === "email")?.value}
+                    </span>
                   </p>
                   <OtpInput
                     length={4}
