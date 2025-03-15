@@ -87,13 +87,8 @@ const LoanList = () => {
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center">
-          <img
-            src="/images/notavi.webp"
-            alt="Loan details not available"
-            className="w-48 h-48 mb-4"
-          />
-          <p className="text-black">
-            No loans found for this user. Please apply for a loan.
+          <p className={styles.noLoansText}>
+            No loans found. Please apply for a loan.
           </p>
         </div>
       )}

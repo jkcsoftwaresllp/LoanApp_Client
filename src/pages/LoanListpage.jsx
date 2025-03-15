@@ -37,10 +37,12 @@ const LoanListPage = () => {
             const statusOrder = {
               approved: 1,
               pending: 2,
-              draft: 3
+              draft: 3,
             };
-            return (statusOrder[a.status.toLowerCase()] || 4) - 
-                   (statusOrder[b.status.toLowerCase()] || 4);
+            return (
+              (statusOrder[a.status.toLowerCase()] || 4) -
+              (statusOrder[b.status.toLowerCase()] || 4)
+            );
           });
           setLoans(sortedLoans);
         } else {
@@ -58,19 +60,21 @@ const LoanListPage = () => {
 
   // Update getFilteredLoans to sort the filtered results
   const getFilteredLoans = () => {
-    if (sortStatus === 'all') {
+    if (sortStatus === "all") {
       return loans.sort((a, b) => {
         const statusOrder = {
           approved: 1,
           pending: 2,
-          draft: 3
+          draft: 3,
         };
-        return (statusOrder[a.status.toLowerCase()] || 4) - 
-               (statusOrder[b.status.toLowerCase()] || 4);
+        return (
+          (statusOrder[a.status.toLowerCase()] || 4) -
+          (statusOrder[b.status.toLowerCase()] || 4)
+        );
       });
     }
-    return loans.filter(loan => 
-      loan.status.toLowerCase() === sortStatus.toLowerCase()
+    return loans.filter(
+      (loan) => loan.status.toLowerCase() === sortStatus.toLowerCase()
     );
   };
 
@@ -152,11 +156,6 @@ const LoanListPage = () => {
         </div>
       ) : (
         <div className={styles.noLoansContainer}>
-          <img
-            src="/images/notavi.webp"
-            alt="No loans available"
-            className={styles.noLoansImage}
-          />
           <p className={styles.noLoansText}>
             No loans found. Please apply for a loan.
           </p>

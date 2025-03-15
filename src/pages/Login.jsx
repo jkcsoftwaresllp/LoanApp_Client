@@ -43,6 +43,39 @@ const Login = () => {
     navigate("/register");
   };
 
+  const validateInputs = (inputFields) => {
+    const emailField = inputFields.find((field) => field.id === "email");
+    const phoneField = inputFields.find(
+      (field) => field.id === "mobile_number"
+    );
+
+    // Check if fields exist and have values
+    if (!emailField?.value?.trim()) {
+      showToast("error", "Email is required");
+      return false;
+    }
+
+    if (!phoneField?.value?.trim()) {
+      showToast("error", "Phone number is required");
+      return false;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailField.value.trim())) {
+      showToast("error", "Please enter a valid email address");
+      return false;
+    }
+
+    // Phone number validation (assuming 10 digits)
+    if (!/^\d{10}$/.test(phoneField.value.trim())) {
+      showToast("error", "Please enter a valid 10-digit phone number");
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <>
       <div className={style.container}>
@@ -80,7 +113,7 @@ const Login = () => {
                   <>
                     <p className={style.p}>
                       Code sent to{" "}
-                      <span style={{ color: '#007bff' }}>
+                      <span style={{ color: "#007bff" }}>
                         {inputFields.find((field) => field.id === "email")?.value}
                       </span>
                     </p>
@@ -95,10 +128,28 @@ const Login = () => {
                       <span
                         className={style.span}
                         onClick={(e) => {
+                          const spanElement = e.currentTarget;
                           const generateOtpButton = buttonFields.find(
-                            (button) =>
-                              !button.hidden && button.id === "generateOtp"
+                            (button) => !button.hidden && button.id === "generateOtp"
                           );
+                          
+                          // Disable the span and show countdown
+                          spanElement.style.pointerEvents = 'none';
+                          spanElement.style.color = '#808080'; // Gray color
+                          let countdown = 30;
+                          
+                          const interval = setInterval(() => {
+                            spanElement.textContent = `Request Again (${countdown}s)`;
+                            countdown--;
+                            
+                            if (countdown < 0) {
+                              clearInterval(interval);
+                              spanElement.textContent = 'Request Again';
+                              spanElement.style.pointerEvents = 'auto';
+                              spanElement.style.color = ''; // Reset to default color
+                            }
+                          }, 1000);
+
                           if (generateOtpButton) {
                             generateOtpButton.onClick(e);
                           }
@@ -123,8 +174,10 @@ const Login = () => {
                           type={button.type}
                           text={button.text}
                           onClick={(e) => {
-                            button.onClick(e);
-                            setCurrentStep(2);
+                            if (validateInputs(inputFields)) {
+                              button.onClick(e);
+                              setCurrentStep(2);
+                            }
                           }}
                           style={button.style}
                         />

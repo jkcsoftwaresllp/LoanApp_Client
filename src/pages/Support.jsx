@@ -3,71 +3,102 @@ import { Button } from "../components/common/Button";
 import { showToast } from "../utils/toastUtils";
 import styles from "./style/Support.module.css";
 import { CloseIcon } from "../components/common/assets";
+import apiRequest from "../components/common/authApi";
 
 const Support = () => {
   const [loading, setLoading] = useState(false);
   const [tickets, setTickets] = useState([]);
   const [showTicketsOverlay, setShowTicketsOverlay] = useState(false);
   const [formData, setFormData] = useState({
-    queryType: "",
+    query_type: "",
     description: "",
   });
 
-  const queryTypes = [
-    "Loan Application",
-    "Payment Issue",
-    "Account Related",
-    "Technical Support",
-    "Other",
-  ];
+  const query_types = ["Loan Application", "Payments", "Account", "General"];
 
   useEffect(() => {
-    // Simulate fetching existing tickets
-    const mockTickets = [
-      {
-        ticket_id: "T001",
-        query_type: "Loan Application",
-        description: "Unable to submit documents",
-        status: "In Progress",
-        created_at: "2024-02-15",
-        comments: "We are reviewing your case",
-      },
-      {
-        ticket_id: "T002",
-        query_type: "Payment Issue",
-        description: "EMI not reflected",
-        status: "Resolved",
-        created_at: "2024-02-10",
-        comments: "Payment has been updated",
-      },
-    ];
-    setTickets(mockTickets);
+    const fetchTickets = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        if (!accessToken) {
+          showToast("error", "Please log in.");
+          return;
+        }
+
+        const response = await apiRequest(
+          "GET",
+          "http://localhost:5000/api/auth/tickets",
+          null,
+          accessToken,
+          setLoading
+        );
+
+        console.log("API Response:", response); // Add logging
+
+        if (
+          response.data.status === "success" &&
+          Array.isArray(response.data.tickets)
+        ) {
+          setTickets(response.data.tickets);
+        } else {
+          setTickets([]);
+        }
+      } catch (err) {
+        console.error("API Error:", err); // Add error logging
+        showToast("error", "Failed to fetch tickets. Please try again later.");
+      }
+    };
+
+    fetchTickets();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    if (!formData.queryType || !formData.description) {
+    if (!formData.query_type || !formData.description) {
       showToast("error", "Please fill all fields");
       setLoading(false);
       return;
     }
 
-    // Simulate API call
-    setTimeout(() => {
-      const newTicket = {
-        ticket_id: `T00${tickets.length + 1}`,
-        ...formData,
-        status: "Open",
-        created_at: new Date().toISOString().split("T")[0],
-        comments: "Ticket received",
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+
+      if (!accessToken) {
+        showToast("error", "Please log in.");
+        return;
+      }
+
+      const requestData = {
+        query_type: formData.query_type,
+        description: formData.description,
       };
-      setTickets([newTicket, ...tickets]);
-      showToast("success", "Ticket created successfully");
-      setFormData({ queryType: "", description: "" });
+
+      console.log("Submitting ticket with data:", requestData); // Add logging
+
+      const response = await apiRequest(
+        "POST",
+        "http://localhost:5000/api/auth/create-ticket",
+        requestData,
+        accessToken,
+        setLoading
+      );
+
+      console.log("API Response:", response); // Add logging
+
+      if (response.data) {
+        setTickets([response.data, ...tickets]);
+        showToast("success", "Ticket created successfully");
+        setFormData({ query_type: "", description: "" });
+      }
+    } catch (err) {
+      console.error("API Error:", err); // Add detailed error logging
+      showToast("error", "Failed to create ticket. Please try again later.");
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -81,14 +112,14 @@ const Support = () => {
           <div className={styles.formGroup}>
             <label>Query Type</label>
             <select
-              value={formData.queryType}
+              value={formData.query_type}
               onChange={(e) =>
-                setFormData({ ...formData, queryType: e.target.value })
+                setFormData((prev) => ({ ...prev, query_type: e.target.value }))
               }
               className={styles.select}
             >
               <option value="">Select Query Type</option>
-              {queryTypes.map((type) => (
+              {query_types.map((type) => (
                 <option key={type} value={type}>
                   {type}
                 </option>
@@ -101,7 +132,10 @@ const Support = () => {
             <textarea
               value={formData.description}
               onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
+                setFormData((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }))
               }
               className={styles.textarea}
               rows="4"
@@ -141,11 +175,14 @@ const Support = () => {
 
             {tickets.length > 0 ? (
               <div className={styles.ticketsList}>
-                {tickets.map((ticket) => (
-                  <div key={ticket.ticket_id} className={styles.ticketCard}>
+                {tickets.map((ticket, index) => (
+                  <div
+                    key={ticket._id || `ticket-${index}`}
+                    className={styles.ticketCard}
+                  >
                     <div className={styles.ticketHeader}>
                       <span className={styles.ticketId}>
-                        #{ticket.ticket_id}
+                        #{index + 1}. {ticket.ticket_id}
                       </span>
                       <span
                         className={`${styles.status} ${
@@ -159,8 +196,14 @@ const Support = () => {
                       <h3>{ticket.query_type}</h3>
                       <p>{ticket.description}</p>
                       <div className={styles.ticketFooter}>
-                        <span>Created: {ticket.created_at}</span>
-                        <p className={styles.comments}>{ticket.comments}</p>
+                        <span className={styles.createdDate}>
+                          Created: {new Date(ticket.createdAt).toLocaleDateString()} {new Date(ticket.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+                        </span>
+                        {ticket.comments && (
+                          <p className={styles.comments}>
+                            Comments: {ticket.comments}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>

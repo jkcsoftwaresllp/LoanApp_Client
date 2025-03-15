@@ -22,7 +22,7 @@ h2 {
   padding: 2rem;
   border-radius: var(--border-radius-medium);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .form {
@@ -60,6 +60,11 @@ h2 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.ticketsButton {
+  display: flex; /* Add flex display */
+  justify-content: flex-end; /* Align content to the right */
+  width: 300px;
+}
 .ticketsList {
   display: flex;
   flex-direction: column;
@@ -97,7 +102,7 @@ h2 {
 
 .inprogress {
   background: #fff3e0;
-  color: #f57c00;
+  color: #ff8000;
 }
 
 .resolved {
@@ -151,7 +156,7 @@ h2 {
     --color-background,
     #fff
   ); /* Default white if variable is not defined */
-  padding: 2rem;
+  padding: 1rem;
   border-radius: var(--border-radius-medium);
   width: 90%;
   max-width: 800px;
@@ -165,7 +170,13 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  position: sticky;
+  top: 0; /* Ensures the header stays at the top */
+  background-color: var(
+    --color-background,
+    #fff
+  ); /* Ensure background color is set */
+  z-index: 10; /* Ensure it stays above other content */
 }
 
 .closeButton {
@@ -190,4 +201,25 @@ h2 {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.createdDate {
+  font-weight: bold;
+  color: #333; /* Change to your preferred color */
+  font-size: 0.9em; /* Adjust the font size as needed */
+  text-align: left;
+}
+
+.ticketFooter {
+  display: flex;
+  flex-direction: column; /* Change to 'row' if you want horizontal columns */
+  gap: 10px; /* Adjust spacing between columns */
+}
+.comments {
+  font-size: var(--font-size-small);
+}
+
+.createdDate,
+.comments {
+  flex: 1; /* Ensures equal space distribution */
 }

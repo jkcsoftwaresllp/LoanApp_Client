@@ -85,21 +85,25 @@ const Dashboard = () => {
               <div className={style.cardArea}>
                 <DashboardCard
                   title="Active Loans"
-                  value={dashboardData.active_loans}
+                  value={dashboardData.active_loans || 0}
                   desc="Number of loans currently active."
                 />
                 <DashboardCard
                   title="Pending Applications"
-                  value={dashboardData.pending_applications}
+                  value={dashboardData.pending_applications || 0}
                   desc="Applications waiting for approval."
                 />
               </div>
               <CustomDashboardCard
                 title="Financial History"
                 valueTitle="Total Borrowed"
-                value={`${Number(dashboardData.financial_history.totalamount).toFixed(2)}`}
+                value={`${Number(
+                  dashboardData.financial_history?.totalamount || 0
+                ).toFixed(2)}`}
                 valueTitle2="Repayments Made"
-                value2={`${Number(dashboardData.financial_history.total_repaid).toFixed(2)}`}
+                value2={`${Number(
+                  dashboardData.financial_history?.total_repaid || 0
+                ).toFixed(2)}`}
                 desc="Your financial history."
               />
             </div>
@@ -107,8 +111,8 @@ const Dashboard = () => {
             {/* Right Section */}
             <div className={style.rightSection}>
               <SemiDonutChart
-                paid={dashboardData.financial_history.total_repaid}
-                total={dashboardData.financial_history.totalamount}
+                paid={dashboardData.financial_history?.total_repaid || 0}
+                total={dashboardData.financial_history?.totalamount || 0}
               />
               <EmiCard onClick={goToemi} title="Calculate" value="EMI" />
             </div>

@@ -44,8 +44,8 @@ const FAQ = () => {
         console.log("✅ API Response:", response);
 
         // Extract the "faqs" array properly
-        if (response && Array.isArray(response.faqs)) {
-          setFaqs(response.faqs);
+        if (response.data && Array.isArray(response.data.faqs)) {
+          setFaqs(response.data.faqs);
         } else {
           throw new Error("Invalid API response format.");
         }
