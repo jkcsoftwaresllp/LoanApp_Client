@@ -8,6 +8,7 @@ import { Button } from "../components/common/Button";
 import { CalendarIcon } from "../components/common/assets";
 import Btn from "../components/common/Btn";
 import { UpdateIcon } from "../components/common/assets";
+import { API_BASE_URL } from "../config";
 
 const UpdateLoanDetails = () => {
   const { loanData, updateLoanData } = useContext(LoanContext);
@@ -44,7 +45,7 @@ const UpdateLoanDetails = () => {
 
       await apiRequest(
         "POST",
-        "http://localhost:5000/api/auth/update-loan-details",
+        `${API_BASE_URL}auth/update-loan-details`,
         payload,
         accessToken,
         setIsLoading

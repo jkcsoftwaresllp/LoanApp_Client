@@ -4,6 +4,7 @@ import styles from "./style/Notification.module.css";
 import { NotificationIcon } from "../common/assets";
 import { useNavigate } from "react-router-dom";
 import { CloseIcon, NotiSettingicon } from "../common/assets";
+import { API_BASE_URL } from "../../config";
 
 const Notification = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,14 +22,14 @@ const Notification = () => {
   const fetchNotifications = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-  
+
       if (!accessToken) {
         console.error("No access token found");
         return;
       }
-  
+
       const response = await fetch(
-        "http://localhost:5000/api/auth/repayment-notification",
+        `${API_BASE_URL}auth/repayment-notification`,
         {
           method: "GET",
           headers: {
@@ -37,27 +38,29 @@ const Notification = () => {
           },
         }
       );
-  
+
       const data = await response.json();
-  
+
       if (response.ok && data.repayments && Array.isArray(data.repayments)) {
         // Convert repayment data to notifications format
         const formattedNotifications = data.repayments.map((repayment) => ({
           title: repayment.status,
           message: `<strong>Loan ID: ${repayment.loan_id}</strong> - Payment of <span style="color: #0066cc">₹${repayment.amount}</span> due on ${repayment.due_date}`,
           time: repayment.due_date,
-          type: repayment.status === "Overdue" ? "error" : "warning"
+          type: repayment.status === "Overdue" ? "error" : "warning",
         }));
-  
+
         setNotifications(formattedNotifications);
       } else if (response.ok && data.message) {
         // Handle case when no repayments are found
-        setNotifications([{
-          title: "No Pending Payments",
-          message: data.message,
-          time: new Date().toLocaleDateString(),
-          type: "info"
-        }]);
+        setNotifications([
+          {
+            title: "No Pending Payments",
+            message: data.message,
+            time: new Date().toLocaleDateString(),
+            type: "info",
+          },
+        ]);
       } else {
         console.error("Failed to fetch notifications:", data.message);
         setNotifications([]);
@@ -96,7 +99,11 @@ const Notification = () => {
                 <NotificationBody
                   key={index}
                   title={<strong>{notification.title}</strong>}
-                  message={<div dangerouslySetInnerHTML={{ __html: notification.message }} />}
+                  message={
+                    <div
+                      dangerouslySetInnerHTML={{ __html: notification.message }}
+                    />
+                  }
                   time={notification.time}
                 />
               ))

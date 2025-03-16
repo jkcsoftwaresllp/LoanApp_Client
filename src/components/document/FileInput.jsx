@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import style from "./style/File.module.css";
 import DownloadBtn from "../common/downloadBtn";
+import { Button } from "../common/Button";
 import { CloseIcon } from "../../components/common/assets";
 export const FileInput = ({ file, onFileChange }) => {
   const fileInputRef = useRef(null);
@@ -16,10 +17,11 @@ export const FileInput = ({ file, onFileChange }) => {
   const handleClearFile = (e) => {
     e.stopPropagation();
 
+    // Ensure onFileChange is correctly updating the state or props
     onFileChange(null);
 
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = ""; // Clear the file input value
     }
   };
 
@@ -38,16 +40,17 @@ export const FileInput = ({ file, onFileChange }) => {
       {file ? (
         <div className="flex justify-center items-center w-full text-center">
           <p className={style.fileName}>{file.name}</p>
-          <button
+          {/* <button
             type="button"
             onClick={handleClearFile}
             className="absolute top-3 right-0 text-red-500"
           >
             <CloseIcon />
-          </button>
+          </button> */}
         </div>
       ) : (
         <div className={style.upload}>
+          {/* <Button text="Select File" /> */}
           <DownloadBtn />
         </div>
       )}

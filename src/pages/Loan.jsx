@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import UpdateLoanDetails from "./UpdateLoanDetails";
 import useUpload from "../hooks/useUpload";
 import LoanDetails from "./LoanDetails";
-import Profile from "./Profile";
 import ProfileCard from "./ProfileCard";
 import LoanList from "./LoanList";
 import { Button } from "../components/common/Button";

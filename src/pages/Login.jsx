@@ -5,9 +5,9 @@ import { Button } from "../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import style from "./style/LoginForm.module.css";
 import { Loader } from "../components/common/Loader";
-import backgroundImage from "./assets/loginWallpaper.jpg";
 import OtpInput from "./OtpInput";
 import { showToast } from "../utils/toastUtils";
+import { API_BASE_URL } from "../config";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,8 +17,8 @@ const Login = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const apiBaseUrl = isInvestor
-    ? "http://localhost:5000/api/investor/login"
-    : "http://localhost:5000/api/login";
+    ? `${API_BASE_URL}investor/login`
+    : `${API_BASE_URL}login`;
 
   const onSuccessRedirect = isInvestor ? "/portfolio" : "/home";
 
@@ -114,7 +114,10 @@ const Login = () => {
                     <p className={style.p}>
                       Code sent to{" "}
                       <span style={{ color: "#007bff" }}>
-                        {inputFields.find((field) => field.id === "email")?.value}
+                        {
+                          inputFields.find((field) => field.id === "email")
+                            ?.value
+                        }
                       </span>
                     </p>
                     <OtpInput
@@ -130,23 +133,24 @@ const Login = () => {
                         onClick={(e) => {
                           const spanElement = e.currentTarget;
                           const generateOtpButton = buttonFields.find(
-                            (button) => !button.hidden && button.id === "generateOtp"
+                            (button) =>
+                              !button.hidden && button.id === "generateOtp"
                           );
-                          
+
                           // Disable the span and show countdown
-                          spanElement.style.pointerEvents = 'none';
-                          spanElement.style.color = '#808080'; // Gray color
+                          spanElement.style.pointerEvents = "none";
+                          spanElement.style.color = "#808080"; // Gray color
                           let countdown = 30;
-                          
+
                           const interval = setInterval(() => {
                             spanElement.textContent = `Request Again (${countdown}s)`;
                             countdown--;
-                            
+
                             if (countdown < 0) {
                               clearInterval(interval);
-                              spanElement.textContent = 'Request Again';
-                              spanElement.style.pointerEvents = 'auto';
-                              spanElement.style.color = ''; // Reset to default color
+                              spanElement.textContent = "Request Again";
+                              spanElement.style.pointerEvents = "auto";
+                              spanElement.style.color = ""; // Reset to default color
                             }
                           }, 1000);
 

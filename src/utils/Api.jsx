@@ -1,12 +1,12 @@
-export const otpurl = "http://localhost:5000/api"; 
+import { API_BASE_URL } from "../config";
+export const otpurl = `${API_BASE_URL}`;
 
-export const apireg="http://localhost:5000/api/register";
+export const apireg = `${API_BASE_URL}register`;
 
-export const apilog="http://localhost:5000/api/login";
+export const apilog = `${API_BASE_URL}login`;
 
-export const apiprof="http://localhost:5000/api/auth/profile";
+export const apiprof = `${API_BASE_URL}auth/profile`;
 
-export const mailotp="http://localhost:5000/api/auth/update-email";
+export const mailotp = `${API_BASE_URL}auth/update-email`;
 
-export const prupdate="http://localhost:5000/api/auth/update-profile";
-
+export const prupdate = `${API_BASE_URL}auth/update-profile`;

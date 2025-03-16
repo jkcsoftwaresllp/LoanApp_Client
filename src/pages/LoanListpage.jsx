@@ -6,6 +6,7 @@ import styles from "../Styles/LoanListPage.module.css";
 import { Infoicon } from "../components/common/assets";
 import { IconBtn } from "../components/common/IconBtn";
 import { Button } from "../components/common/Button"; // Assuming Button exists
+import { API_BASE_URL } from "../config";
 
 const LoanListPage = () => {
   const [loans, setLoans] = useState([]);
@@ -25,7 +26,7 @@ const LoanListPage = () => {
 
         const response = await apiRequest(
           "GET",
-          "http://localhost:5000/api/auth/getAllLoansForUser",
+          `${API_BASE_URL}auth/getAllLoansForUser`,
           null,
           accessToken,
           setLoading
@@ -84,7 +85,7 @@ const LoanListPage = () => {
       const accessToken = localStorage.getItem("accessToken");
       const response = await apiRequest(
         "GET",
-        `http://localhost:5000/api/auth/loan/${loanId}`,
+        `${API_BASE_URL}auth/loan/${loanId}`,
         null,
         accessToken
       );

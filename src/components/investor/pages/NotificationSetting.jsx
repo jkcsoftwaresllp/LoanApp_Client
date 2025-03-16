@@ -16,7 +16,7 @@ const NotificationSettings = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/auth/profile", {
+        const response = await fetch(`${API_BASE_URL}auth/profile`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const NotificationSettings = () => {
     const fetchNotificationDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/auth/repayment-notification",
+          `${API_BASE_URL}auth/repayment-notification`,
           {
             method: "GET",
             headers: {

@@ -6,6 +6,7 @@ import { Button } from "../components/common/Button";
 import styles from "../Styles/PageSlider.module.css";
 import { showToast } from "../utils/toastUtils";
 import { Loader } from "../components/common/Loader";
+import { API_BASE_URL } from "../config";
 
 const useUpload = ({ apiRoute, buttonText }) => {
   const [file, setFile] = useState(null);
@@ -75,7 +76,7 @@ const useUpload = ({ apiRoute, buttonText }) => {
         }
       });
 
-      xhr.open("POST", `http://localhost:5000/api/auth/${apiRoute}`);
+      xhr.open("POST", `${API_BASE_URL}auth/${apiRoute}`);
       xhr.setRequestHeader("Authorization", `Bearer ${token}`);
 
       xhr.onload = function () {
@@ -108,12 +109,10 @@ const useUpload = ({ apiRoute, buttonText }) => {
       <div>
         <h1 className={styles.header}>{buttonText || "Upload Document"}</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
+        <form onSubmit={handleSubmit}>
           {errorMessage && (
             <div className={styles.errorMsg}>{errorMessage}</div>
           )}
-
-          <FileInput file={file} onFileChange={handleFileChange} />
 
           <div>
             <p>Select Document Type:</p>
@@ -140,7 +139,7 @@ const useUpload = ({ apiRoute, buttonText }) => {
                     width: `${uploadProgress}%`,
                     backgroundColor: "#4CAF50",
                     height: "100%",
-                    borderRadius: "4px",
+                    borderRadius: "10px",
                     transition: "width 0.3s ease",
                   }}
                   aria-valuenow={uploadProgress}
@@ -154,6 +153,7 @@ const useUpload = ({ apiRoute, buttonText }) => {
           )}
 
           <div className={styles.buttonWrapper}>
+            <FileInput file={file} onFileChange={handleFileChange} />
             <Button
               text={loading ? "Uploading..." : buttonText || "Upload"}
               type="submit"

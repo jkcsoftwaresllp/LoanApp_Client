@@ -9,14 +9,15 @@ export const fetchProfile = async (
   setUpdatedProfile
 ) => {
   try {
-    const data = await apiRequest("get", apiUrl, null, accessToken, setLoading);
-    console.log("Fetched Profile Data:", data); // ✅ Debug the response structure
+    const response = await apiRequest("get", apiUrl, null, accessToken, setLoading);
+    console.log("Fetched Profile Data:", response); // ✅ Debug the response structure
 
-    if (data?.profile) {
-      setProfile(data.profile); // ✅ Ensure correct key
-      setUpdatedProfile(data.profile);
+    // Access the profile data correctly
+    if (response?.data?.profile) {
+      setProfile(response.data.profile); // ✅ Ensure correct key
+      setUpdatedProfile(response.data.profile);
     } else {
-      console.warn("Profile data is missing in response:", data);
+      console.warn("Profile data is missing in response:", response);
       setProfile({}); // ✅ Avoid undefined errors
       setUpdatedProfile({});
     }

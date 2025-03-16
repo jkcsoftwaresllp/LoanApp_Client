@@ -6,6 +6,7 @@ import { Infoicon } from "../components/common/assets";
 import { Loader } from "../components/common/Loader";
 import { showToast } from "../utils/toastUtils";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 const RepaymentSchedule = () => {
   const [loans, setLoans] = useState([]);
@@ -26,15 +27,12 @@ const RepaymentSchedule = () => {
           throw new Error("Access token is missing. Please log in.");
         }
 
-        const response = await fetch(
-          "http://localhost:5000/api/auth/repayment-schedule",
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}auth/repayment-schedule`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        });
 
         const data = await response.json();
 
@@ -72,15 +70,12 @@ const RepaymentSchedule = () => {
     setLoading(true);
     try {
       const accessToken = localStorage.getItem("accessToken");
-      const response = await fetch(
-        "http://localhost:5000/api/auth/repayment-schedule",
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}auth/repayment-schedule`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       const data = await response.json();
 

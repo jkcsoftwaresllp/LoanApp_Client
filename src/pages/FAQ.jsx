@@ -3,6 +3,7 @@ import styles from "./style/FAQ.module.css";
 import { Loader } from "../components/common/Loader";
 import apiRequest from "../components/common/authApi";
 import { showToast } from "../utils/toastUtils";
+import { API_BASE_URL } from "../config";
 
 const FAQ = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,7 +36,7 @@ const FAQ = () => {
 
         const response = await apiRequest(
           "GET",
-          "http://localhost:5000/api/auth/faq/list",
+          `${API_BASE_URL}auth/faq/list`,
           null,
           accessToken,
           setLoading

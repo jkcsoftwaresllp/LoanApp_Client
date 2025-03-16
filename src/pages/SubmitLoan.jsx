@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { CheckIcon } from "../components/common/assets";
 import Btn from "../components/common/Btn";
 import { showToast } from "../utils/toastUtils";
+import { API_BASE_URL } from "../config";
 
 const SubmitLoan = () => {
   const { loanData, updateLoanData } = useContext(LoanContext);
@@ -46,7 +47,7 @@ const SubmitLoan = () => {
     try {
       const response = await apiRequest(
         "POST",
-        "http://localhost:5000/api/auth/submit",
+        `${API_BASE_URL}auth/submit`,
         { loan_id: loanData.loan_id },
         accessToken
       );

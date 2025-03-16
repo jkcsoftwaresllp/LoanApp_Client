@@ -7,6 +7,7 @@ import { showToast } from "../utils/toastUtils";
 import { Loader } from "../components/common/Loader";
 import { CalendarIcon, Drafticon } from "../components/common/assets";
 import Btn from "../components/common/Btn";
+import { API_BASE_URL } from "../config";
 
 const LoanForm = () => {
   const navigate = useNavigate();
@@ -23,7 +24,6 @@ const LoanForm = () => {
     const accessToken = localStorage.getItem("accessToken");
 
     if (!accessToken) {
-      setError("Access token not found. Please log in.");
       showToast("error", "Access token not found. Please log in.");
       navigate("/login");
       return;
@@ -31,14 +31,12 @@ const LoanForm = () => {
 
     const parsedAmount = parseFloat(amount);
     if (isNaN(parsedAmount) || parsedAmount <= 0) {
-      setError("Please enter a valid loan amount.");
       showToast("error", "Please enter a valid loan amount.");
       return;
     }
 
     const parsedInterestRate = parseFloat(interestRate);
     if (isNaN(parsedInterestRate) || parsedInterestRate <= 0) {
-      setError("Please enter a valid interest rate.");
       showToast("error", "Please enter a valid interest rate.");
       return;
     }
@@ -46,7 +44,7 @@ const LoanForm = () => {
     try {
       const response = await apiRequest(
         "POST",
-        "http://localhost:5000/api/auth/save-draft",
+        `${API_BASE_URL}auth/save-draft`,
         {
           amount: parsedAmount,
           start_date: startDate,
@@ -57,14 +55,19 @@ const LoanForm = () => {
         setLoading
       );
 
-      updateLoanData({
-        loan_id: response.loan_id,
-        amount: parsedAmount,
-        repayment_schedule: frequency,
-        interest_rate: parsedInterestRate,
-      });
+      console.log("API Response:", response); // Debug the API response
 
-      showToast("success", "Loan draft saved successfully!");
+      if (response && response.data && response.data.loan_id) {
+        updateLoanData({
+          loan_id: response.data.loan_id,
+          amount: parsedAmount,
+          repayment_schedule: frequency,
+          interest_rate: parsedInterestRate,
+        });
+        showToast("success", "Loan draft saved successfully!");
+      } else {
+        setError("Failed to save draft. Loan ID is missing in the response.");
+      }
     } catch (err) {
       setError(err.message);
     }

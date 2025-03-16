@@ -7,6 +7,7 @@ import style from "./style/LoginForm.module.css";
 import { Loader } from "../components/common/Loader";
 import { showToast } from "../utils/toastUtils";
 import OtpInput from "./OtpInput";
+import { API_BASE_URL } from "../config";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -30,8 +31,8 @@ const Register = () => {
   }, []);
 
   const apiBaseUrl = isInvestor
-    ? "http://localhost:5000/api/investor/register"
-    : "http://localhost:5000/api/register";
+    ? `${API_BASE_URL}investor/register`
+    : `${API_BASE_URL}register`;
 
   const onSuccessRedirect = "/home";
   const { otpGenerated, handleChange, message, inputFields, buttonFields } =

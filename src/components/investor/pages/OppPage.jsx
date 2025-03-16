@@ -5,6 +5,7 @@ import { showToast } from "../../../utils/toastUtils";
 import { Button } from "../../common/Button";
 import { IconBtn } from "../../common/IconBtn";
 import { CloseIcon, CheckIcon, Infoicon } from "../../common/assets";
+import { API_BASE_URL } from "../../../config";
 
 const InvestmentOpportunities = () => {
   const [loans, setLoans] = useState([]);
@@ -19,7 +20,7 @@ const InvestmentOpportunities = () => {
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/auth/oppr", {
+        const response = await fetch(`${API_BASE_URL}auth/oppr`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -48,7 +49,7 @@ const InvestmentOpportunities = () => {
   const confirmInvestment = async () => {
     if (!selectedLoan) return;
     try {
-      const response = await fetch("http://localhost:5000/api/auth/confirm", {
+      const response = await fetch(`${API_BASE_URL}auth/confirm`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +75,7 @@ const InvestmentOpportunities = () => {
 
       const fetchLoans = async () => {
         try {
-          const response = await fetch("http://localhost:5000/api/auth/oppr", {
+          const response = await fetch(`${API_BASE_URL}auth/oppr`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

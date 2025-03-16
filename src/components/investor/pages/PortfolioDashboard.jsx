@@ -5,6 +5,7 @@ import { Button } from "../../common/Button";
 import { useNavigate } from "react-router-dom";
 import styles from "./style/PortfolioDashboard.module.css";
 import axios from "axios";
+import { API_BASE_URL } from "../../../config";
 
 import {
   PieChart,
@@ -31,18 +32,15 @@ const PortfolioDashboard = () => {
           navigate("/login");
           return;
         }
-  
-        const response = await axios.get(
-          "http://localhost:5000/api/auth/portfolio",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-  
+
+        const response = await axios.get(`${API_BASE_URL}auth/portfolio`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         console.log("API Response:", response.data); // Debugging
-  
+
         if (response.data.uniqueCode === "PT24") {
           setPortfolio(response.data.data);
         } else {
@@ -50,15 +48,17 @@ const PortfolioDashboard = () => {
           setPortfolio(null);
         }
       } catch (error) {
-        console.error("Error fetching portfolio data:", error.response || error);
+        console.error(
+          "Error fetching portfolio data:",
+          error.response || error
+        );
         setPortfolio(null);
       }
     };
-  
+
     fetchPortfolio();
   }, []);
-  
-  
+
   const goToInvestment = () => {
     navigate("/make-investment");
   };

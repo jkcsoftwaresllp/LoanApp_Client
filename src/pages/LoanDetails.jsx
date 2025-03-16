@@ -4,6 +4,7 @@ import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanForm.module.css";
 import SubmitLoan from "./SubmitLoan";
 import { Loader } from "../components/common/Loader";
+import { API_BASE_URL } from "../config";
 
 const LoanDetails = () => {
   const { loanData } = useContext(LoanContext);
@@ -24,15 +25,22 @@ const LoanDetails = () => {
       try {
         const response = await apiRequest(
           "GET",
-          `http://localhost:5000/api/auth/ld/${loanData.loan_id}`,
+          `${API_BASE_URL}auth/ld/${loanData.loan_id}`,
           null,
           accessToken,
           setIsLoading
         );
 
-        setLoanDetails(response.loanDetails);
-        setLoan(response.loan);
+        console.log("API Response:", response); // Debug the API response
+
+        if (response && response.data && response.data.loan && response.data.loanDetails) {
+          setLoanDetails(response.data.loanDetails);
+          setLoan(response.data.loan);
+        } else {
+          setError("Loan details are missing in the response.");
+        }
       } catch (err) {
+        console.error("Error fetching loan details:", err); // Log the error
         setError(err.message || "Error fetching loan details.");
       }
     };
@@ -99,13 +107,11 @@ const LoanDetails = () => {
         </>
       ) : (
         <div className="flex flex-col justify-center items-center">
-          <img
-            src="/images/notavi.webp"
-            alt="Loan details not available"
-            className="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 mb-4"
-          />
           <p className="text-gray-500 text-base sm:text-lg md:text-xl lg:text-2xl font-semibold">
-            Loan details not available. Please apply for a loan.
+            Loan details not available,
+          </p>
+          <p className="text-gray-500 text-base sm:text-lg md:text-xl lg:text-2xl font-semibold">
+            Please apply again.
           </p>
         </div>
       )}

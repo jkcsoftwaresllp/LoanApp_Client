@@ -3,6 +3,7 @@ import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanList.module.css";
 import { Loader } from "../components/common/Loader";
 import { showToast } from "../utils/toastUtils";
+import { API_BASE_URL } from "../config";
 
 const LoanList = () => {
   const [loans, setLoans] = useState([]);
@@ -21,7 +22,7 @@ const LoanList = () => {
 
         const response = await apiRequest(
           "GET",
-          "http://localhost:5000/api/auth/getAllLoansForUser",
+          `${API_BASE_URL}auth/getAllLoansForUser`,
           null,
           accessToken,
           setLoading

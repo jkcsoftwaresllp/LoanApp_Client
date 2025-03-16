@@ -2,7 +2,7 @@
 .detailContainer {
   position: relative;
   width: 90%; /* Make it responsive */
-  max-width: 700px;
+  max-width: 500px;
   min-width: 280px;
   height: auto;
   max-height: 400px;

@@ -5,6 +5,7 @@ import { FeedbackCard } from "../jsx/feedbackCard";
 import styles from "./style/FeedbackForm.module.css";
 import { Loader } from "../../common/Loader";
 import { showToast } from "../../../utils/toastUtils";
+import { API_BASE_URL } from "../../../config";
 
 const feelings = [
   { emoji: "😢", label: "Very Bad", rating: 1 },
@@ -34,7 +35,7 @@ export default function FeedbackForm() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/feedback", {
+      const response = await fetch(`${API_BASE_URL}auth/feedback`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

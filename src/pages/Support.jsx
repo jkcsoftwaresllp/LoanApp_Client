@@ -4,6 +4,7 @@ import { showToast } from "../utils/toastUtils";
 import styles from "./style/Support.module.css";
 import { CloseIcon } from "../components/common/assets";
 import apiRequest from "../components/common/authApi";
+import { API_BASE_URL } from "../config";
 
 const Support = () => {
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ const Support = () => {
 
         const response = await apiRequest(
           "GET",
-          "http://localhost:5000/api/auth/tickets",
+          `${API_BASE_URL}auth/tickets`,
           null,
           accessToken,
           setLoading
@@ -80,7 +81,7 @@ const Support = () => {
 
       const response = await apiRequest(
         "POST",
-        "http://localhost:5000/api/auth/create-ticket",
+        `${API_BASE_URL}auth/create-ticket`,
         requestData,
         accessToken,
         setLoading
@@ -197,7 +198,13 @@ const Support = () => {
                       <p>{ticket.description}</p>
                       <div className={styles.ticketFooter}>
                         <span className={styles.createdDate}>
-                          Created: {new Date(ticket.createdAt).toLocaleDateString()} {new Date(ticket.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+                          Created:{" "}
+                          {new Date(ticket.createdAt).toLocaleDateString()}{" "}
+                          {new Date(ticket.createdAt).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
+                          })}
                         </span>
                         {ticket.comments && (
                           <p className={styles.comments}>

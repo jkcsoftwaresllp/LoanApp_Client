@@ -8,6 +8,7 @@ import { Loader } from "../components/common/Loader";
 import { CustomFileInput } from "../components/document/CustomFileInput";
 import Dropdown from "../components/common/Dropdown";
 import LogoutButton from "./LogoutButton";
+import { API_BASE_URL } from "../config";
 
 import {
   fetchProfile,
@@ -133,17 +134,14 @@ const Profile = () => {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/auth/update-profile",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}auth/update-profile`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(payload),
+      });
 
       if (response.ok) {
         const updatedData = await response.json();

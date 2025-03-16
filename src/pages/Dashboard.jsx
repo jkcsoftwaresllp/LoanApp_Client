@@ -8,6 +8,7 @@ import GradientButton from "../components/common/GradientButton";
 import SemiDonutChart from "../components/common/SemiDonutChart";
 import { showToast } from "../utils/toastUtils";
 import { Loader } from "../components/common/Loader";
+import { API_BASE_URL } from "../config";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const Dashboard = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:5000/api/auth/loancount", {
+      const response = await fetch(`${API_BASE_URL}auth/loancount`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

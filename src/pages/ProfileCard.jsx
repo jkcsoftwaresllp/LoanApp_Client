@@ -19,15 +19,13 @@ const ProfileCard = () => {
     address: "",
     email: "",
   });
-  const [isEditing, setIsEditing] = useState(false);
+
   const [updatedProfile, setUpdatedProfile] = useState({
     name: "",
     address: "",
     email: "",
   });
-  const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpMessage, setOtpMessage] = useState("");
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
