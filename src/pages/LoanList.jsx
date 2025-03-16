@@ -27,10 +27,12 @@ const LoanList = () => {
           accessToken,
           setLoading
         );
+        
+        console.log("API Response:", response);
 
-        // Ensure that response.data exists and is an array
-        if (response.data && Array.isArray(response.data)) {
-          setLoans(response.data);
+        // Access the nested data array
+        if (response.data && response.data.data && Array.isArray(response.data.data)) {
+          setLoans(response.data.data);
         } else {
           setLoans([]); // In case the response data is not an array
         }
