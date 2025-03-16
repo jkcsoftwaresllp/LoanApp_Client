@@ -210,7 +210,7 @@ const EmiCalculator = () => {
           </div>
         </div>
         <div className={styles.chartsContainer}>
-          <div className={styles.chartBox}>
+          <div className={`${styles.chartBox} ${styles.hideOnSmallScreen}`}>
             <h3 className={styles.title}>EMI Payment Schedule</h3>
             <Bar data={barData} />
           </div>
@@ -239,6 +239,7 @@ const EmiCalculator = () => {
                 layout="horizontal"
                 align="center"
                 verticalAlign="bottom"
+                className={styles.hideLegendOnSmallScreen}
               />
             </PieChart>
           </div>

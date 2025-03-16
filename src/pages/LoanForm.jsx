@@ -87,53 +87,65 @@ const LoanForm = () => {
         <>
           <div className={styles.inputField}>
             <label className={styles.llabel}>Amount</label>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className={styles.input}
-            />
-          </div>
-
-          <div className={styles.inputField}>
-            <label className={styles.llabel}>Start Date</label>
             <div className={styles.inputWrapper}>
+              <span className={styles.icon}>₹</span>
               <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
                 className={styles.input}
               />
-              <span className={styles.icon}>
-                <CalendarIcon />
-              </span>
             </div>
+          </div>
+          <div className={styles.inputField}>
+            <label className={styles.llabel}>Frequency</label>
+            <select
+              value={frequency}
+              onChange={(e) => setFrequency(e.target.value)}
+              className={styles.input}
+            >
+              {frequencyOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className={styles.inputRow}>
             <div className={styles.inputField}>
-              <label className={styles.llabel}>Frequency</label>
-              <select
-                value={frequency}
-                onChange={(e) => setFrequency(e.target.value)}
-                className={styles.input}
-              >
-                {frequencyOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <label className={styles.llabel}>Start Date</label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className={styles.input}
+                />
+                <span className={styles.icon}>
+                  <CalendarIcon />
+                </span>
+              </div>
             </div>
 
             <div className={styles.inputField}>
-              <label className={styles.llabel}>Interest %</label>
-              <input
-                type="number"
-                value={interestRate}
-                onChange={(e) => setInterestRate(e.target.value)}
-                className={styles.input}
-              />
+              <label className={styles.llabel}>Interest</label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="number"
+                  value={interestRate}
+                  onChange={(e) => {
+                    const value = parseFloat(e.target.value);
+                    if (value >= 1 && value <= 30) {
+                      setInterestRate(value);
+                    }
+                  }}
+                  className={styles.input}
+                  min="1"
+                  max="30"
+                />
+                <span className={styles.icon}>%</span>
+              </div>
             </div>
           </div>
 

@@ -32,9 +32,10 @@ const LoanListPage = () => {
           setLoading
         );
 
-        if (response.data && Array.isArray(response.data)) {
-          // Sort loans by status initially
-          const sortedLoans = response.data.sort((a, b) => {
+        console.log("API Response:", response);
+
+        if (response.data.data && Array.isArray(response.data.data)) {
+          const sortedLoans = response.data.data.sort((a, b) => {
             const statusOrder = {
               approved: 1,
               pending: 2,
@@ -85,10 +86,12 @@ const LoanListPage = () => {
       const accessToken = localStorage.getItem("accessToken");
       const response = await apiRequest(
         "GET",
-        `${API_BASE_URL}auth/loan/${loanId}`,
+        `${API_BASE_URL}auth/ld/${loanId}`,
         null,
         accessToken
       );
+
+      console.log("Loan Details Response:", response); // Log the response
 
       if (response.data) {
         setSelectedLoan(response.data);
@@ -169,22 +172,22 @@ const LoanListPage = () => {
           <div className={styles.modalContent}>
             <h2>Loan Details</h2>
             <p>
-              <strong>Loan ID:</strong> {selectedLoan.loan_id}
+              <strong>Loan ID:</strong> {selectedLoan.loan.loan_id}
             </p>
             <p>
-              <strong>Borrower Name:</strong> {selectedLoan.borrower_name}
+              <strong>Amount:</strong> {selectedLoan.loan.amount}
             </p>
             <p>
-              <strong>Amount:</strong> {selectedLoan.amount}
+              <strong>Total Repayment:</strong> {selectedLoan.loan.total_repayment}
             </p>
             <p>
-              <strong>ROI:</strong> {selectedLoan.roi}
+              <strong>Remaining Balance:</strong> {selectedLoan.loan.remaining_balance}
             </p>
             <p>
-              <strong>Tenure:</strong> {selectedLoan.tenure}
+              <strong>Status:</strong> {selectedLoan.loan.status}
             </p>
             <p>
-              <strong>Status:</strong> {selectedLoan.status}
+              <strong>Created At:</strong> {new Date(selectedLoan.loan.created_at).toLocaleDateString()}
             </p>
             <div className={styles.modalActions}>
               <Button onClick={closeModal} text="Close" />

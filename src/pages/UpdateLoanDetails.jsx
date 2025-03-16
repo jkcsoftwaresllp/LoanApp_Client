@@ -65,7 +65,7 @@ const UpdateLoanDetails = () => {
   };
 
   return (
-    <div className={styles.detailContainer}>
+    <div className={styles.container}>
       <h2 className={styles.detailTitle}>Update Loan Details</h2>
 
       {error && <div className={styles.error}>{error}</div>}
@@ -75,30 +75,43 @@ const UpdateLoanDetails = () => {
           <Loader />
         </div>
       ) : (
-        <div className={styles.body}>
+        <>
           <div className={styles.inputField}>
-            <label className={styles.label}>Amount</label>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className={styles.input}
-            />
+            <label className={styles.llabel}>Amount</label>
+            <div className={styles.inputWrapper}>
+              <span className={styles.icon}>₹</span>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className={styles.input}
+              />
+            </div>
           </div>
 
           <div className={styles.inputField}>
-            <label className={styles.label}>Interest Rate</label>
-            <input
-              type="number"
-              value={interestRate}
-              onChange={(e) => setInterestRate(e.target.value)}
-              className={styles.input}
-            />
+            <label className={styles.llabel}>Interest</label>
+            <div className={styles.inputWrapper}>
+              <input
+                type="number"
+                value={interestRate}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  if (value >= 1 && value <= 30) {
+                    setInterestRate(value);
+                  }
+                }}
+                className={styles.input}
+                min="1"
+                max="30"
+              />
+              <span className={styles.icon}>%</span>
+            </div>
           </div>
 
-          <div className={styles.rowContainer}>
+          <div className={styles.inputRow}>
             <div className={styles.inputField}>
-              <label className={styles.label}>Start Date</label>
+              <label className={styles.llabel}>Start Date</label>
               <div className={styles.inputWrapper}>
                 <input
                   type="date"
@@ -113,7 +126,7 @@ const UpdateLoanDetails = () => {
             </div>
 
             <div className={styles.inputField}>
-              <label className={styles.label}>Repayment Schedule</label>
+              <label className={styles.llabel}>Frequency</label>
               <input
                 type="text"
                 value={frequency}
@@ -130,7 +143,7 @@ const UpdateLoanDetails = () => {
               icon={<UpdateIcon />}
             />
           </div>
-        </div>
+        </>
       )}
     </div>
   );
