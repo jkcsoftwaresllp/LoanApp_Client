@@ -14,11 +14,14 @@ const LoanForm = () => {
   const { updateLoanData } = useContext(LoanContext);
   const [amount, setAmount] = useState("");
   const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState(""); // Add new state for end date
   const [interestRate, setInterestRate] = useState("");
+  const [interestRateAfterDue, setInterestRateAfterDue] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [frequency, setFrequency] = useState("Yearly");
-  const frequencyOptions = ["weekly", "monthly", "yearly"];
+  const [frequency, setFrequency] = useState("weekly");
+  const [months, setMonths] = useState(1); // Add new state for number of months
+  const frequencyOptions = ["weekly", "monthly", "quaterly", "yearly"];
 
   const handleSaveDraft = async () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -48,7 +51,9 @@ const LoanForm = () => {
         {
           amount: parsedAmount,
           start_date: startDate,
+          end_date: endDate,
           frequency,
+          time_period: timePeriod,
           interest_rate: parsedInterestRate,
         },
         accessToken,
@@ -71,6 +76,31 @@ const LoanForm = () => {
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  // Add these new state variables at the top with other states
+  const [timePeriod, setTimePeriod] = useState(1);
+
+  // Update the calculateEndDate function to handle all frequencies
+  const calculateEndDate = (start, period, freq) => {
+    const startDateObj = new Date(start);
+    switch (freq) {
+      case "weekly":
+        startDateObj.setDate(startDateObj.getDate() + period * 7);
+        break;
+      case "monthly":
+        startDateObj.setMonth(startDateObj.getMonth() + period);
+        break;
+      case "quaterly":
+        startDateObj.setMonth(startDateObj.getMonth() + period * 3);
+        break;
+      case "yearly":
+        startDateObj.setFullYear(startDateObj.getFullYear() + period);
+        break;
+      default:
+        break;
+    }
+    return startDateObj.toISOString().split("T")[0];
   };
 
   return (
@@ -97,29 +127,70 @@ const LoanForm = () => {
               />
             </div>
           </div>
-          <div className={styles.inputField}>
-            <label className={styles.llabel}>Frequency</label>
-            <select
-              value={frequency}
-              onChange={(e) => setFrequency(e.target.value)}
-              className={styles.input}
-            >
-              {frequencyOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+          <div className={styles.inputRow}>
+            <div className={styles.inputField}>
+              <label className={styles.llabel}>Frequency</label>
+              <select
+                value={frequency}
+                onChange={(e) => {
+                  setFrequency(e.target.value);
+                  if (startDate) {
+                    setEndDate(
+                      calculateEndDate(startDate, timePeriod, e.target.value)
+                    );
+                  }
+                }}
+                className={styles.input}
+              >
+                {frequencyOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.inputField}>
+              <label className={styles.llabel}>
+                Number of{" "}
+                {frequency === "weekly"
+                  ? "Weeks"
+                  : frequency === "monthly"
+                  ? "Months"
+                  : frequency === "quaterly"
+                  ? "Quarters"
+                  : "Years"}
+              </label>
+              <input
+                type="number"
+                value={timePeriod}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value, 10);
+                  if (value > 0) {
+                    setTimePeriod(value);
+                    if (startDate) {
+                      setEndDate(calculateEndDate(startDate, value, frequency));
+                    }
+                  }
+                }}
+                className={styles.input}
+                min="1"
+              />
+            </div>
           </div>
 
           <div className={styles.inputRow}>
-            <div className={styles.inputField}>
+            <div className={styles.inputFieldD}>
               <label className={styles.llabel}>Start Date</label>
               <div className={styles.inputWrapper}>
                 <input
                   type="date"
                   value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
+                  onChange={(e) => {
+                    setStartDate(e.target.value);
+                    setEndDate(
+                      calculateEndDate(e.target.value, timePeriod, frequency)
+                    );
+                  }}
                   className={styles.input}
                 />
                 <span className={styles.icon}>
@@ -127,7 +198,22 @@ const LoanForm = () => {
                 </span>
               </div>
             </div>
-
+            <div className={styles.inputFieldD}>
+              <label className={styles.llabel}>End Date</label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="date"
+                  value={endDate}
+                  readOnly
+                  className={styles.input}
+                />
+                <span className={styles.icon}>
+                  <CalendarIcon />
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className={styles.inputRow}>
             <div className={styles.inputField}>
               <label className={styles.llabel}>Interest</label>
               <div className={styles.inputWrapper}>
@@ -138,11 +224,24 @@ const LoanForm = () => {
                     const value = parseFloat(e.target.value);
                     if (value >= 1 && value <= 30) {
                       setInterestRate(value);
+                      setInterestRateAfterDue(value + 5);
                     }
                   }}
                   className={styles.input}
                   min="1"
                   max="30"
+                />
+                <span className={styles.icon}>%</span>
+              </div>
+            </div>
+            <div className={styles.inputField}>
+              <label className={styles.llabel}>Interest after due</label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="number"
+                  value={interestRateAfterDue}
+                  readOnly
+                  className={styles.input}
                 />
                 <span className={styles.icon}>%</span>
               </div>

@@ -12,7 +12,7 @@ export const inputFieldConfig = (
         value: value.mobile_number || "",
         placeholder: "Enter your mobile number",
         disabled: false,
-        },
+      },
       {
         label: "Email",
         id: "email",
@@ -21,7 +21,7 @@ export const inputFieldConfig = (
         placeholder: "Enter your email",
         disabled: false,
       },
-      
+
       {
         label: "Password",
         id: "password",
@@ -330,8 +330,7 @@ export const inputFieldConfig = (
       placeholder: "Enter your mobile number",
       disabled: false,
     },
-    
-   
+
     {
       label: "Enter OTP",
       id: "otp",

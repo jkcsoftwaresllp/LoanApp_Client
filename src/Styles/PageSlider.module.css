@@ -1,10 +1,18 @@
 .container {
   position: relative;
-  width: 500px;
+  width: 550px;
   max-width: 100%;
   margin: 0 auto;
   background-color: #fbfeff;
   padding: 0.5rem;
+
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+  overflow-x: scroll;
+  box-sizing: border-box;
   border-radius: var(--border-radius-large);
 
   display: flex;
@@ -14,13 +22,33 @@
   box-sizing: border-box;
 }
 .input {
-  padding: 0.5rem;
+  padding: 0.75rem;
   width: 100%;
   color: #0f0f0f;
-  border-radius: var(--border-radius-large);
-  border: 1px solid #0f0f0f;
+  border-radius: 6px;
+  border: 2px solid #e0e0e0;
+  font-size: 1rem;
+  font-weight: 700; /* Make text slightly bold */
+  letter-spacing: 0.9px; /* Increase spacing between letters */
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+}
+.input:focus {
+  outline: none;
+  border-color: #3ad03f;
+  box-shadow: 0 0 0 3px rgba(58, 208, 63, 0.2);
 }
 
+.input::-webkit-calendar-picker-indicator {
+  background: transparent; /* Remove the default calendar icon if needed */
+}
+
+.input {
+  padding-left: 30px; /* Add padding to prevent text overlap with the icon */
+}
+.input::-webkit-calendar-picker-indicator {
+  background: transparent; /* Remove the default calendar icon if needed */
+}
 .header {
   color: #0f0f0f;
   text-align: center;
@@ -42,20 +70,22 @@ p {
 }
 
 .llabel {
-  color: #0f0f0f;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: var(--font-size-medium);
+  color: #333;
+  font-weight: var(--font-weight-light);
+}
+
+@media (max-width: 768px) {
+  .llabel {
+    font-size: var(
+      --font-size-small
+    ); /* Smaller font size for medium or smaller screens */
+  }
 }
 
 .buttonDisabled {
   background-color: #aaa;
   cursor: not-allowed;
-}
-
-.toggleButton:hover {
-  background-color: #2e7d32;
 }
 
 .buttonWrapper {
@@ -101,4 +131,83 @@ p {
   justify-content: center;
   align-items: center;
   height: calc(100vh - var(--header-height));
+}
+
+.formSection {
+  width: 100%;
+  gap: 10px;
+}
+
+.inputRow {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .inputRow {
+    flex-direction: column;
+  }
+}
+
+.inputField {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.inputField {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.inputField:hover {
+  border-color: #3ad03f;
+  box-shadow: 0 4px 8px rgba(58, 208, 63, 0.2);
+}
+
+.inputField label {
+  font-weight: 500;
+  color: #333;
+}
+
+.inputField input,
+.inputField textarea {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.inputField textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+.inputWrapper {
+  position: relative;
+  width: 80%;
+  border-color: #333;
+}
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper .icon:first-child {
+  position: absolute;
+  left: 10px; /* Adjust as needed */
+  pointer-events: none; /* Prevents clicking on the icon */
+}
+.formToggle {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.toggleButton {
+  color: #0f0f0f;
 }

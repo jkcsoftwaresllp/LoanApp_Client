@@ -2,7 +2,7 @@
 .detailContainer {
   position: relative;
   width: 100%; /* Make it responsive */
-  max-width: 500px;
+  max-width: 550px;
   min-width: 280px;
   height: auto;
   max-height: 400px;
@@ -127,7 +127,7 @@ strong {
 }
 .inputWrapper {
   position: relative;
-  width: 100%;
+  width: 80%;
   border-color: #333;
 }
 
@@ -204,7 +204,22 @@ strong {
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.inputFieldD {
+  background-color: #ffffff;
+  padding: 0.5rem;
+  border-radius: 8px;
+  width: 100%;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
+@media (max-width: 768px) {
+  .inputFieldD {
+    padding: 1rem;
+    width: 100%; /* Full width on small screens */
+  }
+}
 .inputField:hover {
   border-color: #3ad03f;
   box-shadow: 0 4px 8px rgba(58, 208, 63, 0.2);

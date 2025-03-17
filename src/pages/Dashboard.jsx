@@ -42,6 +42,7 @@ const Dashboard = () => {
       });
 
       const data = await response.json();
+      console.log("API Response:", data);  // Add this line to log the response
 
       if (response.ok) {
         setDashboardData(data);

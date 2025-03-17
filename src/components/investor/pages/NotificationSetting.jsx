@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style/Notification.module.css";
 import { showToast } from "../../../utils/toastUtils";
+import { API_BASE_URL } from "../../../config";
 
 const NotificationSettings = () => {
   const [notifications, setNotifications] = useState([]);
