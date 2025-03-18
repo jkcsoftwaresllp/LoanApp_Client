@@ -315,3 +315,56 @@ strong {
 .inputField:last-child {
   margin-right: 0; /* Remove margin from the last field */
 }
+
+.infoIconWrapper {
+  display: inline-block;
+  position: relative;
+  margin-left: 8px;
+}
+
+.infoIcon {
+  display: inline-flex;
+  margin-left: 5px;
+  cursor: help;
+}
+
+.infoIcon svg {
+  width: 16px;
+  height: 16px;
+}
+.infoIcon:hover {
+  color: #3ad03f;
+}
+
+.tooltipText {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  width: 150px;
+  transform: translateX(-45%);
+  bottom: 125%;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltipText::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+.infoIconWrapper:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+}

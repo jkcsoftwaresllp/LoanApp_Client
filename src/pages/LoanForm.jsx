@@ -5,7 +5,7 @@ import apiRequest from "../components/common/authApi";
 import styles from "../Styles/LoanForm.module.css";
 import { showToast } from "../utils/toastUtils";
 import { Loader } from "../components/common/Loader";
-import { CalendarIcon, Drafticon } from "../components/common/assets";
+import { CalendarIcon, Drafticon, Infoicon } from "../components/common/assets";
 import Btn from "../components/common/Btn";
 import { API_BASE_URL } from "../config";
 
@@ -22,6 +22,7 @@ const LoanForm = () => {
   const [frequency, setFrequency] = useState("weekly");
   const [months, setMonths] = useState(1); // Add new state for number of months
   const frequencyOptions = ["weekly", "monthly", "quaterly", "yearly"];
+  const [showInfoOverlay, setShowInfoOverlay] = useState(false);
 
   const handleSaveDraft = async () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -235,7 +236,17 @@ const LoanForm = () => {
               </div>
             </div>
             <div className={styles.inputField}>
-              <label className={styles.llabel}>Interest after due</label>
+              <label className={styles.llabel}>
+                Interest after due
+                <div className={styles.infoIconWrapper}>
+                  <span className={styles.infoIcon}>
+                    <Infoicon />
+                  </span>
+                  <div className={styles.tooltipText}>
+                    Interest will change to {interestRateAfterDue}% if money isn't paid till end date
+                  </div>
+                </div>
+              </label>
               <div className={styles.inputWrapper}>
                 <input
                   type="number"

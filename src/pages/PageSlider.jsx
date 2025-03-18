@@ -1,5 +1,5 @@
 import React, { useState, Suspense } from "react";
-import { toast } from "react-toastify";
+
 import styles from "../Styles/PageSlider.module.css";
 import { UserIcon, ParentIcon } from "../components/common/assets";
 import { Loader } from "../components/common/Loader";
@@ -41,10 +41,10 @@ const PageSlider = () => {
     const newPage = activePage === "file" ? "guarantee" : "file";
     setActivePage(newPage);
     setShowForm(true);
-    
+
     // Reset only the relevant section of the form
     if (newPage === "file") {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         name: "",
         address: "",
@@ -54,7 +54,7 @@ const PageSlider = () => {
         panNo: "",
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         guarantorName: "",
         guarantorAddress: "",
@@ -88,13 +88,11 @@ const PageSlider = () => {
         icon={getIcon()}
       />
 
-      {showForm && (
-        <UserGuaranteeForm
-          formData={formData}
-          handleInputChange={handleInputChange}
-          activePage={activePage === "file" ? "user" : "guarantee"}
-        />
-      )}
+      <UserGuaranteeForm
+        formData={formData}
+        handleInputChange={handleInputChange}
+        activePage={activePage === "file" ? "guarantee" : "user"}
+      />
     </div>
   );
 };

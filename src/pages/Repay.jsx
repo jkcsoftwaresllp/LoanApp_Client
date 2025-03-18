@@ -7,6 +7,7 @@ import { Loader } from "../components/common/Loader";
 import { showToast } from "../utils/toastUtils";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
+import PaymentModal from "../components/common/PaymentModal";
 
 const RepaymentSchedule = () => {
   const [loans, setLoans] = useState([]);
@@ -16,6 +17,7 @@ const RepaymentSchedule = () => {
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [selectedRepayment, setSelectedRepayment] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -179,7 +181,13 @@ const RepaymentSchedule = () => {
                     <td className={styles.btnContainer}>
                       {repayment.status === "Pending" && (
                         <>
-                          <Button text="Pay" />
+                          <Button
+                            text="Pay"
+                            onClick={() => {
+                              setSelectedRepayment(repayment);
+                              setShowPaymentModal(true);
+                            }}
+                          />
                           <IconBtn
                             icon={<Infoicon />}
                             onClick={() => showRepaymentDetails(repayment)}
@@ -219,6 +227,18 @@ const RepaymentSchedule = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Add PaymentModal */}
+      {showPaymentModal && selectedRepayment && (
+        <PaymentModal
+          repaymentDetails={selectedRepayment}
+          onClose={() => setShowPaymentModal(false)}
+          onSuccess={() => {
+            setShowPaymentModal(false);
+            fetchRepaymentSchedule(selectedLoan); // Refresh the schedule
+          }}
+        />
       )}
     </div>
   );
