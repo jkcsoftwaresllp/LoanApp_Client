@@ -195,8 +195,7 @@ const Profile = () => {
               <Button
                 text="Edit Profile"
                 onClick={() => {
-                  setUpdatedProfile({ ...profile });
-                  setIsEditing(true);
+                  navigate('/profile/update');  // Navigate to profile update page
                 }}
               />
             </div>

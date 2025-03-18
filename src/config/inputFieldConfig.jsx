@@ -49,7 +49,7 @@ export const inputFieldConfig = (
         label: "Full Name (as per PAN)",
         id: "full_name",
         type: "text",
-        value: value.full_name || "",
+        value: value.name || "",
         placeholder: "Enter full name",
         disabled: false,
       },
@@ -261,47 +261,49 @@ export const inputFieldConfig = (
         disabled: false,
       },
 
-      // // KYC & Documentation (File Upload Fields)
-      // {
-      //   label: "Aadhaar Number",
-      //   id: "aadhaar",
-      //   type: "text",
-      //   value: value.aadhaar || "",
-      //   placeholder: "Enter Aadhaar number",
-      //   disabled: false,
-      // },
-      // {
-      //   label: "PAN Number",
-      //   id: "pan",
-      //   type: "text",
-      //   value: value.pan || "",
-      //   placeholder: "Enter PAN number",
-      //   disabled: false,
-      // },
-      // {
-      //   label: "Voter ID / Driving License / Passport",
-      //   id: "idProof",
-      //   type: "file",
-      //   value: "",
-      //   placeholder: "Upload ID proof",
-      //   disabled: false,
-      // },
-      // {
-      //   label: "Latest Salary Slips / ITR / Form 16",
-      //   id: "incomeProof",
-      //   type: "file",
-      //   value: "",
-      //   placeholder: "Upload income proof",
-      //   disabled: false,
-      // },
-      // {
-      //   label: "Bank Statements (Last 6 Months)",
-      //   id: "bankStatements",
-      //   type: "file",
-      //   value: "",
-      //   placeholder: "Upload bank statements",
-      //   disabled: false,
-      // },
+      // Banking & Financial Information fields...
+      
+      // KYC & Documentation Fields
+      {
+        label: "Aadhaar Number",
+        id: "aadhar_number",
+        type: "text",
+        value: value.aadhar_number || "",
+        placeholder: "Enter 12-digit Aadhaar number",
+        disabled: false,
+      },
+      {
+        label: "PAN Number",
+        id: "pan_number",
+        type: "text",
+        value: value.pan_number || "",
+        placeholder: "Enter PAN number",
+        disabled: false,
+      },
+      {
+        label: "Voter ID / Driving License / Passport",
+        id: "idProof",
+        type: "file",
+        value: value.idProof || "",
+        placeholder: "Upload ID proof",
+        disabled: false,
+      },
+      {
+        label: "Latest Salary Slips / ITR / Form 16",
+        id: "incomeProof",
+        type: "file",
+        value: value.incomeProof || "",
+        placeholder: "Upload income proof",
+        disabled: false,
+      },
+      {
+        label: "Bank Statements (Last 6 Months)",
+        id: "bankStatements",
+        type: "file",
+        value: value.bankStatements || "",
+        placeholder: "Upload bank statements",
+        disabled: false,
+      },
     ];
   }
 

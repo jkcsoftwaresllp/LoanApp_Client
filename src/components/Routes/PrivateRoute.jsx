@@ -14,6 +14,7 @@ import LoanListPage from "../../pages/LoanListpage";
 import RepaymentSchedule from "../../pages/Repay";
 import Support from "../../pages/Support";
 import FAQ from "../../pages/FAQ";
+import ProfileUpdate from "../ProfileUpdate";
 
 import Home from "../../pages/Home";
 
@@ -96,6 +97,14 @@ export const privateRoutes = (
       element={
         <PrivateRoute allowedRoles={["investor", "user"]}>
           <Profile />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/profile/update"
+      element={
+        <PrivateRoute allowedRoles={["investor", "user"]}>
+          <ProfileUpdate />
         </PrivateRoute>
       }
     />
