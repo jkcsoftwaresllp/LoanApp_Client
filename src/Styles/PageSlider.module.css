@@ -5,6 +5,8 @@
   margin: 0 auto;
   background-color: #fbfeff;
   padding: 0.5rem;
+  height: 500px;
+  overflow-x: scroll;
 
   border-radius: 1rem;
   display: flex;
@@ -210,4 +212,15 @@ p {
 
 .toggleButton {
   color: #0f0f0f;
+}
+.buttonContainer {
+  margin-top: 1rem;
+}
+
+.submitButton {
+  transition: all 0.3s ease;
+}
+
+.submitButton:hover {
+  transform: translateY(-1px);
 }

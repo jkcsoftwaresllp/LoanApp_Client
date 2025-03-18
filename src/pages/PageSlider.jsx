@@ -13,12 +13,20 @@ const PageSlider = () => {
   const [activePage, setActivePage] = useState("file");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
+    // User fields
     name: "",
     address: "",
     mobileNo: "",
     parentName: "",
     bankAccountNo: "",
     panNo: "",
+    // Guarantor fields
+    guarantorName: "",
+    guarantorAddress: "",
+    guarantorMobileNo: "",
+    guarantorParentName: "",
+    guarantorBankAccountNo: "",
+    guarantorPanNo: "",
   });
 
   const handleInputChange = (e) => {
@@ -30,15 +38,32 @@ const PageSlider = () => {
   };
 
   const handleTogglePage = () => {
-    setActivePage(activePage === "file" ? "guarantee" : "file");
-    setFormData({
-      name: "",
-      address: "",
-      mobileNo: "",
-      parentName: "",
-      bankAccountNo: "",
-      panNo: "",
-    });
+    const newPage = activePage === "file" ? "guarantee" : "file";
+    setActivePage(newPage);
+    setShowForm(true);
+    
+    // Reset only the relevant section of the form
+    if (newPage === "file") {
+      setFormData(prev => ({
+        ...prev,
+        name: "",
+        address: "",
+        mobileNo: "",
+        parentName: "",
+        bankAccountNo: "",
+        panNo: "",
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        guarantorName: "",
+        guarantorAddress: "",
+        guarantorMobileNo: "",
+        guarantorParentName: "",
+        guarantorBankAccountNo: "",
+        guarantorPanNo: "",
+      }));
+    }
   };
 
   const getIcon = () => {
@@ -63,11 +88,13 @@ const PageSlider = () => {
         icon={getIcon()}
       />
 
-      <UserGuaranteeForm
-        formData={formData}
-        handleInputChange={handleInputChange}
-        activePage={activePage}
-      />
+      {showForm && (
+        <UserGuaranteeForm
+          formData={formData}
+          handleInputChange={handleInputChange}
+          activePage={activePage === "file" ? "user" : "guarantee"}
+        />
+      )}
     </div>
   );
 };
