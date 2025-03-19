@@ -18,8 +18,10 @@ const UpdateLoanDetails = () => {
   );
   const [startDate, setStartDate] = useState(loanData.start_date || "");
   const [frequency, setFrequency] = useState(loanData.repayment_schedule || "");
+  const [timePeriod, setTimePeriod] = useState(loanData.duration || 1); // Add duration state
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const frequencyOptions = ["Weekly", "Monthly", "Quarterly", "Yearly"]; // Add frequency options
 
   const handleUpdate = async () => {
     if (!amount || !interestRate || !startDate || !frequency) {
@@ -88,27 +90,6 @@ const UpdateLoanDetails = () => {
               />
             </div>
           </div>
-
-          <div className={styles.inputField}>
-            <label className={styles.llabel}>Interest</label>
-            <div className={styles.inputWrapper}>
-              <input
-                type="number"
-                value={interestRate}
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  if (value >= 1 && value <= 30) {
-                    setInterestRate(value);
-                  }
-                }}
-                className={styles.input}
-                min="1"
-                max="30"
-              />
-              <span className={styles.icon}>%</span>
-            </div>
-          </div>
-
           <div className={styles.inputRow}>
             <div className={styles.inputField}>
               <label className={styles.llabel}>Start Date</label>
@@ -118,21 +99,73 @@ const UpdateLoanDetails = () => {
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
                   className={styles.input}
+                  min={new Date().toISOString().split("T")[0]}
                 />
                 <span className={styles.icon}>
                   <CalendarIcon />
                 </span>
               </div>
             </div>
+            <div className={styles.inputField}>
+              <label className={styles.llabel}>
+                Duration in{" "}
+                {frequency === "weekly"
+                  ? "Weeks"
+                  : frequency === "monthly"
+                  ? "Months"
+                  : frequency === "quarterly"
+                  ? "Quarters"
+                  : "Years"}
+              </label>
+              <input
+                type="number"
+                value={timePeriod}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value, 10);
+                  if (value > 0) {
+                    setTimePeriod(value);
+                  }
+                }}
+                className={styles.input}
+                min="1"
+              />
+            </div>
+          </div>
 
+          <div className={styles.inputRow}>
+            <div className={styles.inputField}>
+              <label className={styles.llabel}>Interest</label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="number"
+                  value={interestRate}
+                  readOnly
+                  onChange={(e) => {
+                    const value = parseFloat(e.target.value);
+                    if (value >= 1 && value <= 30) {
+                      setInterestRate(value);
+                    }
+                  }}
+                  className={styles.input}
+                  min="1"
+                  max="30"
+                />
+                <span className={styles.icon}>%</span>
+              </div>
+            </div>
             <div className={styles.inputField}>
               <label className={styles.llabel}>Frequency</label>
-              <input
-                type="text"
+              <select
                 value={frequency}
                 onChange={(e) => setFrequency(e.target.value)}
                 className={styles.input}
-              />
+              >
+                {frequencyOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
