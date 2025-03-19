@@ -4,8 +4,7 @@ import { CardContent } from "../jsx/cardContent";
 import { Button } from "../../common/Button";
 import { useNavigate } from "react-router-dom";
 import styles from "./style/PortfolioDashboard.module.css";
-import axios from "axios";
-import { API_BASE_URL } from "../../../config";
+import { fetchPortfolioData } from "./helper/portfolioHelper";
 
 import {
   PieChart,
@@ -25,33 +24,14 @@ const PortfolioDashboard = () => {
   const [portfolio, setPortfolio] = useState(null);
   useEffect(() => {
     const fetchPortfolio = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-        if (!token) {
-          console.error("No token found. Redirecting to login.");
+      const { success, data, error } = await fetchPortfolioData();
+      if (success) {
+        setPortfolio(data);
+      } else {
+        console.warn("Error fetching portfolio:", error);
+        if (error.message === "No token found") {
           navigate("/login");
-          return;
         }
-
-        const response = await axios.get(`${API_BASE_URL}auth/portfolio`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        console.log("API Response:", response.data); // Debugging
-
-        if (response.data.uniqueCode === "PT24") {
-          setPortfolio(response.data.data);
-        } else {
-          console.warn("Unexpected response format:", response.data);
-          setPortfolio(null);
-        }
-      } catch (error) {
-        console.error(
-          "Error fetching portfolio data:",
-          error.response || error
-        );
         setPortfolio(null);
       }
     };

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoanContext } from "../context/LoanContext";
 import apiRequest from "../components/common/authApi";
@@ -18,10 +18,11 @@ const LoanForm = () => {
   const [interestRate, setInterestRate] = useState("");
   const [interestRateAfterDue, setInterestRateAfterDue] = useState("");
   const [error, setError] = useState("");
+  const [timePeriod, setTimePeriod] = useState(1);
   const [loading, setLoading] = useState(false);
   const [frequency, setFrequency] = useState("weekly");
   const [months, setMonths] = useState(1); // Add new state for number of months
-  const frequencyOptions = ["weekly", "monthly", "quaterly", "yearly"];
+  const frequencyOptions = ["weekly", "monthly", "quarterly", "yearly"];
   const [showInfoOverlay, setShowInfoOverlay] = useState(false);
 
   const handleSaveDraft = async () => {
@@ -53,9 +54,8 @@ const LoanForm = () => {
           amount: parsedAmount,
           start_date: startDate,
           end_date: endDate,
-          frequency,
-          time_period: timePeriod,
-          interest_rate: parsedInterestRate,
+          frequency: frequency.charAt(0).toUpperCase() + frequency.slice(1),
+          duration: timePeriod,
         },
         accessToken,
         setLoading
@@ -72,17 +72,16 @@ const LoanForm = () => {
         });
         showToast("success", "Loan draft saved successfully!");
       } else {
-        setError("Failed to save draft. Loan ID is missing in the response.");
+        showToast(
+          "error",
+          "Failed to save draft. Loan ID is missing in the response."
+        );
       }
     } catch (err) {
-      setError(err.message);
+      showToast("error", err.message);
     }
   };
 
-  // Add these new state variables at the top with other states
-  const [timePeriod, setTimePeriod] = useState(1);
-
-  // Update the calculateEndDate function to handle all frequencies
   const calculateEndDate = (start, period, freq) => {
     const startDateObj = new Date(start);
     switch (freq) {
@@ -92,7 +91,7 @@ const LoanForm = () => {
       case "monthly":
         startDateObj.setMonth(startDateObj.getMonth() + period);
         break;
-      case "quaterly":
+      case "quarterly":
         startDateObj.setMonth(startDateObj.getMonth() + period * 3);
         break;
       case "yearly":
@@ -103,7 +102,41 @@ const LoanForm = () => {
     }
     return startDateObj.toISOString().split("T")[0];
   };
+  useEffect(() => {
+    const fetchInterestRates = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          console.error("No access token found");
+          return;
+        }
 
+        // Fetch all interest rates
+        const allRatesResponse = await apiRequest(
+          "GET",
+          `${API_BASE_URL}auth/interest-rates`,
+          null,
+          accessToken
+        );
+
+        // Find the rate for the current frequency
+        const selectedRate = allRatesResponse.data.data.find(
+          (rate) => rate.frequency.toLowerCase() === frequency.toLowerCase()
+        );
+
+        if (selectedRate) {
+          setInterestRate(selectedRate.interest_rate);
+          setInterestRateAfterDue(selectedRate.interest_rate + 2);
+        }
+
+        console.log("All Interest Rates:", allRatesResponse.data);
+      } catch (error) {
+        console.error("Error fetching interest rates:", error);
+      }
+    };
+
+    fetchInterestRates();
+  }, [frequency]);
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Loan Form</h2>
@@ -134,10 +167,11 @@ const LoanForm = () => {
               <select
                 value={frequency}
                 onChange={(e) => {
-                  setFrequency(e.target.value);
+                  const newFrequency = e.target.value;
+                  setFrequency(newFrequency);
                   if (startDate) {
                     setEndDate(
-                      calculateEndDate(startDate, timePeriod, e.target.value)
+                      calculateEndDate(startDate, timePeriod, newFrequency)
                     );
                   }
                 }}
@@ -152,12 +186,12 @@ const LoanForm = () => {
             </div>
             <div className={styles.inputField}>
               <label className={styles.llabel}>
-                Number of{" "}
+                Duration in{" "}
                 {frequency === "weekly"
                   ? "Weeks"
                   : frequency === "monthly"
                   ? "Months"
-                  : frequency === "quaterly"
+                  : frequency === "quarterly"
                   ? "Quarters"
                   : "Years"}
               </label>
@@ -193,6 +227,7 @@ const LoanForm = () => {
                     );
                   }}
                   className={styles.input}
+                  min={new Date().toISOString().split("T")[0]}
                 />
                 <span className={styles.icon}>
                   <CalendarIcon />
@@ -221,6 +256,7 @@ const LoanForm = () => {
                 <input
                   type="number"
                   value={interestRate}
+                  readOnly
                   onChange={(e) => {
                     const value = parseFloat(e.target.value);
                     if (value >= 1 && value <= 30) {
@@ -243,7 +279,8 @@ const LoanForm = () => {
                     <Infoicon />
                   </span>
                   <div className={styles.tooltipText}>
-                    Interest will change to {interestRateAfterDue}% if money isn't paid till end date
+                    Interest will change to {interestRateAfterDue}% if money
+                    isn't paid till end date
                   </div>
                 </div>
               </label>

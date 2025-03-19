@@ -108,13 +108,13 @@ const Notification = () => {
                 />
               ))
             ) : (
-              <p className={styles.noNotifications}>No notifications</p>
+              <div className={styles.noNotifications}>No notifications</div>
             )}
           </div>
 
-          <p className={styles.notificationSettings} onClick={goToSettings}>
+          <div className={styles.notificationSettings} onClick={goToSettings}>
             Notification Settings <NotiSettingicon />
-          </p>
+          </div>
         </div>
       )}
     </div>

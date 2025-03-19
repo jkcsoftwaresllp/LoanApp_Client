@@ -58,20 +58,6 @@ const UserGuaranteeForm = ({ formData, handleInputChange, activePage }) => {
           />
         </div>
       </div>
-      <div className={styles.inputField}>
-        <label className={styles.llabel}>Parent Name</label>
-        <div className={styles.inputWrapper}>
-          <input
-            type="text"
-            name="parentName"
-            value={formData.parentName}
-            onChange={handleInputChange}
-            className={styles.input}
-            disabled={activePage === "user"}
-            required
-          />
-        </div>
-      </div>
 
       <div className={styles.inputField}>
         <label className={styles.llabel}>Address</label>
@@ -277,12 +263,16 @@ const UserGuaranteeForm = ({ formData, handleInputChange, activePage }) => {
       {activePage === "user" ? renderUserFields() : renderGuarantorFields()}
 
       {/* Remove the duplicate common fields section */}
-      
+
       {/* Add submit button */}
       <div className={styles.buttonContainer}>
         <Button
           type="submit"
-          text={activePage === "user" ? "Submit User Details" : "Submit Guarantor Details"}
+          text={
+            activePage === "user"
+              ? "Submit User Details"
+              : "Submit Guarantor Details"
+          }
           onClick={(e) => {
             e.preventDefault();
             // Handle form submission based on activePage

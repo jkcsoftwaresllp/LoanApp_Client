@@ -5,7 +5,8 @@ import { FeedbackCard } from "../jsx/feedbackCard";
 import styles from "./style/FeedbackForm.module.css";
 import { Loader } from "../../common/Loader";
 import { showToast } from "../../../utils/toastUtils";
-import { API_BASE_URL } from "../../../config";
+
+import { submitFeedback } from "./helper/feedbackHelper";
 
 const feelings = [
   { emoji: "😢", label: "Very Bad", rating: 1 },
@@ -34,27 +35,11 @@ export default function FeedbackForm() {
       comments: comment,
     };
 
-    try {
-      const response = await fetch(`${API_BASE_URL}auth/feedback`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        body: JSON.stringify(feedbackData),
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        showToast(
-          "success",
-          result.message || "Feedback submitted successfully"
-        );
-      } else {
-        setMessage(result.message || "Failed to submit feedback");
-      }
-    } catch (error) {
-      showToast("error", error.message || "Failed to submit feedback");
+    const { success, data, error } = await submitFeedback(feedbackData);
+    if (success) {
+      showToast("success", data.message || "Feedback submitted successfully");
+    } else {
+      setMessage(error || data.message || "Failed to submit feedback");
     }
     setLoading(false);
   };

@@ -11,7 +11,6 @@ const GuaranteePage = React.lazy(() => import("./GuaranteePage"));
 
 const PageSlider = () => {
   const [activePage, setActivePage] = useState("file");
-  const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     // User fields
     name: "",
@@ -40,7 +39,6 @@ const PageSlider = () => {
   const handleTogglePage = () => {
     const newPage = activePage === "file" ? "guarantee" : "file";
     setActivePage(newPage);
-    setShowForm(true);
 
     // Reset only the relevant section of the form
     if (newPage === "file") {

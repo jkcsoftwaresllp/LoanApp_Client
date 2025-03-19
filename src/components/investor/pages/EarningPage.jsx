@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import { Loader } from "../../common/Loader";
 import styles from "./style/Earning.module.css";
+import { processEarningsData } from "./helper/earningHelper";
 
 export const EarningsRepayment = () => {
   const [earnings, setEarnings] = useState([]);
@@ -125,12 +126,7 @@ export const EarningsRepayment = () => {
       </div>
     );
 
-  // Line Chart Data
-  const chartData = earnings.map((e) => ({
-    month: e.due_date.substring(0, 7),
-    amount: parseFloat(e.amount),
-  }));
-
+  const { chartData, donutChartData } = processEarningsData(earnings);
   // Calculate Paid vs Pending
   const totalPaid = earnings
     .filter((e) => e.status === "Paid")
@@ -139,11 +135,6 @@ export const EarningsRepayment = () => {
   const totalPending = earnings
     .filter((e) => e.status === "Pending")
     .reduce((sum, e) => sum + parseFloat(e.amount), 0);
-
-  const donutChartData = [
-    { name: "Paid", value: totalPaid },
-    { name: "Pending", value: totalPending },
-  ];
 
   const COLORS = ["#4CAF50", "#FF9800"]; // Green for Paid, Orange for Pending
 

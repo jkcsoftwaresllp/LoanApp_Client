@@ -5,7 +5,9 @@ import { showToast } from "../../../utils/toastUtils";
 import { Button } from "../../common/Button";
 import { IconBtn } from "../../common/IconBtn";
 import { CloseIcon, CheckIcon, Infoicon } from "../../common/assets";
-import { API_BASE_URL } from "../../../config";
+
+import { fetchLoans } from "./helper/investmentHelper";
+import { confirmInvestmentRequest } from "./helper/investmentHelper";
 
 const InvestmentOpportunities = () => {
   const [loans, setLoans] = useState([]);
@@ -18,91 +20,42 @@ const InvestmentOpportunities = () => {
   const [loadingLoans, setLoadingLoans] = useState(false);
 
   useEffect(() => {
-    const fetchLoans = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}auth/oppr`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });
-
-        const result = await response.json();
-        if (!response.ok) {
-          throw new Error(result.message || "Failed to fetch loans");
-        }
-        setLoans(result.data || []);
-        setFilteredLoans(result.data || []);
-      } catch (err) {
-        console.error("Error fetching loans:", err);
-        setError(err.message);
-        showToast("error", err.message);
-      } finally {
-        setLoading(false);
+    const getLoans = async () => {
+      const { success, data, error } = await fetchLoans();
+      if (success) {
+        setLoans(data);
+        setFilteredLoans(data);
+      } else {
+        setError(error);
+        showToast("error", error);
       }
+      setLoading(false);
     };
 
-    fetchLoans();
+    getLoans();
   }, []);
 
   const confirmInvestment = async () => {
     if (!selectedLoan) return;
-    try {
-      const response = await fetch(`${API_BASE_URL}auth/confirm`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        body: JSON.stringify({
-          investor_id: "1", // Replace with actual investor ID
-          loan_id: selectedLoan.loan_id,
-          amount: selectedLoan.amount,
-        }),
-      });
 
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to confirm investment");
-      }
+    const { success, data, error } = await confirmInvestmentRequest(
+      selectedLoan.loan_id,
+      selectedLoan.amount
+    );
 
+    if (success) {
       showToast("success", "Investment confirmed successfully");
       closeModals();
-
-      // Show loader while fetching updated data
       setLoadingLoans(true);
 
-      const fetchLoans = async () => {
-        try {
-          const response = await fetch(`${API_BASE_URL}auth/oppr`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          });
-
-          const result = await response.json();
-          if (!response.ok) {
-            throw new Error(result.message || "Failed to fetch loans");
-          }
-
-          setLoans(result.data || []);
-          setFilteredLoans(result.data || []);
-        } catch (err) {
-          console.error("Error fetching loans:", err);
-          setError(err.message);
-          showToast("error", err.message);
-        } finally {
-          setLoadingLoans(false); // Hide loader after data is fetched
-        }
-      };
-
-      fetchLoans();
-    } catch (err) {
-      console.error("Error confirming investment:", err);
-      showToast("error", err.message);
+      const { success: fetchSuccess, data: newData } = await fetchLoans();
+      if (fetchSuccess) {
+        setLoans(newData);
+        setFilteredLoans(newData);
+      }
+      setLoadingLoans(false);
+    } else {
+      showToast("error", error);
     }
   };
 
