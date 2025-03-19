@@ -4,16 +4,14 @@ import { Button } from "../components/common/Button";
 import { IconBtn } from "../components/common/IconBtn";
 import { Infoicon } from "../components/common/assets";
 import { Loader } from "../components/common/Loader";
-import { showToast } from "../utils/toastUtils";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../config";
 import PaymentModal from "../components/common/PaymentModal";
+import { fetchLoans, fetchRepaymentSchedule } from "./helper/repayHelper";
 
 const RepaymentSchedule = () => {
   const [loans, setLoans] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [selectedRepayment, setSelectedRepayment] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -21,89 +19,23 @@ const RepaymentSchedule = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchLoans = async () => {
-      try {
-        const accessToken = localStorage.getItem("accessToken");
-        if (!accessToken) {
-          showToast("error", "Please log in.");
-          throw new Error("Access token is missing. Please log in.");
-        }
-
-        const response = await fetch(`${API_BASE_URL}auth/repayment-schedule`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        const data = await response.json();
-
-        // Check if data exists and handle the response structure
-        if (response.ok) {
-          // If data is directly an array
-          if (Array.isArray(data)) {
-            setLoans(data);
-          }
-          // If data is nested in a property
-          else if (data.data && Array.isArray(data.data)) {
-            setLoans(data.data);
-          }
-          // If no loans found, set empty array
-          else {
-            setLoans([]);
-          }
-        } else {
-          setLoans([]);
-          showToast("error", data.message || "Failed to fetch loans");
-        }
-      } catch (err) {
-        setError(err.message || "Failed to fetch loans. Please try again.");
-        showToast("error", "Failed to fetch loans. Please try again.");
-        setLoans([]); // Ensure loans is always an array even on error
-      } finally {
-        setLoading(false);
-      }
+    const getLoans = async () => {
+      setLoading(true);
+      const data = await fetchLoans();
+      setLoans(data);
+      setLoading(false);
     };
-
-    fetchLoans();
+    getLoans();
   }, []);
 
-  const fetchRepaymentSchedule = async (loanId) => {
+  const handleFetchRepaymentSchedule = async (loanId) => {
     setLoading(true);
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      const response = await fetch(`${API_BASE_URL}auth/repayment-schedule`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.status === "success") {
-        // Find the specific loan's repayment schedule
-        const loanSchedule = data.data.find((loan) => loan.loan_id === loanId);
-
-        if (loanSchedule) {
-          setSchedule(loanSchedule.repayment_schedule);
-          setSelectedLoan(loanId);
-        } else {
-          showToast("error", "No repayment schedule found for this loan");
-        }
-      } else {
-        showToast(
-          "error",
-          data.message || "Failed to fetch repayment schedule"
-        );
-      }
-    } catch (err) {
-      console.error("Error fetching repayment schedule:", err);
-      showToast("error", "Failed to fetch repayment schedule");
-    } finally {
-      setLoading(false);
-    }
+    const data = await fetchRepaymentSchedule(loanId);
+    setSchedule(data);
+    setSelectedLoan(loanId);
+    setLoading(false);
   };
+
   const showRepaymentDetails = (repayment) => {
     setSelectedRepayment(repayment);
     setModalOpen(true);
@@ -119,7 +51,11 @@ const RepaymentSchedule = () => {
     <div className={styles.container}>
       <h1 className={styles.title}>Loan Repayments</h1>
 
-      {!selectedLoan ? (
+      {loading ? (
+        <Loader />
+      ) : loans.length === 0 ? (
+        <div className={styles.noLoansMessage}>No active loans found</div>
+      ) : !selectedLoan ? (
         <>
           <div className={styles.tableContainer}>
             <table className={styles.table}>

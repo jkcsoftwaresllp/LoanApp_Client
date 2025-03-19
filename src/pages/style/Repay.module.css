@@ -18,11 +18,11 @@
   text-align: center;
   color: var(--color-text-primary);
 }
-.noLoans {
+.noLoansMessage {
   text-align: center;
-  padding: 20px;
+  font-size: 1.2rem;
   color: #666;
-  font-size: 1.1rem;
+  margin-top: 2rem;
 }
 .center {
   display: flex;
