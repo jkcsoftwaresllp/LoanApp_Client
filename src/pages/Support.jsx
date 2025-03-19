@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../components/common/Button";
-import { showToast } from "../utils/toastUtils";
 import styles from "./style/Support.module.css";
 import { CloseIcon } from "../components/common/assets";
-import apiRequest from "../components/common/authApi";
-import { API_BASE_URL } from "../config";
+import { fetchTickets, createTicket } from "./helper/supportHelper";
 
 const Support = () => {
   const [loading, setLoading] = useState(false);
@@ -18,87 +16,26 @@ const Support = () => {
   const query_types = ["Loan Application", "Payments", "Account", "General"];
 
   useEffect(() => {
-    const fetchTickets = async () => {
-      try {
-        const accessToken = localStorage.getItem("accessToken");
-
-        if (!accessToken) {
-          showToast("error", "Please log in.");
-          return;
-        }
-
-        const response = await apiRequest(
-          "GET",
-          `${API_BASE_URL}auth/tickets`,
-          null,
-          accessToken,
-          setLoading
-        );
-
-        console.log("API Response:", response); // Add logging
-
-        if (
-          response.data.status === "success" &&
-          Array.isArray(response.data.tickets)
-        ) {
-          setTickets(response.data.tickets);
-        } else {
-          setTickets([]);
-        }
-      } catch (err) {
-        console.error("API Error:", err); // Add error logging
-        showToast("error", "Failed to fetch tickets. Please try again later.");
-      }
+    const getTickets = async () => {
+      const data = await fetchTickets(setLoading);
+      setTickets(data);
     };
-
-    fetchTickets();
+    getTickets();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     if (!formData.query_type || !formData.description) {
       showToast("error", "Please fill all fields");
-      setLoading(false);
       return;
     }
 
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-
-      if (!accessToken) {
-        showToast("error", "Please log in.");
-        return;
-      }
-
-      const requestData = {
-        query_type: formData.query_type,
-        description: formData.description,
-      };
-
-      console.log("Submitting ticket with data:", requestData); // Add logging
-
-      const response = await apiRequest(
-        "POST",
-        `${API_BASE_URL}auth/create-ticket`,
-        requestData,
-        accessToken,
-        setLoading
-      );
-
-      console.log("API Response:", response); // Add logging
-
-      if (response.data) {
-        setTickets([response.data, ...tickets]);
-        showToast("success", "Ticket created successfully");
-        setFormData({ query_type: "", description: "" });
-      }
-    } catch (err) {
-      console.error("API Error:", err); // Add detailed error logging
-      showToast("error", "Failed to create ticket. Please try again later.");
-    } finally {
-      setLoading(false);
+    setLoading(true);
+    const newTicket = await createTicket(formData, setLoading);
+    if (newTicket) {
+      setTickets([newTicket, ...tickets]);
+      setFormData({ query_type: "", description: "" });
     }
   };
 

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./style/FAQ.module.css";
 import { Loader } from "../components/common/Loader";
-import apiRequest from "../components/common/authApi";
-import { showToast } from "../utils/toastUtils";
-import { API_BASE_URL } from "../config";
+import { fetchFAQs } from "./helper/faqHelper";
 
 const FAQ = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,6 +9,7 @@ const FAQ = () => {
   const [expandedId, setExpandedId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [faqs, setFaqs] = useState([]);
+  const [error, setError] = useState("");
 
   const categories = [
     "All",
@@ -20,46 +19,18 @@ const FAQ = () => {
     "General",
   ];
 
-  const [error, setError] = useState("");
-
   useEffect(() => {
-    const fetchFAQs = async () => {
+    const getFAQs = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
-
-        console.log("🛠 Access Token:", accessToken);
-
-        if (!accessToken) {
-          showToast("error", "Please log in.");
-          throw new Error("Access token is missing.");
-        }
-
-        const response = await apiRequest(
-          "GET",
-          `${API_BASE_URL}auth/faq/list`,
-          null,
-          accessToken,
-          setLoading
-        );
-
-        console.log("✅ API Response:", response);
-
-        // Extract the "faqs" array properly
-        if (response.data && Array.isArray(response.data.faqs)) {
-          setFaqs(response.data.faqs);
-        } else {
-          throw new Error("Invalid API response format.");
-        }
+        const data = await fetchFAQs(setLoading);
+        setFaqs(data);
       } catch (err) {
-        console.error("❌ API Error:", err.message || err);
         setError("Failed to fetch FAQs. Please try again.");
-        showToast("error", "Failed to fetch FAQs.");
       } finally {
         setLoading(false);
       }
     };
-
-    fetchFAQs();
+    getFAQs();
   }, []);
 
   const filteredFaqs = faqs.filter((faq) => {
