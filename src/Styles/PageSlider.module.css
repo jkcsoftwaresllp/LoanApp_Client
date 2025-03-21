@@ -23,6 +23,25 @@
   align-items: center;
   box-sizing: border-box;
 }
+.formSection {
+  width: 500px;
+  gap: 10px;
+  margin-right: auto; /* Add this to left align */
+}
+
+@media (max-width: 768px) {
+  .formSection {
+    width: 400px;
+    margin-right: auto; /* Maintain left alignment on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .formSection {
+    width: 300px;
+    margin-right: auto; /* Maintain left alignment on very small screens */
+  }
+}
 .input {
   padding: 0.75rem;
   width: 100%;
@@ -57,6 +76,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: var(--font-size-medium);
 }
 .errorMsg {
   color: #e53e3e;
@@ -135,11 +155,6 @@ p {
   height: calc(100vh - var(--header-height));
 }
 
-.formSection {
-  width: 100%;
-  gap: 10px;
-}
-
 .inputRow {
   display: flex;
   gap: 15px;
@@ -157,6 +172,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  width: 100%;
 }
 .inputField {
   background-color: #ffffff;
@@ -164,7 +180,6 @@ p {
   border-radius: 8px;
 
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .inputField:hover {
   border-color: #3ad03f;

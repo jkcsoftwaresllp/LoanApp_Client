@@ -5,15 +5,30 @@ import { FileInput } from "../components/document/FileInput";
 import { Button } from "../components/common/Button";
 import styles from "../Styles/PageSlider.module.css";
 import { showToast } from "../utils/toastUtils";
-import { Loader } from "../components/common/Loader";
 import { API_BASE_URL } from "../config";
+import UserGuaranteeForm from "../components/forms/UserGuaranteeForm";
 
-const useUpload = ({ apiRoute, buttonText }) => {
+const useUpload = ({ apiRoute, text }) => {
   const [file, setFile] = useState(null);
   const [documentType, setDocumentType] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [formData, setFormData] = useState({
+    name: "",
+    parent_name: "",
+    address: "",
+    mobile_number: "",
+    bank_account_number: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const validateFile = (file) => {
     const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
@@ -105,14 +120,20 @@ const useUpload = ({ apiRoute, buttonText }) => {
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-left justify-left">
       <div>
-        <h1 className={styles.header}>{buttonText || "Upload Document"}</h1>
+        <h1 className={styles.header}>{`Fill ${text} Document`}</h1>
 
         <form onSubmit={handleSubmit}>
           {errorMessage && (
             <div className={styles.errorMsg}>{errorMessage}</div>
           )}
+
+          <UserGuaranteeForm
+            formData={formData}
+            handleInputChange={handleInputChange}
+            text={text}
+          />
 
           <div>
             <p>Select Document Type:</p>
@@ -155,7 +176,7 @@ const useUpload = ({ apiRoute, buttonText }) => {
           <div className={styles.buttonWrapper}>
             <FileInput file={file} onFileChange={handleFileChange} />
             <Button
-              text={loading ? "Uploading..." : buttonText || "Upload"}
+              text={loading ? "Uploading..." : "Upload"}
               type="submit"
               disabled={loading}
             />

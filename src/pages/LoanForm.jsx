@@ -14,15 +14,16 @@ const LoanForm = () => {
   const { updateLoanData } = useContext(LoanContext);
   const [amount, setAmount] = useState("");
   const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState(""); // Add new state for end date
+  const [endDate, setEndDate] = useState("");
   const [interestRate, setInterestRate] = useState("");
   const [interestRateAfterDue, setInterestRateAfterDue] = useState("");
   const [error, setError] = useState("");
   const [timePeriod, setTimePeriod] = useState(1);
   const [loading, setLoading] = useState(false);
   const [frequency, setFrequency] = useState("weekly");
-  const [months, setMonths] = useState(1); // Add new state for number of months
+  const [loanType, setLoanType] = useState("personal"); // New state for loan type
   const frequencyOptions = ["weekly", "monthly", "quarterly", "yearly"];
+  const loanTypeOptions = ["personal", "mortgage", "business"]; // Loan type options
   const [showInfoOverlay, setShowInfoOverlay] = useState(false);
 
   const handleSaveDraft = async () => {
@@ -32,6 +33,12 @@ const LoanForm = () => {
       showToast("error", "Access token not found. Please log in.");
       navigate("/login");
       return;
+    }
+
+    // Validate all required fields
+    if (!amount || !startDate || !endDate || !interestRate || !loanType) {
+        showToast("error", "Please fill all the required fields.");
+        return;
     }
 
     const parsedAmount = parseFloat(amount);
@@ -161,6 +168,21 @@ const LoanForm = () => {
               />
             </div>
           </div>
+          <div className={styles.inputField}>
+            <label className={styles.llabel}>Loan Type</label>
+            <select
+              value={loanType}
+              onChange={(e) => setLoanType(e.target.value)}
+              className={styles.input}
+            >
+              {loanTypeOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option.charAt(0).toUpperCase() + option.slice(1)}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className={styles.inputRow}>
             <div className={styles.inputField}>
               <label className={styles.llabel}>Frequency</label>
