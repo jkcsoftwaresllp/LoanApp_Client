@@ -75,7 +75,7 @@ const RepaymentSchedule = () => {
 
                     <td className="py-2 px-4 text-left">
                       <Button
-                        onClick={() => fetchRepaymentSchedule(loan.loan_id)}
+                        onClick={() => handleFetchRepaymentSchedule(loan.loan_id)}
                         text="View"
                       />
                     </td>
