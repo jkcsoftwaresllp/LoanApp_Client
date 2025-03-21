@@ -14,7 +14,7 @@ import LoanListPage from "../../pages/LoanListpage";
 import RepaymentSchedule from "../../pages/Repay";
 import Support from "../../pages/Support";
 import FAQ from "../../pages/FAQ";
-import ProfileUpdate from "../ProfileUpdate";
+import ProfileUpdate from "../../pages/ProfileUpdate";
 
 import Home from "../../pages/Home";
 

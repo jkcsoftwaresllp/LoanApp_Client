@@ -21,6 +21,7 @@ import {
 import styles from "./style/emi.module.css";
 import { Button } from "../components/common/Button";
 import { calculateEMI, generateBarData } from "./helper/emiHelper";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 ChartJS.register(
   ArcElement,
@@ -68,11 +69,37 @@ const EmiCalculator = () => {
     tenureType
   );
 
+  const generateInfoContent = () => {
+    const monthlyRate = interestRate / 12 / 100;
+    const tenureInMonths =
+      tenureType === "years" ? loanTenure * 12 : loanTenure;
+    const power = Math.pow(1 + monthlyRate, tenureInMonths);
+
+    return `
+      EMI Formula: EMI = [P × r × (1 + r)^n] / [(1 + r)^n – 1]
+      Where:
+      P = Loan amount = ₹${loanAmount}
+      r = Monthly interest rate = ${interestRate}% / 12 = ${monthlyRate.toFixed(
+      6
+    )}
+      n = Loan tenure in months = ${tenureInMonths} months
+
+      Monthly EMI = ₹${emi}
+      Total Interest = ₹${totalInterest}
+      Total Payment = ₹${totalPayment}
+    `;
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
         <div className={styles.calculator}>
-          <h2 className={styles.title}>EMI Calculator</h2>
+          <div className={styles.titleContainer}>
+            <h2 className={styles.title}>EMI Calculator</h2>
+            <div className={styles.infoIcon} title={generateInfoContent()}>
+              <InfoCircleOutlined />
+            </div>
+          </div>
           <div className={styles.inputGroup}>
             <label>Loan Amount (₹)</label>
             <input
@@ -146,7 +173,7 @@ const EmiCalculator = () => {
           </div>
           <div className={styles.chartBox}>
             <h3 className={styles.title}>Break-up of Total Payment</h3>
-            <PieChart width={350} height={300}>
+            <PieChart width={250} height={300}>
               <Pie
                 data={pieData}
                 cx="50%"
@@ -155,7 +182,6 @@ const EmiCalculator = () => {
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
-                label={({ percent }) => ` (${(percent * 100).toFixed(1)}%)`}
               >
                 {pieData.map((entry, index) => (
                   <Cell
