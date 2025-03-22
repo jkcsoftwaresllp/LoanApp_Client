@@ -1,17 +1,17 @@
-import styles from "./style/Notification.module.css"; // Import the CSS module
+import styles from "./style/Notification.module.css";
 
 const NotificationBody = ({ title, message, time }) => {
   return (
     <div className={styles.notificationBody}>
       <div className={styles.notificationContent}>
         <div className={styles.notificationHeader}>
-          <div className={styles.notificationName}>{title}</div>
-          <div className={styles.starCheckbox}>
+          <span className={styles.notificationName}>{title}</span>
+          <span className={styles.starCheckbox}>
             {/* Optional: Checkbox or any other content */}
-          </div>
+          </span>
         </div>
-        <p className={styles.notificationLine}>{message}</p>
-        <p className={styles.notificationLineTime}>{time}</p>
+        <div className={styles.notificationLine}>{message}</div>
+        <div className={styles.notificationLineTime}>{time}</div>
       </div>
     </div>
   );
