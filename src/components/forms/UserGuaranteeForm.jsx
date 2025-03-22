@@ -22,11 +22,10 @@ const UserGuaranteeForm = ({ formData, handleInputChange, text }) => {
         <div className={styles.inputWrapper}>
           <input
             type="text"
-            name="Parent Name"
+            name="parent_name"
             value={formData.parent_name}
             onChange={handleInputChange}
             className={styles.input}
-            pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
             required
           />
         </div>

@@ -9,6 +9,7 @@ import { CustomFileInput } from "../components/document/CustomFileInput";
 import Dropdown from "../components/common/Dropdown";
 import LogoutButton from "./LogoutButton";
 import { API_BASE_URL } from "../config";
+import { clearTokens } from "../utils/tokenUtils";
 
 import {
   fetchProfile,
@@ -195,7 +196,7 @@ const Profile = () => {
               <Button
                 text="Edit Profile"
                 onClick={() => {
-                  navigate('/profile/update');  // Navigate to profile update page
+                  navigate("/profile/update"); // Navigate to profile update page
                 }}
               />
             </div>
