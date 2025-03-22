@@ -1,6 +1,7 @@
 import style from "./style/Btn.module.css";
+
 export const IconBtn = ({
-  icon,
+  icon: Icon,
   onClick,
   className,
   type = "button",
@@ -12,7 +13,9 @@ export const IconBtn = ({
       onClick={onClick}
       className={`${style.IconBtn} ${className || ""}`}
     >
-      <span className={style.Icon}>{icon}</span>
+      <span className={style.Icon}>
+        {typeof Icon === 'function' ? <Icon /> : Icon}
+      </span>
     </button>
   );
 };
