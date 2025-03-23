@@ -102,45 +102,40 @@ const InvestmentOpportunities = () => {
     );
   }
 
+  const filterConfig = [
+    { key: "amount", placeholder: "Amount", type: "number" },
+    { key: "roi", placeholder: "ROI", type: "number" },
+    { key: "tenure", placeholder: "Tenure", type: "number" },
+  ];
+
   return (
     <>
       <h2 className={styles.title}>Investment Oppurtunity</h2>
       <div className={styles.container}>
         <div className={styles.filtersContainer}>
-          <input
-            type="number"
-            placeholder="Amount"
-            className={styles.filterInput}
-            value={filters.amount}
-            onChange={(e) => handleFilterChange("amount", e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="ROI"
-            className={styles.filterInput}
-            value={filters.roi}
-            onChange={(e) => setFilters({ ...filters, roi: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Tenure"
-            className={styles.filterInput}
-            value={filters.tenure}
-            onChange={(e) => setFilters({ ...filters, tenure: e.target.value })}
-          />
+          {filterConfig.map((filter) => (
+            <input
+              key={filter.key}
+              type={filter.type}
+              placeholder={filter.placeholder}
+              className={styles.filterInput}
+              value={filters[filter.key]}
+              onChange={(e) => handleFilterChange(filter.key, e.target.value)}
+            />
+          ))}
           <div className={styles.btnArea}>
             <IconBtn
               onClick={applyFilters}
               icon={<CheckIcon />}
               tooltip="Apply Filters"
             />
-            {filters.amount || filters.roi || filters.tenure ? (
+            {Object.values(filters).some((value) => value !== "") && (
               <IconBtn
                 onClick={clearFilters}
                 icon={<CloseIcon />}
                 tooltip="Clear Filters"
               />
-            ) : null}
+            )}
           </div>
         </div>
         {loadingLoans ? (
@@ -190,7 +185,9 @@ const InvestmentOpportunities = () => {
             </table>
           </div>
         ) : (
-          <p>No investment opportunities available.</p>
+          <p className={styles.notFound}>
+            No investment opportunities available.
+          </p>
         )}
       </div>
 

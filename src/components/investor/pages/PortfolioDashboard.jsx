@@ -4,7 +4,7 @@ import { CardContent } from "../jsx/cardContent";
 import { Button } from "../../common/Button";
 import { useNavigate } from "react-router-dom";
 import styles from "./style/PortfolioDashboard.module.css";
-import { fetchPortfolioData } from "./helper/portfolioHelper";
+import { fetchPortfolioData, fetchMonthlyRoi } from "./helper/portfolioHelper";
 
 import {
   PieChart,
@@ -22,25 +22,34 @@ import {
 const PortfolioDashboard = () => {
   const navigate = useNavigate();
   const [portfolio, setPortfolio] = useState(null);
+  const [monthlyRoiData, setMonthlyRoiData] = useState([]);
+
   useEffect(() => {
-    const fetchPortfolio = async () => {
-      const { success, data, error } = await fetchPortfolioData();
+    const fetchData = async () => {
+      const { success, data, error } = await fetchMonthlyRoi();
       if (success) {
-        setPortfolio(data);
+        setMonthlyRoiData(data);
       } else {
-        console.warn("Error fetching portfolio:", error);
-        if (error.message === "No token found") {
-          navigate("/login");
-        }
-        setPortfolio(null);
+        console.error("Error fetching monthly ROI:", error);
+        setMonthlyRoiData([]);
       }
     };
 
+    fetchData();
     fetchPortfolio();
   }, []);
 
-  const goToInvestment = () => {
-    navigate("/make-investment");
+  const fetchPortfolio = async () => {
+    const { success, data, error } = await fetchPortfolioData();
+    if (success) {
+      setPortfolio(data);
+    } else {
+      console.warn("Error fetching portfolio:", error);
+      if (error.message === "No token found") {
+        navigate("/login");
+      }
+      setPortfolio(null);
+    }
   };
 
   const pieData = portfolio
@@ -55,14 +64,6 @@ const PortfolioDashboard = () => {
 
   const COLORS = ["#0088FE", "#00C49F"];
 
-  const lineData = [
-    { month: "Jan", roi: 10 },
-    { month: "Feb", roi: 12 },
-    { month: "Mar", roi: 11 },
-    { month: "Apr", roi: 13 },
-    { month: "May", roi: 14 },
-    { month: "Jun", roi: 15 },
-  ];
   // const pieData = [
   //   { name: "Active Loans", value: 4000 },
   //   { name: "Remaining Funds", value: 3000 },
@@ -140,9 +141,9 @@ const PortfolioDashboard = () => {
 
         <div className={styles.chartContainer}>
           <h3 className={styles.chartTitle}>ROI Trends</h3>
-          {lineData.length > 0 ? (
+          {monthlyRoiData.length > 0 ? (
             <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={lineData}>
+              <LineChart data={monthlyRoiData}>
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />

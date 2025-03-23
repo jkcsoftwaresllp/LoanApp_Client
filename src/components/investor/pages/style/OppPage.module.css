@@ -62,7 +62,9 @@
   align-items: center;
   gap: 10px;
 }
-
+.notFound {
+  color: var(--color-text-primary);
+}
 /* Medium screens: 2x2 layout */
 @media (max-width: 768px) {
   .filtersContainer {

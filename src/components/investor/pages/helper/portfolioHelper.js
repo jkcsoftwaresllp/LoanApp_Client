@@ -22,3 +22,23 @@ export const fetchPortfolioData = async () => {
     return { success: false, error: error.response || error };
   }
 };
+
+export const fetchMonthlyRoi = async () => {
+  try {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      throw new Error("No token found");
+    }
+
+    const response = await axios.get(`${API_BASE_URL}auth/monthly-roi`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Monthly ROI response:", response.data);
+    return { success: true, data: response.data };
+  } catch (error) {
+    return { success: false, error: error.response || error };
+  }
+};
