@@ -1,7 +1,7 @@
 .layoutContainer {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 2 * var(--header-height));
+  height: calc(100vh - 1 * var(--header-height));
   width: 100%;
 }
 
@@ -11,10 +11,13 @@
   width: 100%;
   margin: 0 auto;
 }
+
 .menu {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 20px; /* Added gap between content and menu */
+  padding: 10px 0; /* Added padding for better spacing */
 
   bottom: 0;
 }
