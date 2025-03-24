@@ -3,7 +3,8 @@ import {
   AnalyticIcon,
   DashboardIcon,
   OppIcon,
-  RupeesIcon,
+  UsersIcon,
+  InvestorIcon,
 } from "../../common/assets";
 import { useNavigate } from "react-router-dom";
 
@@ -22,20 +23,37 @@ const AdminMenu = () => {
           <label htmlFor="choose1">
             <li
               className={styles.li}
-              onClick={() => navigate("/earnings-repayment")}
+              onClick={() => navigate("/admin/customer")}
             >
-              <RupeesIcon className={styles.svg} />
+              <UsersIcon className={styles.svg} />
+            </li>
+          </label>
+          <input
+            name="rad"
+            className={styles.radio}
+            id="choose2"
+            type="radio"
+          />
+          <label htmlFor="choose2">
+            <li
+              className={styles.li}
+              onClick={() => navigate("/admin/investor")}
+            >
+              <InvestorIcon className={styles.svg} />
             </li>
           </label>
           <input
             className={styles.radio}
             name="rad"
             defaultChecked
-            id="choose2"
+            id="choose3"
             type="radio"
           />
-          <label htmlFor="choose2">
-            <li className={styles.li} onClick={() => navigate("/portfolio")}>
+          <label htmlFor="choose3">
+            <li
+              className={styles.li}
+              onClick={() => navigate("/admin/dashboard")}
+            >
               <DashboardIcon className={styles.svg} />
             </li>
           </label>
@@ -43,25 +61,22 @@ const AdminMenu = () => {
           <input
             className={styles.radio}
             name="rad"
-            id="choose5"
+            id="choose4"
             type="radio"
           />
-          <label htmlFor="choose5">
-            <li className={styles.li} onClick={() => navigate("/report")}>
+          <label htmlFor="choose4">
+            <li className={styles.li} onClick={() => navigate("/admin/report")}>
               <AnalyticIcon className={styles.svg} />
             </li>
           </label>
           <input
             className={styles.radio}
             name="rad"
-            id="choose3"
+            id="choose5"
             type="radio"
           />
-          <label htmlFor="choose3">
-            <li
-              className={styles.li}
-              onClick={() => navigate("/make-investment")}
-            >
+          <label htmlFor="choose5">
+            <li className={styles.li} onClick={() => navigate("/admin/loan")}>
               <OppIcon className={styles.svg} />
             </li>
           </label>
