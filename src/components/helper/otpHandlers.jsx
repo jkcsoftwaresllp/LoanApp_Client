@@ -76,7 +76,7 @@ export const handleValidateOtp = async (
 
         console.log("User set in context:", { uniqueCode, role });
 
-        navigate(onSuccessRedirect || "/dashboard");
+        navigate(onSuccessRedirect || "/home");
       } else {
         console.error("Access token, uniqueCode, or role missing in response");
       }
@@ -89,7 +89,6 @@ export const handleValidateOtp = async (
     handleApiError(error, setMessage, showToast);
   }
 };
-
 
 const handleApiError = (error, setMessage, showToast) => {
   const errorMessage = error?.response?.data?.message || "Something went wrong";

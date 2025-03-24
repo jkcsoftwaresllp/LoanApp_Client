@@ -9,18 +9,14 @@ import OtpInput from "./OtpInput";
 import { showToast } from "../utils/toastUtils";
 import { API_BASE_URL } from "../config";
 
-const Login = () => {
+const AdminLogin = () => {
   const navigate = useNavigate();
   const [headerHeight, setHeaderHeight] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [isInvestor, setIsInvestor] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
 
-  const apiBaseUrl = isInvestor
-    ? `${API_BASE_URL}investor/login`
-    : `${API_BASE_URL}login`;
-
-  const onSuccessRedirect = isInvestor ? "/portfolio" : "/home";
+  const apiBaseUrl = `${API_BASE_URL}admin/login`;
+  const onSuccessRedirect = "/admin/dashboard";
 
   const { otpGenerated, handleChange, message, inputFields, buttonFields } =
     useOtpHandler({
@@ -39,20 +35,12 @@ const Login = () => {
     }, 500);
   }, []);
 
-  const goToRegister = () => {
-    navigate("/register");
-  };
-  const goToAdmin = () => {
-    navigate("/alogin");
-  };
-
   const validateInputs = (inputFields) => {
     const emailField = inputFields.find((field) => field.id === "email");
     const phoneField = inputFields.find(
       (field) => field.id === "mobile_number"
     );
 
-    // Check if fields exist and have values
     if (!emailField?.value?.trim()) {
       showToast("error", "Email is required");
       return false;
@@ -63,14 +51,12 @@ const Login = () => {
       return false;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailField.value.trim())) {
       showToast("error", "Please enter a valid email address");
       return false;
     }
 
-    // Phone number validation (assuming 10 digits)
     if (!/^\d{10}$/.test(phoneField.value.trim())) {
       showToast("error", "Please enter a valid 10-digit phone number");
       return false;
@@ -79,24 +65,22 @@ const Login = () => {
     return true;
   };
 
+  const goToRegister = () => {
+    navigate("/aregister");
+  };
+
   return (
     <>
       <div className={style.container}>
-        <p className={style.admin} onClick={goToAdmin}>
-          admin login
-        </p>
         {loading ? (
           <div className={style.loaderContainer}>
             <Loader />
           </div>
         ) : (
           <div className={style.form}>
-            <h1 className={style.h1}>
-              {isInvestor ? "Investor Login" : "Login"}
-            </h1>
+            <h1 className={style.h1}>Admin Login</h1>
             <div className={style.flexColumn}>
               <form className="space-y-4">
-                {/* Step 1: Email and Password */}
                 {currentStep === 1 &&
                   inputFields
                     .filter(
@@ -114,7 +98,6 @@ const Login = () => {
                       />
                     ))}
 
-                {/* Step 2: OTP */}
                 {currentStep === 2 && (
                   <>
                     <p className={style.p}>
@@ -143,9 +126,8 @@ const Login = () => {
                               !button.hidden && button.id === "generateOtp"
                           );
 
-                          // Disable the span and show countdown
                           spanElement.style.pointerEvents = "none";
-                          spanElement.style.color = "#808080"; // Gray color
+                          spanElement.style.color = "#808080";
                           let countdown = 30;
 
                           const interval = setInterval(() => {
@@ -156,7 +138,7 @@ const Login = () => {
                               clearInterval(interval);
                               spanElement.textContent = "Request Again";
                               spanElement.style.pointerEvents = "auto";
-                              spanElement.style.color = ""; // Reset to default color
+                              spanElement.style.color = "";
                             }
                           }, 1000);
 
@@ -208,23 +190,15 @@ const Login = () => {
                       ))}
                 </div>
               </form>
-              {currentStep === 1 && (
-                <>
-                  <div
-                    onClick={() => setIsInvestor(!isInvestor)}
-                    className={style.p}
-                  >
-                    {isInvestor ? "Switch to User Login" : "Login as Investor"}
-                  </div>
-                  <p className={style.p}>
-                    Don't have an account?{" "}
-                    <span onClick={goToRegister} className={style.span}>
-                      Sign Up
-                    </span>
-                  </p>
-                </>
-              )}
               {message && <p className={style.error}>{message}</p>}
+              {currentStep === 1 && (
+                <p className={style.p}>
+                  Register for an account?{" "}
+                  <span onClick={goToRegister} className={style.span}>
+                    Sign Up
+                  </span>
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -233,4 +207,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;
