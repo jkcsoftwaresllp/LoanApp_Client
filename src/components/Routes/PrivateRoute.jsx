@@ -19,6 +19,7 @@ import ProfileUpdate from "../../pages/ProfileUpdate";
 import Home from "../../pages/Home";
 
 import Layout from "../investor/layout/layout";
+import AdminLayout from "../admin/layout/adminLayout";
 
 import PortfolioDashboard from "../investor/pages/PortfolioDashboard";
 import InvestmentOpportunities from "../investor/pages/OppPage";
@@ -26,6 +27,10 @@ import FeedbackForm from "../investor/pages/FeedbackForm";
 import { EarningsRepayment } from "../investor/pages/EarningPage";
 import ReportsAnalytics from "../investor/pages/ReportPage";
 import NotificationSettings from "../investor/pages/NotificationSetting";
+
+//admin
+
+import AdminDashboard from "../admin/pages/AdminDashboard";
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { isAuthenticated, user } = useAuthContext();
@@ -141,41 +146,6 @@ export const privateRoutes = (
       }
     />
 
-    <Route path="/" element={<Layout />}>
-      <Route
-        path="earnings-repayment"
-        element={
-          <PrivateRoute allowedRoles={["investor"]}>
-            <EarningsRepayment />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="report"
-        element={
-          <PrivateRoute allowedRoles={["investor"]}>
-            <ReportsAnalytics />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="portfolio"
-        element={
-          <PrivateRoute allowedRoles={["investor"]}>
-            <PortfolioDashboard />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="make-investment"
-        element={
-          <PrivateRoute allowedRoles={["investor"]}>
-            <InvestmentOpportunities />
-          </PrivateRoute>
-        }
-      />
-    </Route>
-
     <Route
       path="/upload"
       element={
@@ -232,6 +202,51 @@ export const privateRoutes = (
         </PrivateRoute>
       }
     />
+    <Route path="/" element={<Layout />}>
+      <Route
+        path="earnings-repayment"
+        element={
+          <PrivateRoute allowedRoles={["investor"]}>
+            <EarningsRepayment />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="report"
+        element={
+          <PrivateRoute allowedRoles={["investor"]}>
+            <ReportsAnalytics />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="portfolio"
+        element={
+          <PrivateRoute allowedRoles={["investor"]}>
+            <PortfolioDashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="make-investment"
+        element={
+          <PrivateRoute allowedRoles={["investor"]}>
+            <InvestmentOpportunities />
+          </PrivateRoute>
+        }
+      />
+    </Route>
+
+    <Route path="/admin" element={<AdminLayout />}>
+      <Route
+        path="dashboard"
+        element={
+          <PrivateRoute allowedRoles={["user"]}>
+            <AdminDashboard />
+          </PrivateRoute>
+        }
+      />
+    </Route>
   </>
 );
 
