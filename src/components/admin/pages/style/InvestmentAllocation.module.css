@@ -1,0 +1,83 @@
+.container {
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.fundsInfo {
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.allocationTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.allocationTable th,
+.allocationTable td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.allocationTable th {
+  background-color: #f5f5f5;
+}
+
+.allocateButton {
+  padding: 6px 12px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+}
+
+.detailsButton {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #2196F3;
+  color: white;
+}
+
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  width: 500px;
+}
+
+.fundMatching {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.closeButton {
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 16px;
+}
