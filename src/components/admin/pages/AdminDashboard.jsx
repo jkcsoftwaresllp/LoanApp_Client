@@ -128,14 +128,15 @@ function AdminDashboard() {
                   </div>
                 )}
               </div>
-
-              <div className={styles.notificationContainer}>
-                <h2 className={styles.notificationTitle}>Notifications</h2>
-                <p>No critical notifications at the moment.</p>
-              </div>
-              <div className={styles.buttonContainer}>
-                <GradientButton label="Manage Notifications" />
-                <GradientButton label="View Reports" />
+              <div className={styles.noti}>
+                <div className={styles.notificationContainer}>
+                  <h2 className={styles.notificationTitle}>Notifications</h2>
+                  <p>No critical notifications at the moment.</p>
+                </div>
+                <div className={styles.buttonContainer}>
+                  <GradientButton label="Manage Notifications" />
+                  <GradientButton label="View Reports" />
+                </div>
               </div>
             </div>
           </div>

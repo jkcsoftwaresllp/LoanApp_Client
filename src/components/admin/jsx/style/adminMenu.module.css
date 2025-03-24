@@ -1,6 +1,6 @@
 #navbody {
   width: 100%;
-  max-width: 300px;
+  max-width: 280px;
   height: var(--header-height);
   background-color: rgb(255, 255, 255);
   border-radius: 40px;
