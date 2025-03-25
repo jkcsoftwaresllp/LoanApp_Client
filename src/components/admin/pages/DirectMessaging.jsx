@@ -86,6 +86,7 @@ const DirectMessaging = () => {
           <label>Select User:</label>
           <select
             value={selectedUserId}
+            className={styles.select}
             onChange={(e) => setSelectedUserId(e.target.value)}
           >
             <option value="">Select a user</option>
