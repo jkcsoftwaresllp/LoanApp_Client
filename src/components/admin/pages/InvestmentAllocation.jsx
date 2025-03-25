@@ -103,8 +103,8 @@ const InvestmentAllocation = () => {
                 <th className="py-2 px-4 text-left">Loan ID</th>
                 <th className="py-2 px-4 text-left">Borrower Name</th>
                 <th className="py-2 px-4 text-left">Amount</th>
-                <th className="py-2 px-4 text-left">Required Investment</th>
-                <th className="py-2 px-4 text-left">Actions</th>
+                <th className="py-2 px-4 text-center">Required Investment</th>
+                <th className="py-2 px-4 text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -159,23 +159,26 @@ const InvestmentAllocation = () => {
 
 export default InvestmentAllocation;
 
-const TableRow = React.memo(({ loan, handleAllocateFunds, handleViewDetails }) => (
-  <tr key={loan.loan_id} className={styles.row}>
-    <td className="py-2 px-4 text-left">{loan.loan_id}</td>
-    <td className="py-2 px-4 text-left">{loan.borrower_name}</td>
-    <td className="py-2 px-4 text-left">₹{loan.amount.toLocaleString()}</td>
-    <td className="py-2 px-4 text-left">₹{loan.required_investment.toLocaleString()}</td>
-    <td className={styles.action}>
-      <div className={styles.buttonContainer}>
-        <Button
-          text="Allocate"
-          onClick={() => handleAllocateFunds(loan.loan_id, loan.required_investment)}
-        />
-        <IconBtn
-          icon={Infoicon}
-          onClick={() => handleViewDetails(loan)}
-        />
-      </div>
-    </td>
-  </tr>
-));
+const TableRow = React.memo(
+  ({ loan, handleAllocateFunds, handleViewDetails }) => (
+    <tr key={loan.loan_id} className={styles.row}>
+      <td className="py-2 px-4 text-left">{loan.loan_id}</td>
+      <td className="py-2 px-4 text-left">{loan.borrower_name}</td>
+      <td className="py-2 px-4 text-left">₹{loan.amount.toLocaleString()}</td>
+      <td className="py-2 px-4 text-center">
+        ₹{loan.required_investment.toLocaleString()}
+      </td>
+      <td className={styles.action}>
+        <div className={styles.buttonContainer}>
+          <Button
+            text="Allocate"
+            onClick={() =>
+              handleAllocateFunds(loan.loan_id, loan.required_investment)
+            }
+          />
+          <IconBtn icon={Infoicon} onClick={() => handleViewDetails(loan)} />
+        </div>
+      </td>
+    </tr>
+  )
+);
