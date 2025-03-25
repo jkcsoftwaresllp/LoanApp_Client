@@ -31,6 +31,17 @@ import NotificationSettings from "../investor/pages/NotificationSetting";
 //admin
 
 import AdminDashboard from "../admin/pages/AdminDashboard";
+import CustomerManagement from "../admin/pages/CustomerManagement";
+import InvestorManagement from "../admin/pages/InvestorManagement";
+import LoanManagement from "../admin/pages/LoanManagement";
+import InvestmentAllocation from "../admin/pages/InvestmentAllocation";
+import AdminReportsAnalytics from "../admin/pages/ReportsAnalytics";
+import DirectMessaging from "../admin/pages/DirectMessaging";
+import AuditLogs from "../admin/pages/AuditLogs";
+import InterestFeeManagement from "../admin/pages/InterestFeeManagement";
+import Settings from "../admin/pages/Settings";
+import TicketOverview from "../admin/pages/TicketOverview";
+import UserAccessControl from "../admin/pages/UserAccessControl";
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { isAuthenticated, user } = useAuthContext();
@@ -51,7 +62,7 @@ export const privateRoutes = (
     <Route
       path="/home"
       element={
-        <PrivateRoute allowedRoles={["investor", "user"]}>
+        <PrivateRoute allowedRoles={["investor", "user", "admin"]}>
           <Home />
         </PrivateRoute>
       }
@@ -100,7 +111,7 @@ export const privateRoutes = (
     <Route
       path="/profile"
       element={
-        <PrivateRoute allowedRoles={["investor", "user"]}>
+        <PrivateRoute allowedRoles={["investor", "user", "admin"]}>
           <Profile />
         </PrivateRoute>
       }
@@ -116,7 +127,7 @@ export const privateRoutes = (
     <Route
       path="/notification"
       element={
-        <PrivateRoute allowedRoles={["investor", "user"]}>
+        <PrivateRoute allowedRoles={["investor", "user", "admin"]}>
           <NotificationSettings />
         </PrivateRoute>
       }
@@ -241,8 +252,96 @@ export const privateRoutes = (
       <Route
         path="dashboard"
         element={
-          <PrivateRoute allowedRoles={["user"]}>
+          <PrivateRoute allowedRoles={["admin"]}>
             <AdminDashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="customer"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <CustomerManagement />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="investor"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <InvestorManagement />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="loan"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <LoanManagement />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="investment"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <InvestmentAllocation />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="report"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <AdminReportsAnalytics />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="messanger"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <DirectMessaging />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="audit"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <AuditLogs />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="intrest-management"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <InterestFeeManagement />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="setting"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <Settings />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="ticket-review"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <TicketOverview />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="user-access-control"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <UserAccessControl />
           </PrivateRoute>
         }
       />

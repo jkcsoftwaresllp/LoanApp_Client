@@ -26,6 +26,7 @@ export const handleGenerateOtp = async (
     const successMessage = response.message || "OTP sent successfully";
     setMessage(successMessage);
     showToast("success", successMessage);
+    console.log(apiBaseUrl);
     setOtpGenerated(true);
   } catch (error) {
     handleApiError(error, setMessage, showToast);

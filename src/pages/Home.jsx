@@ -41,7 +41,26 @@ const HomePage = () => {
     { name: "Support", path: "" },
   ];
 
-  const options = userRole === "investor" ? investorMainOptions : mainOptions;
+  const adminMainOptions = [
+    { name: "Dashboard", path: "/admin/dashboard" },
+    { name: "Customer Management", path: "/admin/customer" },
+    { name: "Investor Management", path: "/admin/investor" },
+    { name: "Loan Management", path: "/admin/loan" },
+    { name: "Investment Allocation", path: "/admin/investment" },
+    { name: "Reports", path: "/admin/report" },
+    { name: "Direct Messaging", path: "/admin/messanger" },
+    { name: "Audit Logs", path: "/admin/audit" },
+    { name: "Interest Management", path: "/admin/intrest-management" },
+    { name: "Settings", path: "/admin/setting" },
+    { name: "Ticket Review", path: "/admin/ticket-review" },
+    { name: "User Access Control", path: "/admin/user-access-control" },
+    { name: "Support", path: "" }
+  ];
+
+  const options = 
+    userRole === "admin" ? adminMainOptions : 
+    userRole === "investor" ? investorMainOptions : 
+    mainOptions;
 
   return (
     <div className={styles.container}>

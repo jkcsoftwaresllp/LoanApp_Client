@@ -26,7 +26,7 @@ export const confirmInvestmentRequest = async (loanId, amount) => {
 
 export const fetchLoans = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}auth/oppr`, {
+    const response = await fetch(`${API_BASE_URL}auth/loan-oppr`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
