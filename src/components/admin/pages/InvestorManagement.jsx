@@ -76,23 +76,12 @@ const InvestorManagement = () => {
             </thead>
             <tbody>
               {investors.map((investor) => (
-                <tr key={investor.investor_id} className={styles.row}>
-                  <td className="py-2 px-4 text-center">
-                    {investor.investor_id}
-                  </td>
-                  <td className="py-2 px-4 text-left">{investor.name}</td>
-                  <td className="py-2 px-4 text-left">
-                    ${investor.portfolio_value.toLocaleString()}
-                  </td>
-                  <td className="py-2 px-4 text-left">{investor.status}</td>
-                  <td className={styles.action}>
-                    <Button onClick={() => handleEdit(investor)} text="Edit" />
-                    <Button
-                      onClick={() => handleViewDetails(investor)}
-                      text="View"
-                    />
-                  </td>
-                </tr>
+                <TableRow
+                  key={investor.investor_id}
+                  investor={investor}
+                  handleEdit={handleEdit}
+                  handleViewDetails={handleViewDetails}
+                />
               ))}
             </tbody>
           </table>
@@ -118,3 +107,18 @@ const InvestorManagement = () => {
 };
 
 export default InvestorManagement;
+
+const TableRow = React.memo(({ investor, handleEdit, handleViewDetails }) => (
+  <tr key={investor.investor_id} className={styles.row}>
+    <td className="py-2 px-4 text-center">{investor.investor_id}</td>
+    <td className="py-2 px-4 text-left">{investor.name}</td>
+    <td className="py-2 px-4 text-left">
+      ${investor.portfolio_value.toLocaleString()}
+    </td>
+    <td className="py-2 px-4 text-left">{investor.status}</td>
+    <td className={styles.action}>
+      <Button onClick={() => handleEdit(investor)} text="Edit" />
+      <Button onClick={() => handleViewDetails(investor)} text="View" />
+    </td>
+  </tr>
+));

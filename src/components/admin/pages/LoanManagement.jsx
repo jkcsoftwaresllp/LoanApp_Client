@@ -76,38 +76,12 @@ const LoanManagement = () => {
             </thead>
             <tbody>
               {loans.map((loan) => (
-                <tr key={loan.loan_id} className={styles.row}>
-                  <td className="py-2 px-4 text-center">{loan.loan_id}</td>
-                  <td className="py-2 px-4 text-left">{loan.borrower_name}</td>
-                  <td className="py-2 px-4 text-left">
-                    ${loan.amount.toLocaleString()}
-                  </td>
-                  <td className="py-2 px-4 text-left">{loan.status}</td>
-                  <td className={styles.action}>
-                    <Button
-                      text="View"
-                      onClick={() => handleViewDetails(loan)}
-                    />
-
-                    {loan.status === "pending" && (
-                      <>
-                        <Button
-                          text="Approve"
-                          onClick={() =>
-                            handleApproveReject(loan.loan_id, "approved")
-                          }
-                        />
-
-                        <Button
-                          text="Reject"
-                          onClick={() =>
-                            handleApproveReject(loan.loan_id, "rejected")
-                          }
-                        />
-                      </>
-                    )}
-                  </td>
-                </tr>
+                <TableRow
+                  key={loan.loan_id}
+                  loan={loan}
+                  handleViewDetails={handleViewDetails}
+                  handleApproveReject={handleApproveReject}
+                />
               ))}
             </tbody>
           </table>
@@ -141,3 +115,29 @@ const LoanManagement = () => {
 };
 
 export default LoanManagement;
+
+const TableRow = React.memo(
+  ({ loan, handleViewDetails, handleApproveReject }) => (
+    <tr key={loan.loan_id} className={styles.row}>
+      <td className="py-2 px-4 text-center">{loan.loan_id}</td>
+      <td className="py-2 px-4 text-left">{loan.borrower_name}</td>
+      <td className="py-2 px-4 text-left">${loan.amount.toLocaleString()}</td>
+      <td className="py-2 px-4 text-left">{loan.status}</td>
+      <td className={styles.action}>
+        <Button text="View" onClick={() => handleViewDetails(loan)} />
+        {loan.status === "pending" && (
+          <>
+            <Button
+              text="Approve"
+              onClick={() => handleApproveReject(loan.loan_id, "approved")}
+            />
+            <Button
+              text="Reject"
+              onClick={() => handleApproveReject(loan.loan_id, "rejected")}
+            />
+          </>
+        )}
+      </td>
+    </tr>
+  )
+);

@@ -110,26 +110,12 @@ const CustomerManagement = () => {
             </thead>
             <tbody>
               {customers.map((customer) => (
-                <tr key={customer.customer_id} className={styles.row}>
-                  <td className="py-2 px-4 text-center">
-                    {customer.customer_id}
-                  </td>
-                  <td className="py-2 px-4 text-left">{customer.name}</td>
-                  <td className="py-2 px-4 text-left">{customer.contact}</td>
-                  <td className="py-2 px-4 text-left">{customer.status}</td>
-                  <td className={styles.action}>
-                    <Button text="Edit" onClick={() => handleEdit(customer)} />
-
-                    <Button
-                      onClick={() => handleDeactivate(customer)}
-                      text={
-                        customer.status === "active"
-                          ? "Deactivate"
-                          : "Reactivate"
-                      }
-                    />
-                  </td>
-                </tr>
+                <TableRow
+                  key={customer.customer_id}
+                  customer={customer}
+                  handleEdit={handleEdit}
+                  handleDeactivate={handleDeactivate}
+                />
               ))}
             </tbody>
           </table>
@@ -162,3 +148,19 @@ const CustomerManagement = () => {
 };
 
 export default CustomerManagement;
+
+const TableRow = React.memo(({ customer, handleEdit, handleDeactivate }) => (
+  <tr key={customer.customer_id} className={styles.row}>
+    <td className="py-2 px-4 text-center">{customer.customer_id}</td>
+    <td className="py-2 px-4 text-left">{customer.name}</td>
+    <td className="py-2 px-4 text-left">{customer.contact}</td>
+    <td className="py-2 px-4 text-left">{customer.status}</td>
+    <td className={styles.action}>
+      <Button text="Edit" onClick={() => handleEdit(customer)} />
+      <Button
+        onClick={() => handleDeactivate(customer)}
+        text={customer.status === "active" ? "Deactivate" : "Reactivate"}
+      />
+    </td>
+  </tr>
+));
