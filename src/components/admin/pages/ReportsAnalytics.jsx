@@ -12,7 +12,7 @@ import {
   PieChart,
   Pie,
   Cell,
-  Legend // Add this import
+  Legend, // Add this import
 } from "recharts";
 
 const ReportsAnalytics = () => {
@@ -56,8 +56,9 @@ const ReportsAnalytics = () => {
         <div className={styles.filterGrid}>
           <input
             type="date"
-            placeholder="Start Date"
-            value={filters.start_date}
+            placeholder="Select start date"
+            aria-label="Select start date"
+            value={filters.start_date || ""}
             className={styles.input}
             onChange={(e) =>
               setFilters({ ...filters, start_date: e.target.value })
@@ -65,12 +66,13 @@ const ReportsAnalytics = () => {
           />
           <input
             type="date"
-            placeholder="End Date"
-            value={filters.end_date}
+            placeholder="Select end date"
+            value={filters.end_date || ""}
             className={styles.input}
             onChange={(e) =>
               setFilters({ ...filters, end_date: e.target.value })
             }
+            aria-label="End date filter"
           />
           <select
             value={filters.loan_status}
@@ -79,7 +81,7 @@ const ReportsAnalytics = () => {
               setFilters({ ...filters, loan_status: e.target.value })
             }
           >
-            <option value="">All Statuses</option>
+            <option value="">All Status</option>
             <option value="active">Active</option>
             <option value="completed">Completed</option>
             <option value="defaulted">Defaulted</option>
@@ -88,6 +90,8 @@ const ReportsAnalytics = () => {
             type="number"
             placeholder="Minimum ROI (%)"
             value={filters.roi}
+            step={0.1}
+            min={0.1}
             className={styles.input}
             onChange={(e) => setFilters({ ...filters, roi: e.target.value })}
           />
@@ -103,10 +107,10 @@ const ReportsAnalytics = () => {
               <YAxis />
               <Tooltip />
               <Legend /> {/* Add this line */}
-              <Line 
-                type="monotone" 
-                dataKey="loans" 
-                stroke="#8884d8" 
+              <Line
+                type="monotone"
+                dataKey="loans"
+                stroke="#8884d8"
                 strokeWidth={2}
                 name="Number of Loans" // Add this line
               />

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./style/Settings.module.css";
+import { Button } from "../../common/Button";
+import { showToast } from "../../../utils/toastUtils";
 
 const Settings = () => {
   const [settings, setSettings] = useState({
     notifications: "email",
-    interest_rate: 5.0
+    interest_rate: 5.0,
   });
   const [isSaving, setIsSaving] = useState(false);
 
@@ -13,7 +15,7 @@ const Settings = () => {
     const fakeData = {
       notifications: "email",
       interest_rate: 5.0,
-      last_updated: "2023-10-01T12:00:00Z"
+      last_updated: "2023-10-01T12:00:00Z",
     };
     setSettings(fakeData);
   };
@@ -24,25 +26,25 @@ const Settings = () => {
 
   const handleSaveSettings = async () => {
     if (settings.interest_rate < 0) {
-      alert("Please enter valid values");
+      showToast("error", "Please enter valid values");
       return;
     }
 
     setIsSaving(true);
     try {
       console.log("PATCH /api/admin/update-settings", settings);
-      
+
       // Simulate API response
-      const response = { 
-        status: "success", 
+      const response = {
+        status: "success",
         message: "Settings updated",
-        updated_values: settings
+        updated_values: settings,
       };
       console.log(response);
-      alert("Settings updated successfully!");
+      showToast("info", "Settings updated successfully!");
     } catch (error) {
       console.error("Error updating settings:", error);
-      alert("Failed to update settings");
+      showToast("error", "Failed to update settings");
     } finally {
       setIsSaving(false);
     }
@@ -50,14 +52,20 @@ const Settings = () => {
 
   return (
     <div className={styles.container}>
-      <h2>System Settings</h2>
-      
+      <h2 className={styles.title}>System Settings</h2>
+
       <div className={styles.form}>
         <div className={styles.formGroup}>
           <label>Notification Preferences:</label>
           <select
             value={settings.notifications}
-            onChange={(e) => setSettings(prev => ({ ...prev, notifications: e.target.value }))}
+            className={styles.input}
+            onChange={(e) =>
+              setSettings((prev) => ({
+                ...prev,
+                notifications: e.target.value,
+              }))
+            }
           >
             <option value="email">Email</option>
             <option value="sms">SMS</option>
@@ -72,18 +80,22 @@ const Settings = () => {
             type="number"
             step="0.1"
             min="0"
+            className={styles.input}
             value={settings.interest_rate}
-            onChange={(e) => setSettings(prev => ({ ...prev, interest_rate: parseFloat(e.target.value) }))}
+            onChange={(e) =>
+              setSettings((prev) => ({
+                ...prev,
+                interest_rate: parseFloat(e.target.value),
+              }))
+            }
           />
         </div>
 
-        <button
-          className={styles.saveButton}
+        <Button
           onClick={handleSaveSettings}
           disabled={isSaving}
-        >
-          {isSaving ? "Saving..." : "Save Settings"}
-        </button>
+          text={isSaving ? "Saving..." : "Save Settings"}
+        />
       </div>
     </div>
   );
