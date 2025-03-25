@@ -7,6 +7,22 @@
 .roleSelector {
   margin-bottom: 20px;
 }
+.title {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+
+  text-align: center;
+  color: var(--color-text-primary);
+}
+label {
+  color: var(--color-text-primary);
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - var(--header-height));
+}
 
 .roleSelector label {
   margin-right: 10px;
@@ -23,7 +39,15 @@
   padding: 20px;
   border-radius: 8px;
 }
-
+.input {
+  width: 20%;
+  padding: 0.5rem;
+  height: 50px;
+  margin: 20px 0 10px 0;
+  border-radius: var(--border-radius-small);
+  color: #212121;
+  border: 1px solid var(--color-text-primary);
+}
 .permissionsList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -35,25 +59,10 @@
   display: flex;
   align-items: center;
   padding: 8px;
-  background-color: white;
+  color: #333;
   border-radius: 4px;
 }
 
 .permissionItem input {
   margin-right: 8px;
-}
-
-.updateButton {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.updateButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
 }

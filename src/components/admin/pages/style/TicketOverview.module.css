@@ -4,44 +4,32 @@
 
 .filters {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.title {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+
+  text-align: center;
+  color: var(--color-text-primary);
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - var(--header-height));
 }
 
 .filters select {
-  padding: 8px;
-  margin-right: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.filters button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.filters button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.ticketsTable {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.ticketsTable th,
-.ticketsTable td {
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-}
-
-.ticketsTable th {
-  background-color: #f5f5f5;
+  width: 20%;
+  padding: 0.5rem;
+  height: 50px;
+  margin: 20px 0 10px 0;
+  border-radius: var(--border-radius-small);
+  color: #212121;
+  border: 1px solid var(--color-text-primary);
 }
 
 .open {
@@ -56,26 +44,85 @@
   color: #28a745;
 }
 
-.viewButton {
-  background-color: #007bff;
-  color: white;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 8px;
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 20%;
 }
 
-.closeButton {
-  background-color: #28a745;
-  color: white;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+@media screen and (max-width: 768px) {
+  .filters {
+    width: 100%;
+  }
 }
 
-.closeButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.filterSelect {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  min-width: 10%;
+
+  border: 1px solid #ccc;
+}
+
+.filterButton {
+  margin-left: 8px;
+}
+.action {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+/* Add these styles below existing ones */
+.tableWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 80%;
+  flex-grow: 1;
+}
+
+.tableContainer {
+  width: 100%;
+  height: 430px;
+  overflow-y: auto;
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-text-primary);
+}
+
+.row {
+  transition: background-color 0.2s ease;
+}
+
+.row:hover {
+  background-color: #f7fafc;
+}
+
+th {
+  background-color: #4caf50;
+  color: white;
+  padding: 16px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+td {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-medium);
+}
+
+@media (max-width: 768px) {
+  .tableWrapper {
+    margin-bottom: 100px;
+    max-height: 400px;
+  }
 }

@@ -1,35 +1,36 @@
 import React, { useState } from "react";
 import styles from "./style/UserAccessControl.module.css";
+import { Button } from "../../common/Button";
 
 const UserAccessControl = () => {
   const [roles, setRoles] = useState([
     {
       role: "admin",
-      permissions: ["view_dashboard", "edit_users", "manage_loans"]
+      permissions: ["view_dashboard", "edit_users", "manage_loans"],
     },
     {
       role: "manager",
-      permissions: ["view_dashboard", "manage_loans"]
+      permissions: ["view_dashboard", "manage_loans"],
     },
     {
       role: "analyst",
-      permissions: ["view_dashboard"]
-    }
+      permissions: ["view_dashboard"],
+    },
   ]);
   const [selectedRole, setSelectedRole] = useState("");
   const [selectedPermissions, setSelectedPermissions] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleRoleChange = (role) => {
-    const selected = roles.find(r => r.role === role);
+    const selected = roles.find((r) => r.role === role);
     setSelectedRole(role);
     setSelectedPermissions([...selected.permissions]);
   };
 
   const handlePermissionChange = (permission) => {
-    setSelectedPermissions(prev => 
+    setSelectedPermissions((prev) =>
       prev.includes(permission)
-        ? prev.filter(p => p !== permission)
+        ? prev.filter((p) => p !== permission)
         : [...prev, permission]
     );
   };
@@ -44,23 +45,23 @@ const UserAccessControl = () => {
     try {
       console.log("PATCH /api/admin/update-permissions", {
         role: selectedRole,
-        permissions: selectedPermissions
+        permissions: selectedPermissions,
       });
-      
+
       // Simulate API response
-      const response = { 
-        status: "success", 
+      const response = {
+        status: "success",
         message: "Permissions updated",
         updated_values: {
           role: selectedRole,
-          permissions: selectedPermissions
-        }
+          permissions: selectedPermissions,
+        },
       };
       console.log(response);
-      
+
       // Update local state
-      setRoles(prev => 
-        prev.map(role => 
+      setRoles((prev) =>
+        prev.map((role) =>
           role.role === selectedRole
             ? { ...role, permissions: selectedPermissions }
             : role
@@ -77,16 +78,17 @@ const UserAccessControl = () => {
 
   return (
     <div className={styles.container}>
-      <h2>User Access Control</h2>
-      
+      <h2 className={styles.title}>User Access Control</h2>
+
       <div className={styles.roleSelector}>
         <label>Select Role:</label>
         <select
           value={selectedRole}
           onChange={(e) => handleRoleChange(e.target.value)}
+          className={styles.input}
         >
-          <option value="">Select a role</option>
-          {roles.map(role => (
+          <option value="user">Select a role</option>
+          {roles.map((role) => (
             <option key={role.role} value={role.role}>
               {role.role}
             </option>
@@ -103,8 +105,8 @@ const UserAccessControl = () => {
               "edit_users",
               "manage_loans",
               "view_reports",
-              "manage_settings"
-            ].map(permission => (
+              "manage_settings",
+            ].map((permission) => (
               <label key={permission} className={styles.permissionItem}>
                 <input
                   type="checkbox"
@@ -115,14 +117,12 @@ const UserAccessControl = () => {
               </label>
             ))}
           </div>
-          
-          <button
-            className={styles.updateButton}
+
+          <Button
             onClick={handleUpdatePermissions}
             disabled={isUpdating}
-          >
-            {isUpdating ? "Updating..." : "Update Permissions"}
-          </button>
+            text={isUpdating ? "Updating..." : "Update Permissions"}
+          />
         </div>
       )}
     </div>
