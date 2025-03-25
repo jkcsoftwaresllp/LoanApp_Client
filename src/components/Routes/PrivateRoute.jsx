@@ -86,7 +86,7 @@ export const privateRoutes = (
     <Route
       path="/support"
       element={
-        <PrivateRoute allowedRoles={["investor", "user"]}>
+        <PrivateRoute allowedRoles={["investor", "user", "admin"]}>
           <Support />
         </PrivateRoute>
       }
@@ -94,7 +94,7 @@ export const privateRoutes = (
     <Route
       path="/faq"
       element={
-        <PrivateRoute allowedRoles={["investor", "user"]}>
+        <PrivateRoute allowedRoles={["investor", "user", "admin"]}>
           <FAQ />
         </PrivateRoute>
       }
@@ -135,7 +135,7 @@ export const privateRoutes = (
     <Route
       path="/feedback"
       element={
-        <PrivateRoute allowedRoles={["investor", "user"]}>
+        <PrivateRoute allowedRoles={["investor", "user", "admin"]}>
           <FeedbackForm />
         </PrivateRoute>
       }
