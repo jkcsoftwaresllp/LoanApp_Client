@@ -1,7 +1,6 @@
 .container {
   position: relative;
   width: 100%;
-
   padding: 10px;
   border-radius: var(--border-radius-medium);
   display: flex;
