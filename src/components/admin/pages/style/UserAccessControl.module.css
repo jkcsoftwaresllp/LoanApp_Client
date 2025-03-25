@@ -1,0 +1,59 @@
+.container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.roleSelector {
+  margin-bottom: 20px;
+}
+
+.roleSelector label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.roleSelector select {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.permissionsSection {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.permissionsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.permissionItem {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.permissionItem input {
+  margin-right: 8px;
+}
+
+.updateButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.updateButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

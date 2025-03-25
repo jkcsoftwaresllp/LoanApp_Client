@@ -15,52 +15,56 @@ const Notification = () => {
   useEffect(() => {
     const userRole = localStorage.getItem("role");
     setIsInvestor(userRole === "investor");
-
-    fetchNotifications();
+    fetchNotifications(userRole);
   }, []);
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = async (userRole) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-
       if (!accessToken) {
         console.error("No access token found");
         return;
       }
 
-      const response = await fetch(
-        `${API_BASE_URL}auth/repayment-notification`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const endpoint = userRole === "admin" ? 
+        `${API_BASE_URL}auth/admin-notification` : 
+        `${API_BASE_URL}auth/repayment-notification`;
+
+      const response = await fetch(endpoint, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
       const data = await response.json();
+      
+      if (userRole === "admin") {
+        console.log("Admin Notification Response:", data);
+      }
 
-      if (response.ok && data.repayments && Array.isArray(data.repayments)) {
-        // Convert repayment data to notifications format
-        const formattedNotifications = data.repayments.map((repayment) => ({
-          title: repayment.status,
-          message: `<strong>Loan ID: ${repayment.loan_id}</strong> - Payment of <span style="color: #0066cc">₹${repayment.amount}</span> due on ${repayment.due_date}`,
-          time: repayment.due_date,
-          type: repayment.status === "Overdue" ? "error" : "warning",
-        }));
+      if (response.ok) {
+        let formattedNotifications = [];
+        if (userRole === "admin") {
+          // Format admin notifications
+          formattedNotifications = data.notifications.map(notification => ({
+            title: notification.type,
+            message: notification.message,
+            time: notification.created_at,
+            type: notification.severity || "info"
+          }));
+        } else {
+          // Format repayment notifications
+          formattedNotifications = data.repayments?.map(repayment => ({
+            title: repayment.status,
+            message: `<strong>Loan ID: ${repayment.loan_id}</strong> - Payment of <span style="color: #0066cc">₹${repayment.amount}</span> due on ${repayment.due_date}`,
+            time: repayment.due_date,
+            type: repayment.status === "Overdue" ? "error" : "warning",
+          })) || [];
+        }
 
         setNotifications(formattedNotifications);
-      } else if (response.ok && data.message) {
-        // Handle case when no repayments are found
-        setNotifications([
-          {
-            title: "No Pending Payments",
-            message: data.message,
-            time: new Date().toLocaleDateString(),
-            type: "info",
-          },
-        ]);
       } else {
         console.error("Failed to fetch notifications:", data.message);
         setNotifications([]);

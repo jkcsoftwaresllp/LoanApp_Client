@@ -1,0 +1,81 @@
+.container {
+  padding: 20px;
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.filters select {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.filters button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filters button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.ticketsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.ticketsTable th,
+.ticketsTable td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.ticketsTable th {
+  background-color: #f5f5f5;
+}
+
+.open {
+  color: #dc3545;
+}
+
+.in_progress {
+  color: #ffc107;
+}
+
+.closed {
+  color: #28a745;
+}
+
+.viewButton {
+  background-color: #007bff;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.closeButton {
+  background-color: #28a745;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.closeButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
