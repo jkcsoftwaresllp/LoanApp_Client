@@ -1,53 +1,174 @@
 .container {
-  padding: 20px;
+  position: relative;
+  width: 100%;
+  height: calc(100vh - (var(--header-height) * 0.5));
+  padding: 10px;
+  border-radius: var(--border-radius-medium);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .filters {
-  margin-bottom: 20px;
+  margin-bottom: 2px;
+  display: flex;
+  flex-direction: row;
 }
 
+.dateSelector {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-direction: row;
+}
+.userIdSelector {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .filterInput {
+    margin-right: 0;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+.filterInput {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+
+.userIdSelector,
+.dateSelector {
+  flex: 1;
+}
+
+.dateSelector {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .filterInput {
+    flex-direction: column;
+  }
+
+  .userIdSelector {
+    width: 100%;
+  }
+  .dateSelector {
+    width: 45%;
+  }
+
+  .dateSelector {
+    flex-direction: row;
+  }
+}
 .filters input {
   padding: 8px;
   margin-right: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+.title {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
 
-.filters button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  text-align: center;
+  color: var(--color-text-primary);
 }
-
-.filters button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  height: 50px;
+  margin: 20px 0 10px 0;
+  border-radius: var(--border-radius-small);
+  color: #212121;
+  border: 1px solid var(--color-text-primary);
 }
 
 .logsTable {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
 
-.logsTable th,
-.logsTable td {
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
+  border-spacing: 0;
 }
 
 .logsTable th {
-  background-color: #f5f5f5;
+  background-color: #4caf50;
+  color: white;
+  padding: 16px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
+.logsTable td {
+  padding: 16px;
+
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-medium);
+}
+
+.row {
+  transition: background-color 0.2s ease;
+}
+
+.row:hover {
+}
 .success {
   color: #28a745;
 }
 
 .failure {
   color: #dc3545;
+}
+.userIdSelector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.userIdSelector .input {
+  flex: 1;
+}
+
+.tableWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.tableContainer {
+  width: 100%;
+  max-height: 430px;
+  overflow-y: auto;
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+  .tableWrapper {
+    margin-bottom: 10px;
+  }
+
+  .tableContainer {
+    max-height: 300px;
+  }
 }

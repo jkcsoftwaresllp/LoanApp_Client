@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style/adminDashboard.module.css";
 import { Loader } from "../../common/Loader";
-import { Button } from "../../common/Button";
 import { Card } from "../jsx/card";
 import { CardContent } from "../jsx/cardContent";
-import { useNavigate } from "react-router-dom";
 import GradientButton from "../../common/GradientButton";
 import {
   LineChart,
