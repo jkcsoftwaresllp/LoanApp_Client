@@ -4,6 +4,7 @@ import { Loader } from "../../common/Loader";
 import { Card } from "../jsx/card";
 import { CardContent } from "../jsx/cardContent";
 import GradientButton from "../../common/GradientButton";
+import { useNavigate } from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -17,6 +18,13 @@ import {
 function AdminDashboard() {
   const [data, setData] = useState(null); // For dashboard metrics
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const goToReport = () => {
+    navigate("/admin/report");
+  };
+  const goToNoti = () => {
+    navigate("/notification");
+  };
 
   useEffect(() => {
     // Simulating fake API call with a delay
@@ -132,8 +140,11 @@ function AdminDashboard() {
                   <p>No critical notifications at the moment.</p>
                 </div>
                 <div className={styles.buttonContainer}>
-                  <GradientButton label="Manage Notifications" />
-                  <GradientButton label="View Reports" />
+                  <GradientButton
+                    label="Manage Notifications"
+                    onClick={goToNoti}
+                  />
+                  <GradientButton label="View Reports" onClick={goToReport} />
                 </div>
               </div>
             </div>

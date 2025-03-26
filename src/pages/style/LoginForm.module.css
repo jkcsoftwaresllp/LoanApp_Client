@@ -101,6 +101,9 @@
 .inputForm:focus-within {
   border: 1.5px solid #2d79f3;
 }
+label {
+  color: #212121;
+}
 
 .flexRow {
   display: flex;
