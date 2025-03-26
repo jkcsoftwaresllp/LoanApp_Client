@@ -3,6 +3,7 @@ import styles from "./style/LoanManagement.module.css";
 import { Button } from "../../common/Button";
 import { IconBtn } from "../../common/IconBtn";
 import { EyeIcon } from "../../common/assets";
+import { API_BASE_URL } from "../../../config";
 
 const LoanManagement = () => {
   const [loans, setLoans] = useState([]);
@@ -10,43 +11,42 @@ const LoanManagement = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [actionStatus, setActionStatus] = useState("");
 
-  const fetchLoans = async () => {
-    const fakeData = [
-      {
-        loan_id: 101,
-        borrower_name: "John Doe",
-        amount: 5000,
-        status: "pending",
-        documents: ["doc1.pdf", "doc2.pdf"],
-      },
-      {
-        loan_id: 102,
-        borrower_name: "Jane Smith",
-        amount: 10000,
-        status: "approved",
-        documents: ["doc3.pdf"],
-      },
-      {
-        loan_id: 1101,
-        borrower_name: "John Doe",
-        amount: 5000,
-        status: "pending",
-        documents: ["doc1.pdf", "doc2.pdf"],
-      },
-      {
-        loan_id: 1012,
-        borrower_name: "Jane Smith",
-        amount: 10000,
-        status: "pending",
-        documents: ["doc3.pdf"],
-      },
-    ];
-    setLoans(fakeData);
-  };
+  // const fetchLoans = async () => {
+  //   try {
+  //     const accessToken = localStorage.getItem("accessToken");
+  //     if (!accessToken) {
+  //       console.error("No access token found");
+  //       return;
+  //     }
 
-  useEffect(() => {
-    fetchLoans();
-  }, []);
+  //     const response = await fetch(`${API_BASE_URL}auth/loan-oppr`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+
+  //     if (!response.ok) {
+  //       if (response.status === 401) {
+  //         console.error("Unauthorized: Please login again");
+  //         // Optionally redirect to login page or refresh token
+  //         return;
+  //       }
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+
+  //     const data = await response.json();
+  //     console.log("API Response:", data);
+  //     setLoans(data);
+  //   } catch (error) {
+  //     console.error("Error fetching loans:", error.message);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchLoans();
+  // }, []);
 
   const handleViewDetails = (loan) => {
     setSelectedLoan(loan);
