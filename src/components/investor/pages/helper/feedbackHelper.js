@@ -1,17 +1,24 @@
 import axios from "axios";
 import { API_BASE_URL } from "../../../../config";
+
 export const submitFeedback = async (feedbackData) => {
   try {
     const role = localStorage.getItem("role");
-    const endpoint = role === "investor" ? "investor-feedback" : "user-feedback";
+    let endpoint = "user-feedback"; // Default endpoint
+    
+    if (role === "investor") {
+      endpoint = "investor-feedback";
+    } else if (role === "admin") {
+      endpoint = "user-feedback-admin";
+    }
 
     const response = await fetch(`${API_BASE_URL}auth/${endpoint}`, {
-      method: "POST",
+      method: role === "admin" ? "GET" : "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-      body: JSON.stringify(feedbackData),
+      body: role === "admin" ? null : JSON.stringify(feedbackData),
     });
 
     const result = await response.json();
