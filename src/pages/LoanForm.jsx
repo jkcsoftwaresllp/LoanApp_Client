@@ -22,7 +22,7 @@ const LoanForm = () => {
   const [loading, setLoading] = useState(false);
   const [frequency, setFrequency] = useState("weekly");
   const [loanType, setLoanType] = useState("personal"); // New state for loan type
-  const frequencyOptions = ["weekly", "monthly", "quarterly", "yearly"];
+  const frequencyOptions = ["Weekly", "Monthly", "Quarterly", "Yearly"];
   const loanTypeOptions = ["personal", "mortgage", "business"]; // Loan type options
   const [showInfoOverlay, setShowInfoOverlay] = useState(false);
 
@@ -37,8 +37,8 @@ const LoanForm = () => {
 
     // Validate all required fields
     if (!amount || !startDate || !endDate || !interestRate || !loanType) {
-        showToast("error", "Please fill all the required fields.");
-        return;
+      showToast("error", "Please fill all the required fields.");
+      return;
     }
 
     const parsedAmount = parseFloat(amount);
@@ -92,16 +92,16 @@ const LoanForm = () => {
   const calculateEndDate = (start, period, freq) => {
     const startDateObj = new Date(start);
     switch (freq) {
-      case "weekly":
+      case "Weekly":
         startDateObj.setDate(startDateObj.getDate() + period * 7);
         break;
-      case "monthly":
+      case "Monthly":
         startDateObj.setMonth(startDateObj.getMonth() + period);
         break;
-      case "quarterly":
+      case "Quarterly":
         startDateObj.setMonth(startDateObj.getMonth() + period * 3);
         break;
-      case "yearly":
+      case "Yearly":
         startDateObj.setFullYear(startDateObj.getFullYear() + period);
         break;
       default:
@@ -144,6 +144,37 @@ const LoanForm = () => {
 
     fetchInterestRates();
   }, [frequency]);
+  useEffect(() => {
+    const fetchInterestRateByFrequency = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          console.error("No access token found");
+          return;
+        }
+  
+        // Fetch interest rate for specific frequency
+        const response = await apiRequest(
+          "GET",
+          `${API_BASE_URL}auth/interest-rate/${frequency}`,
+          null,
+          accessToken
+        );
+  
+        console.log(`Interest Rate for ${frequency}:`, response.data);
+  
+        if (response.data && response.data.interest_rate) {
+          setInterestRate(response.data.interest_rate);
+          setInterestRateAfterDue(response.data.interest_rate + 2);
+        }
+  
+      } catch (error) {
+        console.error(`Error fetching interest rate for ${frequency}:`, error);
+      }
+    };
+  
+    fetchInterestRateByFrequency();
+  }, [frequency]);
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Loan Form</h2>
@@ -163,6 +194,7 @@ const LoanForm = () => {
               <input
                 type="number"
                 value={amount}
+                min={1}
                 onChange={(e) => setAmount(e.target.value)}
                 className={styles.input}
               />
@@ -190,11 +222,9 @@ const LoanForm = () => {
                 value={frequency}
                 onChange={(e) => {
                   const newFrequency = e.target.value;
-                  setFrequency(newFrequency);
+                  setFrequency(newFrequency); // This will trigger the useEffect to fetch new interest rate
                   if (startDate) {
-                    setEndDate(
-                      calculateEndDate(startDate, timePeriod, newFrequency)
-                    );
+                    setEndDate(calculateEndDate(startDate, timePeriod, newFrequency));
                   }
                 }}
                 className={styles.input}
@@ -209,11 +239,11 @@ const LoanForm = () => {
             <div className={styles.inputField}>
               <label className={styles.llabel}>
                 Duration in{" "}
-                {frequency === "weekly"
+                {frequency === "Weekly"
                   ? "Weeks"
-                  : frequency === "monthly"
+                  : frequency === "Monthly"
                   ? "Months"
-                  : frequency === "quarterly"
+                  : frequency === "Quarterly"
                   ? "Quarters"
                   : "Years"}
               </label>

@@ -11,42 +11,43 @@ const LoanManagement = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [actionStatus, setActionStatus] = useState("");
 
-  // const fetchLoans = async () => {
-  //   try {
-  //     const accessToken = localStorage.getItem("accessToken");
-  //     if (!accessToken) {
-  //       console.error("No access token found");
-  //       return;
-  //     }
+  const fetchLoans = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        console.error("No access token found");
+        return;
+      }
 
-  //     const response = await fetch(`${API_BASE_URL}auth/loan-oppr`, {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
+      const response = await fetch(`${API_BASE_URL}auth/oppr`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-  //     if (!response.ok) {
-  //       if (response.status === 401) {
-  //         console.error("Unauthorized: Please login again");
-  //         // Optionally redirect to login page or refresh token
-  //         return;
-  //       }
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
+      if (!response.ok) {
+        if (response.status === 401) {
+          console.error("Unauthorized: Please login again");
+          return;
+        }
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-  //     const data = await response.json();
-  //     console.log("API Response:", data);
-  //     setLoans(data);
-  //   } catch (error) {
-  //     console.error("Error fetching loans:", error.message);
-  //   }
-  // };
+      const result = await response.json();
+      console.log("API Response:", result);
+      // Access the data array from the response
+      setLoans(Array.isArray(result.data) ? result.data : []);
+    } catch (error) {
+      console.error("Error fetching loans:", error.message);
+      setLoans([]); // Set loans to empty array in case of error
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchLoans();
-  // }, []);
+  useEffect(() => {
+    fetchLoans();
+  }, []);
 
   const handleViewDetails = (loan) => {
     setSelectedLoan(loan);
@@ -54,8 +55,39 @@ const LoanManagement = () => {
   };
 
   const handleApproveReject = async (loanId, status) => {
-    console.log(`POST /api/admin/approve-loan - ${loanId} status: ${status}`);
-    fetchLoans(); // Refresh data
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        console.error("No access token found");
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}auth/admin-update-status`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          loan_id: loanId.toString(), // Ensure loan_id is string
+          status: status.toLowerCase() // Ensure consistent case
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const result = await response.json();
+      console.log("Status update response:", result);
+      fetchLoans(); // Refresh the loan list
+    } catch (error) {
+      console.error("Error updating loan status:", error.message);
+      // Add user-friendly error notification here if needed
+    }
   };
 
   return (
@@ -75,14 +107,22 @@ const LoanManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {loans.map((loan) => (
-                <TableRow
-                  key={loan.loan_id}
-                  loan={loan}
-                  handleViewDetails={handleViewDetails}
-                  handleApproveReject={handleApproveReject}
-                />
-              ))}
+              {loans.length > 0 ? (
+                loans.map((loan) => (
+                  <TableRow
+                    key={loan.loan_id}
+                    loan={loan}
+                    handleViewDetails={handleViewDetails}
+                    handleApproveReject={handleApproveReject}
+                  />
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center">
+                    No new loan is applied
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -93,18 +133,22 @@ const LoanManagement = () => {
           <div className={styles.modalContent}>
             <h3>Loan Application #{selectedLoan.loan_id}</h3>
             <p>Borrower: {selectedLoan.borrower_name}</p>
-            <p>Amount: ${selectedLoan.amount.toLocaleString()}</p>
+            <p>Amount: ₹{selectedLoan.amount.toLocaleString()}</p>
             <p>Status: {selectedLoan.status}</p>
             <div className={styles.documents}>
               <p>
                 <b>Attached Documents:</b>
               </p>
-              {selectedLoan.documents.map((doc, index) => (
-                <div key={index} className={styles.documentItem}>
-                  {doc}
-                  <IconBtn icon={<EyeIcon />} />
-                </div>
-              ))}
+              {Array.isArray(selectedLoan.documents) ? (
+                selectedLoan.documents.map((doc, index) => (
+                  <div key={index} className={styles.documentItem}>
+                    {doc}
+                    <IconBtn icon={<EyeIcon />} />
+                  </div>
+                ))
+              ) : (
+                <p>No documents available</p>
+              )}
             </div>
             <Button text="Close" onClick={() => setIsModalVisible(false)} />
           </div>
@@ -121,11 +165,11 @@ const TableRow = React.memo(
     <tr key={loan.loan_id} className={styles.row}>
       <td className="py-2 px-4 text-center">{loan.loan_id}</td>
       <td className="py-2 px-4 text-left">{loan.borrower_name}</td>
-      <td className="py-2 px-4 text-left">${loan.amount.toLocaleString()}</td>
+      <td className="py-2 px-4 text-left">₹{loan.amount.toLocaleString()}</td>
       <td className="py-2 px-4 text-left">{loan.status}</td>
       <td className={styles.action}>
         <Button text="View" onClick={() => handleViewDetails(loan)} />
-        {loan.status === "pending" && (
+        {loan.status === "Pending" && (
           <>
             <Button
               text="Approve"
