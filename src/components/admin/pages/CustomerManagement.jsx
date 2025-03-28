@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styles from "./style/CustomerManagement.module.css";
 import { Button } from "../../common/Button";
-import { API_BASE_URL } from "../../../config";
 import { IconBtn } from "../../common/IconBtn";
 import { PrevIcon, Nexticon } from "../../common/assets";
 import { Loader } from "../../common/Loader";
 import { showToast } from "../../../utils/toastUtils";
+import {
+  fetchCustomers,
+  updateUserStatus,
+  deleteUser,
+} from "./helper/customerManagementHelper";
 
 const CustomerManagement = () => {
   const [customers, setCustomers] = useState([]);
@@ -16,33 +20,40 @@ const CustomerManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const fetchCustomers = async () => {
+  const fetchCustomersData = async () => {
     try {
       setIsLoading(true);
-      const accessToken = localStorage.getItem("accessToken");
-      const response = await fetch(`${API_BASE_URL}auth/admin-getCustomers`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
+      const data = await fetchCustomers();
+
+      // Apply frontend filtering
+      const filteredData = data.filter((customer) => {
+        // Status filter (case insensitive)
+        if (
+          filters.status &&
+          customer.status.toLowerCase() !== filters.status.toLowerCase()
+        ) {
+          return false;
+        }
+
+        // Date filter (if implemented)
+        if (filters.date) {
+          // Add your date filtering logic here if needed
+        }
+
+        return true;
       });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const { data } = await response.json();
-      setCustomers(data);
+
+      setCustomers(filteredData);
     } catch (error) {
-      console.error("Error fetching customers:", error);
-      showToast("Error fetching customers", "error");
+      console.error("Error in component:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCustomers();
-  }, [filters]);
+    fetchCustomersData();
+  }, [filters.status, filters.date]); // Add all filter properties here
 
   const handleEdit = (customer) => {
     setSelectedCustomer(customer);
@@ -50,11 +61,38 @@ const CustomerManagement = () => {
   };
 
   const handleDeactivate = async (customer) => {
-    const updatedStatus = customer.status === "active" ? "inactive" : "active";
-    console.log(
-      `PATCH /api/admin/customers/update - ${customer.customer_id} status: ${updatedStatus}`
-    );
-    fetchCustomers();
+    try {
+      await updateUserStatus(customer);
+      showToast(
+        "success",
+        `User ${customer.user_id} has been ${
+          customer.status === "active" ? "deactivated" : "reactivated"
+        }`
+      );
+      fetchCustomersData();
+    } catch (error) {
+      console.error("Error in component:", error);
+      showToast(
+        "error",
+        `Failed to ${
+          customer.status === "active" ? "deactivate" : "reactivate"
+        } user ${customer.user_id}`
+      );
+    }
+  };
+
+  const handleDelete = async (customer) => {
+    try {
+      await deleteUser(customer);
+      showToast(
+        "success",
+        `User ${customer.user_id} has been deleted successfully`
+      );
+      fetchCustomersData();
+    } catch (error) {
+      console.error("Error in component:", error);
+      showToast("error", `Failed to delete user ${customer.user_id}`);
+    }
   };
 
   const handleFilterChange = (name, value) => {
@@ -167,6 +205,11 @@ const CustomerManagement = () => {
                         selectedCustomer.customer_id
                       )
                     }
+                  />
+                  <Button
+                    text="Delete User"
+                    onClick={() => handleDelete(selectedCustomer)}
+                    className={styles.deleteButton}
                   />
                   <Button
                     text="Close"
