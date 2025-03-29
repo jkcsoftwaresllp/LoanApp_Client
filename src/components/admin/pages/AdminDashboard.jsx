@@ -5,7 +5,7 @@ import { Card } from "../jsx/card";
 import { CardContent } from "../jsx/cardContent";
 import GradientButton from "../../common/GradientButton";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../../../config";
+
 import {
   LineChart,
   Line,
@@ -14,7 +14,9 @@ import {
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
+  Legend,
 } from "recharts"; // For the graph
+import { fetchDashboardData } from "./helper/dashboardHelper"; // Import the helper function
 
 function AdminDashboard() {
   const [data, setData] = useState(null); // For dashboard metrics
@@ -28,27 +30,17 @@ function AdminDashboard() {
   };
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
+    const loadDashboardData = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
-        const response = await fetch(`${API_BASE_URL}auth/admin-dashboard`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const data = await response.json();
-        console.log("Dashboard API Response:", data);
-        setData(data);
+        const dashboardData = await fetchDashboardData();
+        setData(dashboardData);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching dashboard data:", error);
         setLoading(false);
       }
     };
 
-    fetchDashboardData();
+    loadDashboardData();
   }, []);
 
   return (
@@ -57,7 +49,7 @@ function AdminDashboard() {
         <div className={styles.loaderContainer}>
           <Loader className={styles.loader} />
         </div>
-      ) : (
+      ) : data && data.data ? ( // Add null check here
         <>
           <h2 className={styles.title}>Dashboard</h2>
           <div className={styles.dashboardContainer}>
@@ -108,9 +100,9 @@ function AdminDashboard() {
             <div className={styles.main}>
               <div className={styles.chartContainer}>
                 <h3 className={styles.chartTitle}>Loan Approval Trends</h3>
-                {data.data.monthlyApprovedLoans?.length > 0 ? (
+                {data.formattedMonthlyApprovedLoans?.length > 0 ? (
                   <ResponsiveContainer width="100%" height={300}>
-                    <LineChart data={data.data.monthlyApprovedLoans}>
+                    <LineChart data={data.formattedMonthlyApprovedLoans}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis
                         dataKey="month"
@@ -123,6 +115,7 @@ function AdminDashboard() {
                           "Loan Approvals",
                         ]}
                       />
+                      <Legend /> {/* Added Legend component */}
                       <Line
                         type="monotone"
                         dataKey="approvals"
@@ -142,6 +135,7 @@ function AdminDashboard() {
               <div className={styles.noti}>
                 <div className={styles.notificationContainer}>
                   <h2 className={styles.notificationTitle}>Notifications</h2>
+                  <hr className={styles.divider} />
                   {data.data.adminNotifications?.length > 0 ? (
                     data.data.adminNotifications.map((notification, index) => (
                       <div key={index} className={styles.notificationItem}>
@@ -169,6 +163,11 @@ function AdminDashboard() {
             </div>
           </div>
         </>
+      ) : (
+        // Add fallback UI for when data is not available
+        <div className={styles.emptyState}>
+          <h3>No data available</h3>
+        </div>
       )}
     </div>
   );
