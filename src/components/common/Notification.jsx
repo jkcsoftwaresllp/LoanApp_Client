@@ -40,11 +40,6 @@ const Notification = () => {
       });
 
       const data = await response.json();
-      console.log("API Response:", data); // Add this line to log the raw response
-
-      if (userRole === "admin") {
-        console.log("Admin Notification Response:", data);
-      }
 
       if (response.ok) {
         let formattedNotifications = [];
@@ -113,8 +108,12 @@ const Notification = () => {
                     <p>{notification.status || notification.title}</p>
                   </div>
                   <div className={styles.notificationRight}>
-                    {notification.loan_id && <small>Loan ID: {notification.loan_id}</small>}
-                    {notification.investor_id && <small>Investor ID: {notification.investor_id}</small>}
+                    {notification.loan_id && (
+                      <small>Loan ID: {notification.loan_id}</small>
+                    )}
+                    {notification.investor_id && (
+                      <small>Investor ID: {notification.investor_id}</small>
+                    )}
                     {notification.time && <small>{notification.time}</small>}
                   </div>
                 </div>

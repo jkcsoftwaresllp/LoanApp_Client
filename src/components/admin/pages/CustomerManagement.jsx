@@ -169,7 +169,7 @@ const CustomerManagement = () => {
                   <tr>
                     <th className="py-2 px-4 text-left">S.No</th>
                     <th className="py-2 px-4 text-left">Customer ID</th>
-                    <th className="py-2 px-4 text-left">Name</th>
+                    <th className="py-2 px-4 text-left">Email</th>
                     <th className="py-2 px-4 text-left">Contact Info</th>
                     <th className="py-2 px-4 text-left">Status</th>
                     <th className="py-2 px-4 text-center">Actions</th>
@@ -231,7 +231,7 @@ const TableRow = React.memo(
   ({ index, customer, handleEdit, handleDeactivate }) => (
     <tr key={customer._id} className={styles.row}>
       <td className="py-2 px-4 text-center">{index}</td>
-      <td className="py-2 px-4 text-center">{customer.user_id || "N/A"}</td>
+      <td className="py-2 px-4 text-left">{customer.user_id || "N/A"}</td>
       <td className="py-2 px-4 text-left">{customer.email}</td>
       <td className="py-2 px-4 text-left">{customer.mobile_number}</td>
       <td className="py-2 px-4 text-left">{customer.status}</td>

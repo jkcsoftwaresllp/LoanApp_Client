@@ -48,7 +48,7 @@ const Support = () => {
         <h2>Create New Support Ticket</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label>Query Type</label>
+            <p className={styles.label}>Query Type</p>
             <select
               value={formData.query_type}
               onChange={(e) =>
@@ -66,7 +66,7 @@ const Support = () => {
           </div>
 
           <div className={styles.formGroup}>
-            <label>Description</label>
+            <p className={styles.label}>Description</p>
             <textarea
               value={formData.description}
               onChange={(e) =>

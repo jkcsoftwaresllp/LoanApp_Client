@@ -20,6 +20,11 @@
   text-align: center;
   color: var(--color-text-primary);
 }
+.label {
+  color: #212121;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
+}
 .center {
   display: flex;
   justify-content: center;

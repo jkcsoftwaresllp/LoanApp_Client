@@ -56,7 +56,7 @@ const Settings = () => {
 
       <div className={styles.form}>
         <div className={styles.formGroup}>
-          <label>Notification Preferences:</label>
+          <p className={styles.label}>Notification Preferences:</p>
           <select
             value={settings.notifications}
             className={styles.input}
@@ -75,7 +75,7 @@ const Settings = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>Default Interest Rate (%):</label>
+          <p className={styles.label}>Default Interest Rate (%):</p>
           <input
             type="number"
             step="0.1"

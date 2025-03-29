@@ -11,6 +11,12 @@
   border-radius: 8px;
   margin-top: 20px;
 }
+.label {
+  color: #212121;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
+}
+
 .title {
   font-size: var(--font-size-large);
   font-weight: var(--font-weight-bold);

@@ -83,7 +83,7 @@ const DirectMessaging = () => {
       <h2 className={styles.title}>Direct Messaging</h2>
       <div className={styles.form}>
         <div className={styles.formGroup}>
-          <label>Select User:</label>
+          <p className={styles.label}>Select User:</p>
           <select
             value={selectedUserId}
             className={styles.select}
@@ -99,7 +99,7 @@ const DirectMessaging = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>Message:</label>
+          <p className={styles.label}>Message:</p>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
