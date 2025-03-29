@@ -5,6 +5,7 @@ import { Card } from "../jsx/card";
 import { CardContent } from "../jsx/cardContent";
 import GradientButton from "../../common/GradientButton";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../../config";
 import {
   LineChart,
   Line,
@@ -27,23 +28,27 @@ function AdminDashboard() {
   };
 
   useEffect(() => {
-    // Simulating fake API call with a delay
-    setTimeout(() => {
-      setData({
-        total_customers: 100,
-        total_investors: 40,
-        active_loans: 50,
-        pending_applications: 10,
-        late_payments: 5,
-        loan_trends: [
-          { month: "Jan", approvals: 40 },
-          { month: "Feb", approvals: 55 },
-          { month: "Mar", approvals: 70 },
-          { month: "Apr", approvals: 65 },
-        ],
-      });
-      setLoading(false);
-    }, 2000); // Simulate network delay
+    const fetchDashboardData = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        const response = await fetch(`${API_BASE_URL}auth/admin-dashboard`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const data = await response.json();
+        console.log("Dashboard API Response:", data);
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
   }, []);
 
   return (
@@ -61,7 +66,7 @@ function AdminDashboard() {
                 <Card>
                   <CardContent>
                     <p className={styles.cardValue}>
-                      {data.total_customers || 0}
+                      {data.data.totalCustomers || 0}
                     </p>
                     <h3 className={styles.cardTitle}>Total Customers</h3>
                   </CardContent>
@@ -69,7 +74,7 @@ function AdminDashboard() {
                 <Card>
                   <CardContent>
                     <p className={styles.cardValue}>
-                      {data.total_investors || 0}
+                      {data.data.totalInvestors || 0}
                     </p>
                     <h3 className={styles.cardTitle}>Total Investor</h3>
                   </CardContent>
@@ -77,25 +82,25 @@ function AdminDashboard() {
                 <Card>
                   <CardContent>
                     <p className={styles.cardValue}>
-                      {data.active_loans || 0}%
+                      {data.data.loanDetailsCount || 0}
                     </p>
-                    <h3 className={styles.cardTitle}>Active Loans</h3>
+                    <h3 className={styles.cardTitle}>Total Loans</h3>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardContent>
                     <p className={styles.cardValue}>
-                      {data.pending_applications || 0}
+                      {data.data.totalApprovedLoans || 0}
                     </p>
-                    <h3 className={styles.cardTitle}>Pending Application</h3>
+                    <h3 className={styles.cardTitle}>Approved Loans</h3>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardContent>
                     <p className={styles.cardValue}>
-                      {data.late_payments || 0}
+                      {data.data.totalPendingLoans || 0}
                     </p>
-                    <h3 className={styles.cardTitle}>Late Payments</h3>
+                    <h3 className={styles.cardTitle}>Pending Loans</h3>
                   </CardContent>
                 </Card>
               </div>
@@ -103,9 +108,9 @@ function AdminDashboard() {
             <div className={styles.main}>
               <div className={styles.chartContainer}>
                 <h3 className={styles.chartTitle}>Loan Approval Trends</h3>
-                {data.loan_trends.length > 0 ? (
+                {data.data.monthlyApprovedLoans?.length > 0 ? (
                   <ResponsiveContainer width="100%" height={300}>
-                    <LineChart data={data.loan_trends}>
+                    <LineChart data={data.data.monthlyApprovedLoans}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis
                         dataKey="month"
@@ -137,7 +142,21 @@ function AdminDashboard() {
               <div className={styles.noti}>
                 <div className={styles.notificationContainer}>
                   <h2 className={styles.notificationTitle}>Notifications</h2>
-                  <p>No critical notifications at the moment.</p>
+                  {data.data.adminNotifications?.length > 0 ? (
+                    data.data.adminNotifications.map((notification, index) => (
+                      <div key={index} className={styles.notificationItem}>
+                        <div className={styles.notificationLeft}>
+                          <p>{notification.status}</p>
+                        </div>
+                        <div className={styles.notificationRight}>
+                          <small>Loan ID: {notification.loan_id}</small>
+                          <small>Investor ID: {notification.investor_id}</small>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No critical notifications at the moment.</p>
+                  )}
                 </div>
                 <div className={styles.buttonContainer}>
                   <GradientButton

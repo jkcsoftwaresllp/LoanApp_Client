@@ -97,7 +97,11 @@ const NotificationSettings = () => {
           const data = await response.json();
           console.log("Admin Notifications Response:", data);
 
-          if (response.ok && data.notifications && Array.isArray(data.notifications)) {
+          if (
+            response.ok &&
+            data.notifications &&
+            Array.isArray(data.notifications)
+          ) {
             setNotifications(data.notifications); // Set the notifications directly from API
           } else {
             setNotifications([]);
@@ -175,63 +179,6 @@ const NotificationSettings = () => {
             </label>
           </div>
         </div>
-
-        <h2 className={styles.h2}>Notifications</h2>
-        {notifications.length > 0 ? (
-          <ul className={styles.ul}>
-            {role === "user" ? (
-              // User role notifications
-              notifications.map((notification, index) => (
-                <li key={index} className={styles.li}>
-                  <div className={styles.notificationHeader}>
-                    <strong>{notification.type}</strong>
-                    <span className={styles.amount}>₹{notification.amount}</span>
-                  </div>
-                  <div className={styles.notificationDetails}>
-                    <p>Loan ID: {notification.loanId}</p>
-                    <p>Due Date: {notification.dueDate}</p>
-                  </div>
-                </li>
-              ))
-            ) : role === "investor" ? (
-              // Investor role notifications
-              notifications.map((notification, index) => (
-                <li key={index} className={styles.li}>
-                  <div className={styles.notificationHeader}>
-                    <strong>Investment Update</strong>
-                  </div>
-                  <div className={styles.notificationDetails}>
-                    <p>Loan ID: {notification.loan_id}</p>
-                    <p>Status: {notification.status}</p>
-                    <p>Amount: ₹{notification.amount?.toLocaleString() || 'N/A'}</p>
-                  </div>
-                </li>
-              ))
-            ) : (
-              // Admin role notifications
-              notifications.map((notification, index) => (
-                <li key={index} className={styles.li}>
-                  <div className={styles.notificationHeader}>
-                    <strong>Loan Approval Request</strong>
-                  </div>
-                  <div className={styles.notificationDetails}>
-                    <p>Loan ID: {notification.loan_id}</p>
-                    <p>Investor ID: {notification.investor_id}</p>
-                    <p>Status: {notification.status}</p>
-                  </div>
-                </li>
-              ))
-            )}
-          </ul>
-        ) : (
-          <p className={styles.p}>
-            {role === "user" 
-              ? "No pending repayments." 
-              : role === "investor" 
-                ? "No investment updates." 
-                : "No pending loan approvals."}
-          </p>
-        )}
       </div>
     </>
   );

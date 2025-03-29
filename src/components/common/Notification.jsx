@@ -26,9 +26,10 @@ const Notification = () => {
         return;
       }
 
-      const endpoint = userRole === "admin" ? 
-        `${API_BASE_URL}auth/admin-notification` : 
-        `${API_BASE_URL}auth/repayment-notification`;
+      const endpoint =
+        userRole === "admin"
+          ? `${API_BASE_URL}auth/admin-notification`
+          : `${API_BASE_URL}auth/repayment-notification`;
 
       const response = await fetch(endpoint, {
         method: "GET",
@@ -39,7 +40,8 @@ const Notification = () => {
       });
 
       const data = await response.json();
-      
+      console.log("API Response:", data); // Add this line to log the raw response
+
       if (userRole === "admin") {
         console.log("Admin Notification Response:", data);
       }
@@ -48,20 +50,21 @@ const Notification = () => {
         let formattedNotifications = [];
         if (userRole === "admin") {
           // Format admin notifications
-          formattedNotifications = data.notifications.map(notification => ({
-            title: notification.type,
-            message: notification.message,
+          formattedNotifications = data.notifications.map((notification) => ({
+            status: notification.status,
+            loan_id: notification.loan_id,
+            investor_id: notification.investor_id,
             time: notification.created_at,
-            type: notification.severity || "info"
           }));
         } else {
           // Format repayment notifications
-          formattedNotifications = data.repayments?.map(repayment => ({
-            title: repayment.status,
-            message: `<strong>Loan ID: ${repayment.loan_id}</strong> - Payment of <span style="color: #0066cc">₹${repayment.amount}</span> due on ${repayment.due_date}`,
-            time: repayment.due_date,
-            type: repayment.status === "Overdue" ? "error" : "warning",
-          })) || [];
+          formattedNotifications =
+            data.repayments?.map((repayment) => ({
+              title: repayment.status,
+              message: `<strong>Loan ID: ${repayment.loan_id}</strong> - Payment of <span style="color: #0066cc">₹${repayment.amount}</span> due on ${repayment.due_date}`,
+              time: repayment.due_date,
+              type: repayment.status === "Overdue" ? "error" : "warning",
+            })) || [];
         }
 
         setNotifications(formattedNotifications);
@@ -86,6 +89,11 @@ const Notification = () => {
     <div className={styles.notification}>
       <div onClick={toggleNotification} className={styles.notificationIcon}>
         <NotificationIcon />
+        {notifications.length > 0 && (
+          <span className={styles.notificationBadge}>
+            {notifications.length}
+          </span>
+        )}
       </div>
       {isOpen && (
         <div
@@ -100,16 +108,16 @@ const Notification = () => {
           <div className={styles.messages}>
             {notifications.length > 0 ? (
               notifications.map((notification, index) => (
-                <NotificationBody
-                  key={index}
-                  title={<strong>{notification.title}</strong>}
-                  message={
-                    <div
-                      dangerouslySetInnerHTML={{ __html: notification.message }}
-                    />
-                  }
-                  time={notification.time}
-                />
+                <div key={index} className={styles.notificationItem}>
+                  <div className={styles.notificationLeft}>
+                    <p>{notification.status || notification.title}</p>
+                  </div>
+                  <div className={styles.notificationRight}>
+                    {notification.loan_id && <small>Loan ID: {notification.loan_id}</small>}
+                    {notification.investor_id && <small>Investor ID: {notification.investor_id}</small>}
+                    {notification.time && <small>{notification.time}</small>}
+                  </div>
+                </div>
               ))
             ) : (
               <div className={styles.noNotifications}>No notifications</div>
