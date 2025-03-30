@@ -15,6 +15,7 @@ import RepaymentSchedule from "../../pages/Repay";
 import Support from "../../pages/Support";
 import FAQ from "../../pages/FAQ";
 import ProfileUpdate from "../../pages/ProfileUpdate";
+import ApprovedLoansManagement from "../admin/pages/ApprovedLoansManagement";
 
 import Home from "../../pages/Home";
 
@@ -278,6 +279,14 @@ export const privateRoutes = (
         element={
           <PrivateRoute allowedRoles={["admin"]}>
             <LoanManagement />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="approved-loan"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <ApprovedLoansManagement />
           </PrivateRoute>
         }
       />

@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
 import styles from "./style/LoanManagement.module.css";
 import { IconBtn } from "../../common/IconBtn";
-import {
-  EyeIcon,
-  CheckIcon,
-  CloseIcon,
-  Infoicon,
-  PrevIcon,
-  Nexticon,
-  ArrowUp,
-} from "../../common/assets";
+import { EyeIcon, CheckIcon, CloseIcon, Infoicon } from "../../common/assets";
 import { API_BASE_URL } from "../../../config";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../../common/Loader";
+// Add these to your existing imports
+import { PrevIcon, Nexticon } from "../../common/assets";
+import {
+  fetchApprovedLoans,
+  updateLoanStatus,
+  filterLoans,
+} from "./helper/approvedLoanHelper";
 
-const LoanManagement = () => {
+const ApprovedLoansManagement = () => {
   const [loans, setLoans] = useState([]);
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -22,12 +21,7 @@ const LoanManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isLoading, setIsLoading] = useState(true); // Initialize as true
-
-  const navigate = useNavigate();
-  const goToApproved = () => {
-    navigate("/admin/approved-loan");
-  };
+  const [isLoading, setIsLoading] = useState(true);
 
   // Define allowed status transitions
   const validTransitions = {
@@ -49,30 +43,48 @@ const LoanManagement = () => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}auth/oppr`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          console.error("Unauthorized: Please login again");
-          return;
-        }
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      setLoans(Array.isArray(result.data) ? result.data : []);
-      console.log("Loans fetched:", result.data);
+      const result = await fetchApprovedLoans(accessToken);
+      const filteredLoans = filterLoans(result.data);
+      setLoans(filteredLoans);
+      console.log("Filtered Loans (excluding Pending):", filteredLoans);
     } catch (error) {
       console.error("Error fetching loans:", error.message);
       setLoans([]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleApproveReject = async (loanId) => {
+    if (!loanStatus[loanId]) {
+      console.error("Please select a status");
+      return;
+    }
+
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        console.error("No access token found");
+        return;
+      }
+
+      const currentLoan = loans.find((loan) => loan.loan_id === loanId);
+      if (!currentLoan) {
+        console.error("Loan not found");
+        return;
+      }
+
+      await updateLoanStatus(accessToken, loanId, loanStatus[loanId]);
+
+      console.log("Status updated for loan:", loanId);
+      setLoanStatus((prevState) => ({
+        ...prevState,
+        [loanId]: "",
+      }));
+      fetchLoans();
+    } catch (error) {
+      console.error("Error updating loan status:", error.message);
+      alert(error.message);
     }
   };
 
@@ -92,64 +104,6 @@ const LoanManagement = () => {
     }));
   };
 
-  const handleApproveReject = async (loanId) => {
-    if (!loanStatus[loanId]) {
-      console.error("Please select a status");
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-        console.error("No access token found");
-        return;
-      }
-
-      const currentLoan = loans.find((loan) => loan.loan_id === loanId);
-      if (!currentLoan) {
-        console.error("Loan not found");
-        return;
-      }
-
-      const response = await fetch(`${API_BASE_URL}auth/admin-update-status`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          loan_id: loanId.toString(),
-          status: loanStatus[loanId], // Send exact case as backend expects
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        // Handle specific error codes from backend
-        if (result.uniqueCode === "INV35" || result.uniqueCode === "INV36") {
-          alert(result.message); // Show investment eligibility error to user
-        }
-        throw new Error(
-          result.message || `HTTP error! status: ${response.status}`
-        );
-      }
-
-      console.log("Status updated for loan:", loanId);
-      setLoanStatus((prevState) => ({
-        ...prevState,
-        [loanId]: "",
-      }));
-      fetchLoans();
-    } catch (error) {
-      console.error("Error updating loan status:", error.message);
-      alert(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const TableRow = React.memo(({ loan }) => (
     <tr key={loan.loan_id} className={styles.row}>
       <td className="py-2 px-4 text-center">{loan.loan_id}</td>
@@ -158,7 +112,7 @@ const LoanManagement = () => {
       <td className="py-2 px-4 text-left">{loan.status}</td>
       <td className={styles.action}>
         <IconBtn icon={<Infoicon />} onClick={() => handleViewDetails(loan)} />
-        {loan.status === "Pending" && (
+        {loan.status === "Under Review" && (
           <>
             <select
               value={loanStatus[loan.loan_id] || ""}
@@ -201,7 +155,7 @@ const LoanManagement = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Loan Management</h2>
+      <h2 className={styles.title}>Approved & Under Review Loans</h2>
 
       {/* Add search and pagination controls */}
       <div className={styles.filters}>
@@ -270,15 +224,12 @@ const LoanManagement = () => {
                     <td colSpan="5" className="text-center">
                       {searchTerm
                         ? "No matching loans found"
-                        : "No loans available"}
+                        : "No approved or under review loans found"}
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
-            <p onClick={goToApproved} className={styles.tableFooter}>
-              Go to approved loans <ArrowUp />
-            </p>
           </div>
         )}
       </div>
@@ -315,4 +266,4 @@ const LoanManagement = () => {
   );
 };
 
-export default LoanManagement;
+export default ApprovedLoansManagement;

@@ -9,12 +9,24 @@
   padding: 20px;
   color: #333;
   border-radius: 8px;
-  margin-top: 20px;
+  margin-top: 100px;
 }
 .label {
   color: #212121;
   font-size: var(--font-size-medium);
   font-weight: var(--font-weight-bold);
+}
+
+.input {
+  width: 100%;
+  min-width: 100px;
+  max-width: 200px;
+  padding: 0.5rem;
+  height: 50px;
+  margin-top: 10px;
+  border-radius: var(--border-radius-small);
+  color: #212121;
+  border: 1px solid var(--color-text-primary);
 }
 
 .title {
@@ -24,8 +36,16 @@
   text-align: center;
   color: var(--color-text-primary);
 }
-.formGroup {
+.rowContainer {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
   margin-bottom: 20px;
+}
+
+.formGroup {
+  flex: 1;
+  margin-bottom: 0;
 }
 
 .formGroup label {
