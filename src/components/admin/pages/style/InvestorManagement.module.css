@@ -83,6 +83,8 @@ td {
   display: flex;
   gap: 5px;
   justify-content: center;
+  padding: 8px 16px; /* Corresponds to py-2 px-4 */
+  text-align: left; /* Corresponds to text-left */
 }
 
 .modalBackdrop {
@@ -93,6 +95,7 @@ td {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
+  z-index: 1000;
   justify-content: center;
   align-items: center;
 }

@@ -145,11 +145,11 @@ const CustomerManagement = () => {
               </select>
             </div>
             <div className={styles.filterRow}>
-              <input
+              {/* <input
                 type="date"
                 className={styles.filterSelect}
                 onChange={(e) => handleFilterChange("date", e.target.value)}
-              />
+              /> */}
 
               <select
                 className={styles.filterSelect}
@@ -194,8 +194,12 @@ const CustomerManagement = () => {
             <div className={styles.modalBackdrop}>
               <div className={styles.modalContent}>
                 <h3>{selectedCustomer.name}</h3>
-                <p>Contact: {selectedCustomer.contact}</p>
-                <p>Status: {selectedCustomer.status}</p>
+                <p>
+                  Contact: <b> {selectedCustomer.mobile_number}</b>
+                </p>
+                <p>
+                  Status:<b> {selectedCustomer.status}</b>
+                </p>
                 <div className={styles.action}>
                   <Button
                     text="Generate report"

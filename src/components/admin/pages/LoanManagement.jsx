@@ -13,6 +13,7 @@ import {
 import { API_BASE_URL } from "../../../config";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../../common/Loader";
+import { showToast } from "../../../../src/utils/toastUtils";
 
 const LoanManagement = () => {
   const [loans, setLoans] = useState([]);
@@ -67,7 +68,6 @@ const LoanManagement = () => {
 
       const result = await response.json();
       setLoans(Array.isArray(result.data) ? result.data : []);
-      console.log("Loans fetched:", result.data);
     } catch (error) {
       console.error("Error fetching loans:", error.message);
       setLoans([]);
@@ -96,6 +96,15 @@ const LoanManagement = () => {
     if (!loanStatus[loanId]) {
       console.error("Please select a status");
       return;
+    }
+
+    // Check if status is "Approved" and investments are required
+    if (loanStatus[loanId] === "Approved") {
+      const currentLoan = loans.find((loan) => loan.loan_id === loanId);
+      if (!currentLoan.investments || currentLoan.investments.length === 0) {
+        showToast("error", "Please add investments before approving the loan.");
+        return;
+      }
     }
 
     setIsLoading(true);
@@ -129,14 +138,14 @@ const LoanManagement = () => {
       if (!response.ok) {
         // Handle specific error codes from backend
         if (result.uniqueCode === "INV35" || result.uniqueCode === "INV36") {
-          alert(result.message); // Show investment eligibility error to user
+          showToast("error", result.message); // Use showToast for specific error
         }
         throw new Error(
           result.message || `HTTP error! status: ${response.status}`
         );
       }
 
-      console.log("Status updated for loan:", loanId);
+      showToast("info", `Status updated for loan: ${loanId}`);
       setLoanStatus((prevState) => ({
         ...prevState,
         [loanId]: "",
@@ -157,8 +166,7 @@ const LoanManagement = () => {
       <td className="py-2 px-4 text-left">₹{loan.amount.toLocaleString()}</td>
       <td className="py-2 px-4 text-left">{loan.status}</td>
       <td className={styles.action}>
-        <IconBtn icon={<Infoicon />} onClick={() => handleViewDetails(loan)} />
-        {loan.status === "Pending" && (
+        {["Pending", "Under Review"].includes(loan.status) && ( // Updated condition
           <>
             <select
               value={loanStatus[loan.loan_id] || ""}
@@ -179,6 +187,7 @@ const LoanManagement = () => {
             />
           </>
         )}
+        <IconBtn icon={<Infoicon />} onClick={() => handleViewDetails(loan)} />
       </td>
     </tr>
   ));
@@ -276,16 +285,21 @@ const LoanManagement = () => {
                 )}
               </tbody>
             </table>
-            <p onClick={goToApproved} className={styles.tableFooter}>
-              Go to approved loans <ArrowUp />
-            </p>
           </div>
         )}
       </div>
       {isModalVisible && selectedLoan && (
         <div className={styles.modalBackdrop}>
           <div className={styles.modalContent}>
-            <h3>Loan Application #{selectedLoan.loan_id}</h3>
+            <div className={styles.modalHeader}>
+              <h3>Loan Application #{selectedLoan.loan_id}</h3>
+              <p
+                className={styles.closeButton}
+                onClick={() => setIsModalVisible(false)}
+              >
+                <CloseIcon />
+              </p>
+            </div>
             <p>Borrower: {selectedLoan.borrower_name}</p>
             <p>Amount: ₹{selectedLoan.amount.toLocaleString()}</p>
             <p>Status: {selectedLoan.status}</p>
@@ -304,13 +318,12 @@ const LoanManagement = () => {
                 <p>No documents available</p>
               )}
             </div>
-            <IconBtn
-              icon={<CloseIcon />}
-              onClick={() => setIsModalVisible(false)}
-            />
           </div>
         </div>
       )}
+      <p onClick={goToApproved} className={styles.tableFooter}>
+        Go to approved loans <ArrowUp />
+      </p>
     </div>
   );
 };

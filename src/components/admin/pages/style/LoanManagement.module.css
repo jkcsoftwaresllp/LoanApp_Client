@@ -16,7 +16,19 @@
   text-align: center;
   color: var(--color-text-primary);
 }
+.p {
+  color: #333;
+}
+.investorSelect {
+  display: flex;
+  justify-content: space-between; /* Distribute space between elements */
+  align-items: center; /* Center items vertically */
+}
 
+.infoButtonContainer {
+  cursor: pointer;
+  padding-left: 20px;
+}
 .tableWrapper {
   display: flex;
   flex-direction: row;
@@ -178,4 +190,45 @@ td {
   border-radius: var(--border-radius-small);
   color: #212121;
   border: 1px solid var(--color-text-primary);
+}
+
+.investorList {
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 20px 0;
+}
+
+.investorItem {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeButton {
+  cursor: pointer;
+  margin-left: auto;
+  color: red;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust spacing between buttons */
+  width: 100%;
+  max-width: 400px;
 }

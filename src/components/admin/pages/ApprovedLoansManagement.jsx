@@ -5,7 +5,8 @@ import { EyeIcon, CheckIcon, CloseIcon, Infoicon } from "../../common/assets";
 import { API_BASE_URL } from "../../../config";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../../common/Loader";
-// Add these to your existing imports
+import { Button } from "../../common/Button";
+import { showToast } from "../../../../src/utils/toastUtils";
 import { PrevIcon, Nexticon } from "../../common/assets";
 import {
   fetchApprovedLoans,
@@ -22,6 +23,11 @@ const ApprovedLoansManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
+  const [investors, setInvestors] = useState([]);
+  const [selectedInvestors, setSelectedInvestors] = useState({});
+  const [isInvestorModalVisible, setIsInvestorModalVisible] = useState(false);
+  const [currentLoanForInvestors, setCurrentLoanForInvestors] = useState(null);
+  const [selectedInvestor, setSelectedInvestor] = useState(null); // Add state for selected investor
 
   // Define allowed status transitions
   const validTransitions = {
@@ -32,6 +38,91 @@ const ApprovedLoansManagement = () => {
     Rejected: [],
     Paid: [],
     Expired: [],
+  };
+  const handleAddInvestors = async (loanId) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        console.error("No access token found");
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}auth/addinvestor`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          loan_id: loanId,
+          investor_ids: selectedInvestors[loanId] || [],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      showToast("success", "Investors added successfully!");
+      setIsInvestorModalVisible(false);
+      fetchLoans();
+    } catch (error) {
+      console.error("Error adding investors:", error.message);
+      showToast("error", error.message);
+    }
+  };
+
+  const [filters, setFilters] = useState({ status: "active" }); // Add filters state
+  const [loading, setLoading] = useState(false); // Add loading state
+
+  const fetchInvestors = async () => {
+    setLoading(true); // Set loading true before fetch
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        console.error("No access token found");
+        return;
+      }
+
+      const response = await fetch(
+        `${API_BASE_URL}auth/admin-investor-details?status=${filters.status}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("API Error:", errorData);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      setInvestors(data.investors);
+    } catch (error) {
+      console.error("Error fetching investors:", error.message);
+    } finally {
+      setLoading(false); // Set loading false after fetch
+    }
+  };
+
+  useEffect(() => {
+    fetchInvestors();
+  }, [filters]);
+
+  const handleInvestorSelection = (loanId, investorId, isSelected) => {
+    setSelectedInvestors((prev) => ({
+      ...prev,
+      [loanId]: isSelected
+        ? [...(prev[loanId] || []), investorId]
+        : (prev[loanId] || []).filter((id) => id !== investorId),
+    }));
   };
 
   const fetchLoans = async () => {
@@ -61,6 +152,7 @@ const ApprovedLoansManagement = () => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
@@ -74,9 +166,31 @@ const ApprovedLoansManagement = () => {
         return;
       }
 
-      await updateLoanStatus(accessToken, loanId, loanStatus[loanId]);
+      const response = await fetch(`${API_BASE_URL}auth/admin-update-status`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          loan_id: loanId.toString(),
+          status: loanStatus[loanId], // Send exact case as backend expects
+        }),
+      });
 
-      console.log("Status updated for loan:", loanId);
+      const result = await response.json();
+
+      if (!response.ok) {
+        // Handle specific error codes from backend
+        if (result.uniqueCode === "INV35" || result.uniqueCode === "INV36") {
+          alert(result.message); // Show investment eligibility error to user
+        }
+        throw new Error(
+          result.message || `HTTP error! status: ${response.status}`
+        );
+      }
+
+      showToast("info", `Status updated for loan: ${loanId}`);
       setLoanStatus((prevState) => ({
         ...prevState,
         [loanId]: "",
@@ -85,6 +199,8 @@ const ApprovedLoansManagement = () => {
     } catch (error) {
       console.error("Error updating loan status:", error.message);
       alert(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -111,28 +227,47 @@ const ApprovedLoansManagement = () => {
       <td className="py-2 px-4 text-left">₹{loan.amount.toLocaleString()}</td>
       <td className="py-2 px-4 text-left">{loan.status}</td>
       <td className={styles.action}>
-        <IconBtn icon={<Infoicon />} onClick={() => handleViewDetails(loan)} />
-        {loan.status === "Under Review" && (
-          <>
-            <select
-              value={loanStatus[loan.loan_id] || ""}
-              onChange={(e) => handleStatusChange(loan.loan_id, e.target.value)}
-              className={styles.input}
-            >
-              <option value="">Select Status</option>
-              {validTransitions[loan.status]?.map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
-            </select>
-            <IconBtn
-              icon={<CheckIcon />}
-              onClick={() => handleApproveReject(loan.loan_id)}
-              disabled={!loanStatus[loan.loan_id]}
+        <div className={styles.buttonContainer}>
+          {" "}
+          {/* Add flex container */}
+          {loan.status === "Under Review" && (
+            <>
+              <select
+                value={loanStatus[loan.loan_id] || ""}
+                onChange={(e) =>
+                  handleStatusChange(loan.loan_id, e.target.value)
+                }
+                className={styles.input}
+              >
+                <option value="">Select Status</option>
+                {validTransitions[loan.status]?.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+              <IconBtn
+                icon={<CheckIcon />}
+                onClick={() => handleApproveReject(loan.loan_id)}
+                disabled={!loanStatus[loan.loan_id]}
+              />
+            </>
+          )}
+          {loan.status === "Approved" && (
+            <Button
+              onClick={() => {
+                setCurrentLoanForInvestors(loan);
+                setIsInvestorModalVisible(true);
+                fetchInvestors();
+              }}
+              text="Add Investor"
             />
-          </>
-        )}
+          )}
+          <IconBtn
+            icon={<Infoicon />}
+            onClick={() => handleViewDetails(loan)}
+          />
+        </div>
       </td>
     </tr>
   ));
@@ -236,7 +371,15 @@ const ApprovedLoansManagement = () => {
       {isModalVisible && selectedLoan && (
         <div className={styles.modalBackdrop}>
           <div className={styles.modalContent}>
-            <h3>Loan Application #{selectedLoan.loan_id}</h3>
+            <div className={styles.modalHeader}>
+              <h3>Loan Application #{selectedLoan.loan_id}</h3>
+              <p
+                className={styles.closeButton}
+                onClick={() => setIsModalVisible(false)}
+              >
+                <CloseIcon />
+              </p>
+            </div>
             <p>Borrower: {selectedLoan.borrower_name}</p>
             <p>Amount: ₹{selectedLoan.amount.toLocaleString()}</p>
             <p>Status: {selectedLoan.status}</p>
@@ -255,10 +398,76 @@ const ApprovedLoansManagement = () => {
                 <p>No documents available</p>
               )}
             </div>
-            <IconBtn
-              icon={<CloseIcon />}
-              onClick={() => setIsModalVisible(false)}
-            />
+          </div>
+        </div>
+      )}
+      {isInvestorModalVisible && currentLoanForInvestors && (
+        <div className={styles.modalBackdrop}>
+          <div className={styles.modalContent}>
+            <h3>
+              Select Investors for Loan #{currentLoanForInvestors.loan_id}
+            </h3>
+            <div className={styles.investorList}>
+              {investors.map((investor) => (
+                <div key={investor.investor_id} className={styles.investorItem}>
+                  <input
+                    type="checkbox"
+                    id={`investor-${investor.investor_id}`}
+                    checked={(
+                      selectedInvestors[currentLoanForInvestors.loan_id] || []
+                    ).includes(investor.investor_id)}
+                    onChange={(e) =>
+                      handleInvestorSelection(
+                        currentLoanForInvestors.loan_id,
+                        investor.investor_id,
+                        e.target.checked
+                      )
+                    }
+                  />
+                  <div className={styles.investorSelect}>
+                    <label
+                      htmlFor={`investor-${investor.investor_id}`}
+                      className={styles.p}
+                    >
+                      {investor.investor_id} - {investor.name}
+                    </label>
+                    {/* Move the IconBtn to a new div with a class for styling */}
+                    <div className={styles.infoButtonContainer}>
+                      <p onClick={() => setSelectedInvestor(investor)}>
+                        <Infoicon />
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className={styles.modalActions}>
+              <Button
+                onClick={() =>
+                  handleAddInvestors(currentLoanForInvestors.loan_id)
+                }
+                text="Submit"
+                disabled={
+                  !selectedInvestors[currentLoanForInvestors.loan_id]?.length
+                }
+              />
+              <Button
+                onClick={() => setIsInvestorModalVisible(false)}
+                text="Cancel"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {selectedInvestor && (
+        <div className={styles.modalBackdrop}>
+          <div className={styles.modalContent}>
+            <h3>Investor Details</h3>
+            <p>Investor ID: {selectedInvestor.investor_id}</p>
+            <p>Name: {selectedInvestor.name}</p>
+            <p>Portfolio Value: {selectedInvestor.portfolio_value}</p>
+            <p>Status: {selectedInvestor.status}</p>
+            <Button onClick={() => setSelectedInvestor(null)} text="Close" />
           </div>
         </div>
       )}
