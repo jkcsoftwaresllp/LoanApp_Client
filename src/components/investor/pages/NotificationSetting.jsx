@@ -27,9 +27,10 @@ const NotificationSettings = () => {
         });
 
         const data = await response.json();
+        console.log("Profile Data:", data); // Log profile data
         if (response.ok) {
           setProfile(data.profile);
-          setRole(data.profile.role); // Assuming role is part of the profile
+          setRole(data.profile.role);
         }
       } catch (err) {
         console.error("Error fetching profile:", err);
@@ -37,98 +38,20 @@ const NotificationSettings = () => {
       }
     };
 
-    const fetchNotificationDetails = async () => {
-      if (role === "user") {
-        // Only fetch notifications for user role
-        try {
-          const response = await fetch(
-            `${API_BASE_URL}auth/repayment-notification`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-              },
-            }
-          );
-
-          const data = await response.json();
-
-          if (
-            response.ok &&
-            data.repayments &&
-            Array.isArray(data.repayments)
-          ) {
-            const formattedNotifications = data.repayments.map((repayment) => ({
-              type: repayment.status,
-              message: `Loan ID: ${repayment.loan_id} - Payment of ₹${repayment.amount} due on ${repayment.due_date}`,
-              dueDate: repayment.due_date,
-              amount: repayment.amount,
-              loanId: repayment.loan_id,
-            }));
-            setNotifications(formattedNotifications);
-          } else {
-            setNotifications([]);
-            if (data.message) {
-              showToast("info", data.message);
-            }
-          }
-        } catch (err) {
-          console.error("Error fetching notifications:", err);
-          setError(err.message);
-          showToast("error", "Failed to fetch notification details");
-        } finally {
-          setLoading(false);
-        }
-      } else if (role === "admin") {
-        // Fetch notifications for admin role
-        try {
-          const response = await fetch(
-            `${API_BASE_URL}auth/admin-notification`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-              },
-            }
-          );
-
-          const data = await response.json();
-          console.log("Admin Notifications Response:", data);
-
-          if (
-            response.ok &&
-            data.notifications &&
-            Array.isArray(data.notifications)
-          ) {
-            setNotifications(data.notifications); // Set the notifications directly from API
-          } else {
-            setNotifications([]);
-            if (data.message) {
-              showToast("info", data.message);
-            }
-          }
-        } catch (err) {
-          console.error("Error fetching admin notifications:", err);
-          showToast("error", "Failed to fetch admin notification details");
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false); // Ensure loading is set to false if not fetching
-      }
-    };
-
     fetchUserProfile();
-    fetchNotificationDetails();
-  }, [role]);
+  }, []);
 
   const handleEmailNotificationChange = async (e) => {
     const isChecked = e.target.checked;
     setEmailNotification(isChecked);
 
     if (role === "admin") {
+      const requestData = {
+        investor_id: "IVXJ55770", // Hardcoded investor ID for testing
+        enable_notifications: isChecked,
+      };
+      console.log("Sending data to API:", requestData);
+
       try {
         const response = await fetch(`${API_BASE_URL}api/auth/preferences`, {
           method: "POST",
@@ -136,21 +59,23 @@ const NotificationSettings = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-          body: JSON.stringify({
-            investor_id: profile.investor_id, // Assuming investor_id is part of the profile
-            enable_notifications: isChecked,
-          }),
+          body: JSON.stringify(requestData),
         });
 
         const data = await response.json();
-        if (response.ok) {
+        console.log("Notification Preferences Response:", data);
+
+        if (data.status === "success") {
           showToast("success", data.message);
+          setEmailNotification(data.preferences.enable_notifications);
         } else {
           showToast("error", data.message || "Failed to update preferences");
+          setEmailNotification(!isChecked);
         }
       } catch (err) {
         console.error("Error updating notification preferences:", err);
         showToast("error", "Failed to update notification preferences");
+        setEmailNotification(!isChecked);
       }
     }
   };
