@@ -94,7 +94,7 @@ td {
   padding: 16px;
   border-bottom: 1px solid #eee;
   color: var(--color-text-primary);
-  font-weight: var(--font-weight-bold);
+
   font-size: var(--font-size-medium);
   height: 90px;
 }
@@ -228,7 +228,7 @@ td {
 .buttonContainer {
   display: flex;
   align-items: center;
-  gap: 10px; /* Adjust spacing between buttons */
+  gap: 10px;
   width: 100%;
   max-width: 400px;
 }

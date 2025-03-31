@@ -10,7 +10,6 @@ export const fetchDashboardData = async () => {
       },
     });
     const data = await response.json();
-    console.log("Dashboard API Response:", data);
 
     // Format the monthlyApprovedLoans data for the graph
     const formattedMonthlyApprovedLoans = data.data.monthlyApprovedLoans.map(

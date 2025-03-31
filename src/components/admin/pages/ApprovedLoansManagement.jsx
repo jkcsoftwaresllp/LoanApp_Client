@@ -47,16 +47,19 @@ const ApprovedLoansManagement = () => {
         return;
       }
 
+      const payload = {
+        loan_id: loanId,
+        investor_ids: selectedInvestors[loanId] || [],
+      };
+      console.log("Add Investors API Payload:", payload);
+
       const response = await fetch(`${API_BASE_URL}auth/addinvestor`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({
-          loan_id: loanId,
-          investor_ids: selectedInvestors[loanId] || [],
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -208,8 +211,43 @@ const ApprovedLoansManagement = () => {
     fetchLoans();
   }, []);
 
-  const handleViewDetails = (loan) => {
-    setSelectedLoan(loan);
+  const handleViewDetails = async (loan) => {
+    if (loan.status === "Approved") {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          console.error("No access token found");
+          return;
+        }
+
+        const response = await fetch(
+          `${API_BASE_URL}auth/status/${loan.loan_id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+              loan_id: loan.loan_id,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const detailedLoan = await response.json();
+        setSelectedLoan({ ...loan, ...detailedLoan });
+      } catch (error) {
+        console.error("Error fetching loan details:", error);
+        showToast("error", "Failed to fetch loan details");
+        setSelectedLoan(loan);
+      }
+    } else {
+      setSelectedLoan(loan);
+    }
     setIsModalVisible(true);
   };
 
@@ -228,40 +266,17 @@ const ApprovedLoansManagement = () => {
       <td className="py-2 px-4 text-left">{loan.status}</td>
       <td className={styles.action}>
         <div className={styles.buttonContainer}>
-          {" "}
-          {/* Add flex container */}
           {loan.status === "Under Review" && (
             <>
-              <select
-                value={loanStatus[loan.loan_id] || ""}
-                onChange={(e) =>
-                  handleStatusChange(loan.loan_id, e.target.value)
-                }
-                className={styles.input}
-              >
-                <option value="">Select Status</option>
-                {validTransitions[loan.status]?.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
-              <IconBtn
-                icon={<CheckIcon />}
-                onClick={() => handleApproveReject(loan.loan_id)}
-                disabled={!loanStatus[loan.loan_id]}
+              <Button
+                onClick={() => {
+                  setCurrentLoanForInvestors(loan);
+                  setIsInvestorModalVisible(true);
+                  fetchInvestors();
+                }}
+                text="Add Investor"
               />
             </>
-          )}
-          {loan.status === "Approved" && (
-            <Button
-              onClick={() => {
-                setCurrentLoanForInvestors(loan);
-                setIsInvestorModalVisible(true);
-                fetchInvestors();
-              }}
-              text="Add Investor"
-            />
           )}
           <IconBtn
             icon={<Infoicon />}
