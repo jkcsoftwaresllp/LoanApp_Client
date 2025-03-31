@@ -81,7 +81,7 @@
   right: 0;
   top: 40px;
   background: white;
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 520px;
   min-width: 280px;
@@ -116,11 +116,11 @@
 }
 .messages::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 3px;
+  border-radius: var(--border-radius-medium);
 }
 .messages::-webkit-scrollbar-thumb {
   background: #888;
-  border-radius: 3px;
+  border-radius: var(--border-radius-medium);
 }
 .messages::-webkit-scrollbar-thumb:hover {
   background: #555;
@@ -145,7 +145,7 @@
   gap: 8px;
   margin-top: 16px;
   padding: 8px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-medium);
   cursor: pointer;
   color: #333;
   font-weight: var(--font-weight-bold);

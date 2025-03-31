@@ -59,7 +59,7 @@
   .card {
     width: 350px;
     padding: 16px;
-    border-radius: 8px;
+    border-radius: var(--border-radius-medium);
   }
 }
 
@@ -107,7 +107,7 @@
   margin-top: 16px;
   padding: 8px;
   border: 1px solid #d1d5db;
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
   resize: none;
   outline: none;
   border: 1px solid #34d399;

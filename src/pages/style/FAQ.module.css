@@ -22,7 +22,7 @@
   color: #000;
   border: 1px solid var(--color-text-primary);
   padding: 0.7rem 1rem;
-  border-radius: 30px;
+  border-radius: var(--border-radius-medium);
   width: 100%;
   transition: all ease-in-out 0.5s;
 }
@@ -54,7 +54,7 @@
 .categoryBtn {
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 20px;
+  border-radius: var(--border-radius-medium);
   background: #f0f0f0;
   cursor: pointer;
   color: #212121;
@@ -78,7 +78,7 @@
 
 .faqItem {
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
   overflow: hidden;
 }
 

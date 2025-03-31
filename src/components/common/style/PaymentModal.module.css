@@ -14,7 +14,7 @@
 .modalContent {
   background: white;
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
   max-width: 500px;
   width: 90%;
   text-align: center;
@@ -34,7 +34,7 @@
   width: 200px;
   height: 200px;
   border: 15px solid #000;
-  border-radius: 10px;
+  border-radius: var(--border-radius-medium);
 }
 
 .buttonGroup {
@@ -102,7 +102,7 @@
   padding: 0.75rem;
   width: 100%;
   color: #0f0f0f;
-  border-radius: 6px;
+  border-radius: var(--border-radius-medium);
   border: 2px solid #e0e0e0;
   font-size: 1rem;
   font-weight: 700;
@@ -148,13 +148,13 @@
   border: 1px solid #e53e3e;
   padding: 10px;
   margin-bottom: 1rem;
-  border-radius: 5px;
+  border-radius: var(--border-radius-medium);
   background-color: #fef2f2;
 }
 
 .uploadBox {
   border: 2px dashed #e0e0e0;
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
   padding: 2rem;
   text-align: center;
   cursor: pointer;

@@ -8,7 +8,7 @@
   min-width: none;
   max-height: 440px;
   overflow-y: auto;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-medium);
   border: 1px solid var(--color-text-primary);
 }
 .title {
@@ -61,7 +61,7 @@ th {
   border: none;
   padding: 8px 12px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--border-radius-medium);
 }
 .btnContainer {
   display: flex;
@@ -101,7 +101,7 @@ th {
   background: #fbfeff;
   user-select: none;
   padding: 20px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-medium);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   width: 400px;
   max-width: 90%;

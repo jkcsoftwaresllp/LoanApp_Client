@@ -8,7 +8,7 @@
   margin: 0 auto;
   background-color: var(--color-bg-secondary);
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: var(--border-radius-medium);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -35,7 +35,7 @@
   max-height: 350px;
   overflow-y: auto;
   overflow-x: auto;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-medium);
   border: 1px solid var(--color-text-primary);
 }
 
@@ -137,7 +137,7 @@ td {
   background: #fbfeff;
   user-select: none;
   padding: 20px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-medium);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   width: 400px;
   max-width: 90%;

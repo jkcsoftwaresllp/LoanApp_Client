@@ -9,7 +9,7 @@
   margin: 0 auto;
   background-color: var(--color-bg-secondary);
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: var(--border-radius-medium);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -176,7 +176,7 @@ strong {
   white-space: nowrap;
   text-overflow: ellipsis;
   border: none;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-medium);
 
   transition: background-color 0.3s ease-in-out;
 }
@@ -199,7 +199,7 @@ strong {
 .inputField {
   background-color: #ffffff;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
   border: 2px solid #e0e0e0;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -207,7 +207,7 @@ strong {
 .inputFieldD {
   background-color: #ffffff;
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
   width: 100%;
   border: 2px solid #e0e0e0;
   transition: all 0.3s ease;
@@ -229,7 +229,7 @@ strong {
   padding: 0.75rem;
   width: 100%;
   color: #0f0f0f;
-  border-radius: 6px;
+  border-radius: var(--border-radius-medium);
   border: 2px solid #e0e0e0;
   font-size: 1rem;
   font-weight: 700; /* Make text slightly bold */
@@ -292,7 +292,7 @@ strong {
   white-space: nowrap;
   text-overflow: ellipsis;
   border: none;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-medium);
 
   transition: background-color 0.3s ease-in-out;
 }
@@ -342,7 +342,7 @@ strong {
   color: #fff;
   text-align: center;
   padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-medium);
   position: absolute;
   z-index: 1;
   width: 150px;

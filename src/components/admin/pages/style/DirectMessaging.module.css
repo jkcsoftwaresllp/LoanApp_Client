@@ -43,7 +43,7 @@
   padding: 0.5rem;
   height: 50px;
   margin: 20px 0 10px 0;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-medium);
   color: #212121;
   border: 1px solid var(--color-text-primary);
 }
@@ -53,7 +53,7 @@
   height: 200px;
 
   margin: 20px 0 10px 0;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-medium);
   color: #212121;
   border: 1px solid var(--color-text-primary);
 }

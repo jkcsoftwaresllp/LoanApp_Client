@@ -12,7 +12,7 @@
   min-width: 300px;
   max-width: 500px;
   width: 100%;
-  border-radius: var(--border-radius-large);
+  border-radius: var(--border-radius-medium);
   user-select: none;
   box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.3);
 }
@@ -64,7 +64,7 @@
 
 .inputForm {
   border: 1.5px solid var(--color-border-primary);
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-medium);
   height: 50px;
   display: flex;
   align-items: center;
@@ -74,7 +74,7 @@
 
 .input {
   margin-left: 10px;
-  border-radius: 10px;
+  border-radius: var(--border-radius-medium);
   border: none;
   width: 100%;
   height: 100%;
@@ -85,7 +85,7 @@
   margin-top: 70px;
   background-color: #fbfbfb;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: var(--border-radius-medium);
   box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
   font-size: var(--font-size-xsmall);
   font-weight: 500;
@@ -136,7 +136,7 @@ label {
   color: var(--color-text-primary);
   font-size: 15px;
   font-weight: 500;
-  border-radius: 10px;
+  border-radius: var(--border-radius-medium);
   height: 50px;
   width: 100%;
   cursor: pointer;
@@ -158,7 +158,7 @@ label {
   margin-top: 10px;
   width: 100%;
   height: 50px;
-  border-radius: 10px;
+  border-radius: var(--border-radius-medium);
   display: flex;
   justify-content: center;
   align-items: center;

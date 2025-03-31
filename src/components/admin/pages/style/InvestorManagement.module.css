@@ -48,7 +48,7 @@
   padding: 0.5rem;
   height: 50px;
   margin: 20px 0 10px 0;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-medium);
   color: #212121;
   border: 1px solid var(--color-text-primary);
 }
@@ -61,7 +61,7 @@
 .tableWrapper {
   margin-top: 20px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: var(--border-radius-medium);
   overflow: hidden;
 }
 
@@ -110,7 +110,7 @@ td {
 .modalContent {
   background: white;
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
   min-width: 300px;
 }
 

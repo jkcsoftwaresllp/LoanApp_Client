@@ -20,7 +20,7 @@
 
 .right {
   flex: 1;
-  border-radius: var(--border-radius-large);
+  border-radius: var(--border-radius-medium);
 
   height: 200px;
   width: 100%;
@@ -45,12 +45,12 @@
 .box {
   flex: 1;
 
-  border-radius: var(--border-radius-large);
+  border-radius: var(--border-radius-medium);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
 }
 .Emibox {
   flex: 1;
-  border-radius: var(--border-radius-large);
+  border-radius: var(--border-radius-medium);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   justify-content: center;
   display: flex;
@@ -60,7 +60,7 @@
 .optionButton {
   font-size: 4rem;
   padding: 1rem;
-  border-radius: var(--border-radius-large);
+  border-radius: var(--border-radius-medium);
   gap: 0.5rem;
   transition: all 0.3s ease-in-out;
   font-weight: var(--font-weight-regular);

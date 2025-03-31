@@ -8,14 +8,14 @@
   height: 500px;
   overflow-x: scroll;
 
-  border-radius: 1rem;
+  border-radius: var(--border-radius-medium);
   display: flex;
   flex-direction: column;
   gap: 10px;
   flex-shrink: 0;
   overflow-x: scroll;
   box-sizing: border-box;
-  border-radius: var(--border-radius-large);
+  border-radius: var(--border-radius-medium);
 
   display: flex;
   flex-direction: column;
@@ -46,7 +46,7 @@
   padding: 0.75rem;
   width: 100%;
   color: #0f0f0f;
-  border-radius: 6px;
+  border-radius: var(--border-radius-medium);
   border: 2px solid #e0e0e0;
   font-size: 1rem;
   font-weight: 700; /* Make text slightly bold */
@@ -83,7 +83,7 @@
   border: 1px solid #e53e3e;
   padding: 10px;
   margin-bottom: 1rem;
-  border-radius: 5px;
+  border-radius: var(--border-radius-medium);
   background-color: #fef2f2;
 }
 p {
@@ -127,7 +127,7 @@ p {
   font-size: 16px;
   font-weight: bold;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius-medium);
   cursor: pointer;
   width: 120px;
   text-align: center;
@@ -177,7 +177,7 @@ p {
 .inputField {
   background-color: #ffffff;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: var(--border-radius-medium);
 
   transition: all 0.3s ease;
 }
