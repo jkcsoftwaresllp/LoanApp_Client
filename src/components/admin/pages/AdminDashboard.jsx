@@ -101,13 +101,10 @@ function AdminDashboard() {
               <div className={styles.chartContainer}>
                 <h3 className={styles.chartTitle}>Loan Approval Trends</h3>
                 {data.formattedMonthlyApprovedLoans?.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={300}>
+                  <ResponsiveContainer width="100%" height={350}>
                     <LineChart data={data.formattedMonthlyApprovedLoans}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis
-                        dataKey="month"
-                        padding={{ left: 30, right: 30 }}
-                      />
+                      <CartesianGrid strokeDasharray="10 3" />
+                      <XAxis dataKey="month" padding={{ left: 3, right: 3 }} />
                       <YAxis domain={[0, "dataMax + 20"]} tickCount={6} />
                       <Tooltip
                         formatter={(value) => [
