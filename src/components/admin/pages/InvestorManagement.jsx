@@ -14,9 +14,11 @@ const InvestorManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [loading, setLoading] = useState(true); // Add loading state
+  const [error, setError] = useState(null);
 
   const fetchInvestors = async () => {
-    setLoading(true); // Set loading true before fetch
+    setLoading(true);
+    setError(null);
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
@@ -35,24 +37,27 @@ const InvestorManagement = () => {
         }
       );
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error("API Error:", errorData);
-        throw new Error(`HTTP error! status: ${response.status}`);
+        setError(data.message || "Error fetching investors");
+        setInvestors([]);
+        return;
       }
 
-      const data = await response.json();
-      setInvestors(data.investors);
+      setInvestors(data.investors || []);
     } catch (error) {
       console.error("Error fetching investors:", error.message);
+      setError("Failed to fetch investors");
+      setInvestors([]);
     } finally {
-      setLoading(false); // Set loading false after fetch
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchInvestors();
-  }, [filters]);
+  }, [filters.status]); // Changed dependency to filters.status
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -69,9 +74,98 @@ const InvestorManagement = () => {
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Add new state for edit modal
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [editingInvestor, setEditingInvestor] = useState(null);
+
+  // Add status update handler
+  // Add new state for tracking selected status
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  // Update handleEdit function
   const handleEdit = (investor) => {
-    console.log(`Editing investor ${investor.investor_id}`);
+    setEditingInvestor(investor);
+    setSelectedStatus(investor.status);
+    setIsEditModalVisible(true);
   };
+
+  // Modify handleStatusUpdate
+  const handleStatusUpdate = async (newStatus) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const response = await fetch(
+        `${API_BASE_URL}auth/update-investor-status`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            investor_id: editingInvestor.investor_id,
+            status: newStatus,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to update status");
+      }
+
+      // Update local state immediately
+      setInvestors((prevInvestors) =>
+        prevInvestors.map((investor) =>
+          investor.investor_id === editingInvestor.investor_id
+            ? { ...investor, status: newStatus }
+            : investor
+        )
+      );
+
+      // Close modal and reset states
+      setIsEditModalVisible(false);
+      setEditingInvestor(null);
+      setSelectedStatus("");
+
+      // Fetch fresh data
+      fetchInvestors();
+    } catch (error) {
+      console.error("Error updating investor status:", error);
+    }
+  };
+
+  // Update the edit modal JSX
+  {
+    isEditModalVisible && editingInvestor && (
+      <div className={styles.modalBackdrop}>
+        <div className={styles.modalContent}>
+          <h3>Update Investor Status</h3>
+          <select
+            className={styles.filterSelect}
+            value={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value)}
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+          <div className={styles.modalActions}>
+            <Button
+              text="Submit"
+              onClick={() => handleStatusUpdate(selectedStatus)}
+            />
+            <Button
+              text="Cancel"
+              onClick={() => {
+                setIsEditModalVisible(false);
+                setSelectedStatus("");
+                setEditingInvestor(null);
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleViewDetails = (investor) => {
     setSelectedInvestor(investor);
@@ -138,15 +232,31 @@ const InvestorManagement = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.map((investor, index) => (
-                    <TableRow
-                      key={investor.investor_id}
-                      index={index + 1 + (currentPage - 1) * itemsPerPage}
-                      investor={investor}
-                      handleEdit={handleEdit}
-                      handleViewDetails={handleViewDetails}
-                    />
-                  ))}
+                  {error ? (
+                    <tr>
+                      <td colSpan="6" className="text-center">
+                        <p className={styles.p}>{error}</p>
+                      </td>
+                    </tr>
+                  ) : currentItems.length > 0 ? (
+                    currentItems.map((investor, index) => (
+                      <TableRow
+                        key={investor.investor_id}
+                        index={index + 1 + (currentPage - 1) * itemsPerPage}
+                        investor={investor}
+                        handleEdit={handleEdit}
+                        handleViewDetails={handleViewDetails}
+                      />
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className="text-center">
+                        <div className={styles.center}>
+                          <p>Nothing to show</p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -162,6 +272,29 @@ const InvestorManagement = () => {
                 </p>
                 <p>Status: {selectedInvestor.status}</p>
                 <Button text="Close" onClick={() => setIsModalVisible(false)} />
+              </div>
+            </div>
+          )}
+
+          {/* Add Edit Modal Here */}
+          {isEditModalVisible && editingInvestor && (
+            <div className={styles.modalBackdrop}>
+              <div className={styles.modalContent}>
+                <h3>Update Investor Status</h3>
+                <select
+                  className={styles.filterSelect}
+                  value={editingInvestor.status}
+                  onChange={(e) => handleStatusUpdate(e.target.value)}
+                >
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+                <div className={styles.modalActions}>
+                  <Button
+                    text="Cancel"
+                    onClick={() => setIsEditModalVisible(false)}
+                  />
+                </div>
               </div>
             </div>
           )}

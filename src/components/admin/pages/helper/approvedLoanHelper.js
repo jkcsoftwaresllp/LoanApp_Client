@@ -16,23 +16,38 @@ export const fetchApprovedLoans = async (accessToken) => {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  return await response.json();
+  const data = await response.json();
+  console.log('Approved Loans API Response:', {
+    endpoint: `${API_BASE_URL}auth/approvedLoans`,
+    response: data
+  });
+  return data;
 };
 
 export const updateLoanStatus = async (accessToken, loanId, status) => {
+  const payload = {
+    loan_id: loanId.toString(),
+    status: status,
+  };
+  console.log('Update Loan Status API Request:', {
+    endpoint: `${API_BASE_URL}auth/admin-update-status`,
+    payload
+  });
+
   const response = await fetch(`${API_BASE_URL}auth/admin-update-status`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify({
-      loan_id: loanId.toString(),
-      status: status,
-    }),
+    body: JSON.stringify(payload),
   });
 
   const result = await response.json();
+  console.log('Update Loan Status API Response:', {
+    endpoint: `${API_BASE_URL}auth/admin-update-status`,
+    response: result
+  });
 
   if (!response.ok) {
     if (result.uniqueCode === "INV35" || result.uniqueCode === "INV36") {

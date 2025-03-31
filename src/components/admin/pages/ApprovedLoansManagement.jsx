@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Loader } from "../../common/Loader";
 import { Button } from "../../common/Button";
 import { showToast } from "../../../../src/utils/toastUtils";
-import { PrevIcon, Nexticon } from "../../common/assets";
+import { PrevIcon, Nexticon, AddIcon } from "../../common/assets";
 import {
   fetchApprovedLoans,
   updateLoanStatus,
@@ -268,13 +268,13 @@ const ApprovedLoansManagement = () => {
         <div className={styles.buttonContainer}>
           {loan.status === "Under Review" && (
             <>
-              <Button
+              <IconBtn
+                icon={<AddIcon />}
                 onClick={() => {
                   setCurrentLoanForInvestors(loan);
                   setIsInvestorModalVisible(true);
                   fetchInvestors();
                 }}
-                text="Add Investor"
               />
             </>
           )}
