@@ -28,9 +28,8 @@ export const FileInput = ({ file, onFileChange }) => {
   return (
     <div
       className={style.uploadBox}
-      onClick={() => fileInputRef.current.click()}
       role="button"
-    >
+    > {/* Removed onClick from here */}
       <input
         type="file"
         ref={fileInputRef}
@@ -49,8 +48,7 @@ export const FileInput = ({ file, onFileChange }) => {
           </button> */}
         </div>
       ) : (
-        <div className={style.upload}>
-          {/* <Button text="Select File" /> */}
+        <div className={style.upload} onClick={() => fileInputRef.current.click()}>
           <DownloadBtn />
         </div>
       )}

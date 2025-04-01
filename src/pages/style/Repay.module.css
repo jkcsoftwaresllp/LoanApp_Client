@@ -20,7 +20,7 @@
 }
 .noLoansMessage {
   text-align: center;
-  font-size: 1.2rem;
+  font-size: var(--font-size-medium);
   color: #666;
   margin-top: 2rem;
 }
