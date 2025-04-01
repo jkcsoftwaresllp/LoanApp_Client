@@ -28,7 +28,7 @@ const ProfileCard = () => {
           },
         });
         const data = await response.json();
-        console.log("Profile Data:", data);
+
         setProfile(data);
         setLoading(false);
       } catch (error) {

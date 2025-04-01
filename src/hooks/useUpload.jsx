@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { FileInput } from "../components/document/FileInput";
 import { Button } from "../components/common/Button";
 import styles from "../Styles/PageSlider.module.css";
 import { showToast } from "../utils/toastUtils";
-import { API_BASE_URL } from "../config";
 import UserGuaranteeForm from "../components/forms/UserGuaranteeForm";
+import { fetchUserProfile, uploadFile } from "../helpers/uploadHelpers";
 
 const useUpload = ({ apiRoute, text }) => {
   const [file, setFile] = useState(null);
@@ -21,30 +19,12 @@ const useUpload = ({ apiRoute, text }) => {
     mobile_number: "",
     bank_account_number: "",
   });
-  const fetchUserProfile = async () => {
-    try {
-      // Only fetch and prefill if apiRoute is upload-documents
+  useEffect(() => {
+    const loadProfile = async () => {
       if (apiRoute !== "upload-documents") return;
 
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        showToast("error", "No authentication token found.");
-        return;
-      }
-
-      const response = await fetch(`${API_BASE_URL}auth/profile`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json();
-      console.log("User Profile Data:", data);
-      
-      // Prefill form data with profile information
-      if (data.status === 'success') {
+      const data = await fetchUserProfile();
+      if (data?.status === "success") {
         setFormData({
           name: data.personalDetails.full_name || "",
           parent_name: data.personalDetails.father_or_mother_name || "",
@@ -53,17 +33,10 @@ const useUpload = ({ apiRoute, text }) => {
           bank_account_number: data.bankingInfo.account_number || "",
         });
       }
-      
-      return data;
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-      showToast("error", "Error fetching user profile");
-    }
-  };
+    };
 
-  useEffect(() => {
-    fetchUserProfile();
-  }, []);
+    loadProfile();
+  }, [apiRoute]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -140,55 +113,27 @@ const useUpload = ({ apiRoute, text }) => {
     const formDataToSend = new FormData();
     formDataToSend.append("file", file);
     formDataToSend.append("type", documentType);
-
-    // Add user guarantee form data
     Object.entries(formData).forEach(([key, value]) => {
       formDataToSend.append(key, value);
     });
 
-    // Log the form data for debugging
-    console.log("Form Data Values:");
-    for (let pair of formDataToSend.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
-    console.log("User Guarantee Form Data:", formData);
-
     try {
       setLoading(true);
-
-      // Use XMLHttpRequest to track upload progress
-      const xhr = new XMLHttpRequest();
-
-      xhr.upload.addEventListener("progress", (event) => {
-        if (event.lengthComputable) {
-          const progress = Math.round((event.loaded / event.total) * 100);
-          setUploadProgress(progress);
-        }
-      });
-
-      xhr.open("POST", `${API_BASE_URL}auth/${apiRoute}`);
-      xhr.setRequestHeader("Authorization", `Bearer ${token}`);
-
-      xhr.onload = function () {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          const data = JSON.parse(xhr.responseText);
+      uploadFile({
+        formDataToSend,
+        apiRoute,
+        onProgress: (progress) => setUploadProgress(progress),
+        onSuccess: () => {
           showToast("success", "File uploaded successfully.");
           setFile(null);
           setDocumentType("");
-        } else {
-          const data = JSON.parse(xhr.responseText);
-          setErrorMessage(data.message || "Upload failed. Please try again.");
-        }
-        setLoading(false);
-      };
-
-      xhr.onerror = function () {
-        showToast("error", "Error during file upload. Please try again.");
-        setLoading(false);
-      };
-
-      // Changed from formData to formDataToSend
-      xhr.send(formDataToSend);
+          setLoading(false);
+        },
+        onError: (message) => {
+          setErrorMessage(message);
+          setLoading(false);
+        },
+      });
     } catch (error) {
       showToast("error", "Error during file upload. Please try again.");
       setLoading(false);

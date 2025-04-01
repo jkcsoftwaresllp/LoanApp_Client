@@ -68,7 +68,6 @@ const Profile = () => {
   const prevStep = () => setStep(step - 1);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Final Form Data:", formData);
   };
 
   useEffect(() => {
