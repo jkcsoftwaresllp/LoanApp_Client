@@ -9,8 +9,13 @@ export const fetchProfile = async (
   setUpdatedProfile
 ) => {
   try {
-    const response = await apiRequest("get", apiUrl, null, accessToken, setLoading);
-    console.log("Fetched Profile Data:", response); // ✅ Debug the response structure
+    const response = await apiRequest(
+      "get",
+      apiUrl,
+      null,
+      accessToken,
+      setLoading
+    );
 
     // Access the profile data correctly
     if (response?.data?.profile) {

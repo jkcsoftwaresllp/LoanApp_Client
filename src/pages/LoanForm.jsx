@@ -144,103 +144,10 @@ const LoanForm = () => {
 
     fetchInterestRates();
   }, [frequency]);
-  useEffect(() => {
-    const fetchInterestRateByFrequency = async () => {
-      try {
-        const accessToken = localStorage.getItem("accessToken");
-        if (!accessToken) {
-          console.error("No access token found");
-          return;
-        }
-  
-        // Fetch interest rate for specific frequency
-        const response = await apiRequest(
-          "GET",
-          `${API_BASE_URL}auth/interest-rate/${frequency}`,
-          null,
-          accessToken
-        );
-  
-        console.log(`Interest Rate for ${frequency}:`, response.data);
-  
-        if (response.data && response.data.interest_rate) {
-          setInterestRate(response.data.interest_rate);
-          setInterestRateAfterDue(response.data.interest_rate + 2);
-        }
-  
-      } catch (error) {
-        console.error(`Error fetching interest rate for ${frequency}:`, error);
-      }
-    };
-  
-    fetchInterestRateByFrequency();
-  }, [frequency]);
-  const [pendingLoans, setPendingLoans] = useState([]); // Changed from loans to pendingLoans
-
-  // Modify the fetchPendingLoans function
-  useEffect(() => {
-    const fetchPendingLoans = async () => {
-      try {
-        const accessToken = localStorage.getItem("accessToken");
-        if (!accessToken) {
-          console.error("No access token found");
-          return;
-        }
-
-        const response = await apiRequest(
-          "GET",
-          `${API_BASE_URL}auth/loans`,
-          null,
-          accessToken
-        );
-
-        if (response && response.data) {
-          const filteredLoans = response.data.filter(
-            loan => loan.status === "Pending" // Only show Pending loans
-          );
-          setPendingLoans(filteredLoans);
-          console.log("Pending Loans fetched:", filteredLoans);
-        }
-      } catch (error) {
-        console.error("Error fetching pending loans:", error);
-      }
-    };
-
-    fetchPendingLoans();
-  }, []);
-
-  // Add this section to display pending loans
-  const renderPendingLoans = () => (
-    <div className={styles.pendingLoansContainer}>
-      <h3>Pending Loan Applications</h3>
-      {pendingLoans.length > 0 ? (
-        <div className={styles.loansList}>
-          {pendingLoans.map((loan) => (
-            <div key={loan.loan_id} className={styles.loanCard}>
-              <div className={styles.loanInfo}>
-                <span>Amount: ₹{loan.amount}</span>
-                <span>Borrower: {loan.borrower_name}</span>
-                <span>Loan ID: {loan.loan_id}</span>
-                <span>ROI: {loan.roi}</span>
-                <span>Tenure: {loan.tenure}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>No pending loan applications found</p>
-      )}
-    </div>
-  );
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Loan Form</h2>
-      
-      {/* Add the pending loans section */}
-      {renderPendingLoans()}
-
-      {error && <div className={styles.error}>{error}</div>}
 
       {loading ? (
         <div className={styles.center}>
@@ -285,7 +192,9 @@ const LoanForm = () => {
                   const newFrequency = e.target.value;
                   setFrequency(newFrequency); // This will trigger the useEffect to fetch new interest rate
                   if (startDate) {
-                    setEndDate(calculateEndDate(startDate, timePeriod, newFrequency));
+                    setEndDate(
+                      calculateEndDate(startDate, timePeriod, newFrequency)
+                    );
                   }
                 }}
                 className={styles.input}

@@ -1,104 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiprof, mailotp, prupdate } from "../utils/Api";
 import { Loader } from "../components/common/Loader";
-import {
-  fetchProfile,
-  sendOtp,
-  updateProfile,
-} from "../components/helper/profileService";
 import styles from "../Styles/Profile.module.css";
 import { showToast } from "../utils/toastUtils";
 import { LocationIcon, BankIcon } from "../components/common/assets";
+import { API_BASE_URL } from "../config";
 
 const ProfileCard = () => {
   const navigate = useNavigate();
-
-  const [profile, setProfile] = useState({
-    name: "",
-    address: "",
-    email: "",
-  });
-
-  const [updatedProfile, setUpdatedProfile] = useState({
-    name: "",
-    address: "",
-    email: "",
-  });
-
+  const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      fetchProfile(
-        accessToken,
-        apiprof,
-        navigate,
-        setLoading,
-        setProfile,
-        setUpdatedProfile
-      );
-    } else {
-      navigate("/login");
-    }
-  }, [navigate]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedProfile({ ...updatedProfile, [name]: value });
-  };
-
-  const handleSendOtp = () => {
-    const accessToken = localStorage.getItem("accessToken");
-    sendOtp(
-      updatedProfile.email,
-      accessToken,
-      mailotp,
-      navigate,
-      (otpSuccess) => {
-        if (otpSuccess) {
-          setOtpSent(true);
-          setOtpMessage("OTP has been sent to your new email address.");
-          showToast("info", "OTP has been sent to your new email address.");
-        } else {
-          setOtpMessage("Failed to send OTP. Please try again.");
-          showToast("error", "Failed to send OTP. Please try again.");
+    const fetchProfile = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          console.error("No access token found");
+          return;
         }
+
+        const response = await fetch(`${API_BASE_URL}auth/profile`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const data = await response.json();
+        console.log("Profile Data:", data);
+        setProfile(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        setLoading(false);
       }
-    );
-  };
+    };
+
+    fetchProfile();
+  }, []);
 
   const getInitials = (name) => {
     if (!name) return "U";
     const nameParts = name.trim().split(" ");
     if (nameParts.length === 1) return nameParts[0][0].toUpperCase();
     return (nameParts[0][0] + nameParts[1][0]).toUpperCase();
-  };
-
-  const handleUpdateProfile = (e) => {
-    e.preventDefault();
-
-    const accessToken = localStorage.getItem("accessToken");
-    const payload = {
-      profile: updatedProfile,
-    };
-
-    if (updatedProfile.email !== profile.email) {
-      payload.email = updatedProfile.email;
-      payload.otp = otp;
-    }
-
-    updateProfile(
-      payload,
-      accessToken,
-      prupdate,
-      navigate,
-      setProfile,
-      setIsEditing,
-      setOtp,
-      setOtpSent
-    );
   };
 
   return (
@@ -110,19 +56,29 @@ const ProfileCard = () => {
       ) : (
         <div className={styles.card}>
           <div className={styles.profileHeader}>
-            <div className={styles.cardImage}> {getInitials(profile.name)}</div>
+            <div className={styles.cardImage}>
+              {getInitials(profile.personalDetails?.full_name)}
+            </div>
           </div>
-          <h2 className={styles.profileName}>{profile.name || "N/A"}</h2>
-          <p className={styles.profileemail}>{profile.email || "N/A"}</p>
+          <h2 className={styles.profileName}>
+            {profile.personalDetails?.full_name || "N/A"}
+          </h2>
+          <div className={styles.bankDetails}>
+            <p className={styles.profileemail}>
+              {profile.personalDetails?.email_id || "N/A"}
+            </p>
+            <p className={styles.profileemail}>
+              {profile.personalDetails?.mobile_number || "N/A"}
+            </p>
+          </div>
           <div className={styles.bankDetails}>
             <p className={styles.profileBank}>
               <BankIcon />
-              {profile.bankAcc || "N/A"}
+              {profile.bankingInfo?.account_number || "N/A"}
             </p>
             <p className={styles.profilePincode}>
-              {" "}
               <LocationIcon />
-              {profile.pinCode || "N/A"}
+              {profile.personalDetails?.permanent_address || "N/A"}
             </p>
           </div>
         </div>

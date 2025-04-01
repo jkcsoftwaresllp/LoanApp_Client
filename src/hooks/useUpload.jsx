@@ -60,12 +60,22 @@ const useUpload = ({ apiRoute, text }) => {
     setUploadProgress(0);
     const token = localStorage.getItem("accessToken");
 
+    // Add validation for all required fields
+    const requiredFields = ["name", "parent_name", "address", "mobile_number", "bank_account_number"];
+    const emptyFields = requiredFields.filter(field => !formData[field]);
+    
+    if (emptyFields.length > 0) {
+      showToast("error", `Please fill in all required fields: ${emptyFields.join(", ")}`);
+      return;
+    }
+
     if (!token) {
       showToast("error", "No authentication token found.");
       return;
     }
 
     if (!file) {
+      showToast("error", "Please select a file to upload.");
       return;
     }
 
@@ -74,9 +84,22 @@ const useUpload = ({ apiRoute, text }) => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("type", documentType);
+    // Create FormData and add all required fields
+    const formDataToSend = new FormData();
+    formDataToSend.append("file", file);
+    formDataToSend.append("type", documentType);
+    
+    // Add user guarantee form data
+    Object.entries(formData).forEach(([key, value]) => {
+      formDataToSend.append(key, value);
+    });
+
+    // Log the form data for debugging
+    console.log("Form Data Values:");
+    for (let pair of formDataToSend.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+    console.log("User Guarantee Form Data:", formData);
 
     try {
       setLoading(true);
@@ -112,7 +135,8 @@ const useUpload = ({ apiRoute, text }) => {
         setLoading(false);
       };
 
-      xhr.send(formData);
+      // Changed from formData to formDataToSend
+      xhr.send(formDataToSend);
     } catch (error) {
       showToast("error", "Error during file upload. Please try again.");
       setLoading(false);

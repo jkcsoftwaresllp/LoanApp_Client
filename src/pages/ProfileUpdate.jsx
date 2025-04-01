@@ -33,30 +33,34 @@ const ProfileUpdate = () => {
         return;
       }
 
-      const response = await axios.get(`${API_BASE_URL}auth/profile`, {
+      const response = await fetch(`${API_BASE_URL}auth/profile`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
       });
+      const data = await response.json();
 
-      if (!response.data || !response.data.profile) {
+      if (!data || !data.status === 'success') {
         throw new Error("No data received from server");
       }
 
-      // Transform the profile data to match our form fields
+      // Combine all the data into one object for the form
       const transformedData = {
-        ...response.data.profile,
-        mobile_number: response.data.profile.phone,
-        email_id: response.data.profile.email,
-        current_address: response.data.profile.address,
-        full_name: response.data.profile.name,
+        // Personal Details
+        ...data.personalDetails,
+        // Banking Info
+        ...data.bankingInfo,
+        // Employment Details
+        ...data.employmentDetails,
+        // Additional fields if needed
+        uniqueCode: data.uniqueCode,
       };
 
       setProfileData(transformedData);
       setLoading(false);
     } catch (err) {
-      console.error("Profile fetch error:", err.response?.data || err.message);
+      console.error("Profile fetch error:", err);
       setError(err.response?.data?.message || "Failed to fetch profile data");
       setLoading(false);
     }
@@ -132,13 +136,53 @@ const ProfileUpdate = () => {
       const role = localStorage.getItem("role");
 
       const submitData = {
-        name: profileData.full_name || profileData.name,
-        email: profileData.email_id || profileData.email,
-        phone: profileData.mobile_number || profileData.phone,
-        address: profileData.current_address || profileData.address,
-        user_id: profileData.user_id,
-        role: role,
+        profile: {
+          name: profileData.full_name || profileData.name,
+          email: profileData.email_id || profileData.email,
+          phone: profileData.mobile_number || profileData.phone,
+          address: profileData.current_address || profileData.address,
+          user_id: profileData.user_id,
+        },
+        bankingInfo: {
+          user_id: profileData.user_id,
+          bank_name: profileData.bank_name,
+          branch: profileData.branch,
+          account_number: profileData.account_number,
+          account_type: profileData.account_type,
+          salary_credit_mode: profileData.salary_credit_mode,
+          credit_score: profileData.credit_score
+        },
+        employmentDetails: {
+          user_id: profileData.user_id,
+          employment_type: profileData.employment_type,
+          company_name: profileData.company_name,
+          company_type: profileData.company_type,
+          current_job_designation: profileData.current_job_designation,
+          official_email: profileData.official_email,
+          business_details: profileData.business_details,
+          annual_turnover: profileData.annual_turnover,
+          existing_emi_commitments: profileData.existing_emi_commitments,
+          other_income_sources: profileData.other_income_sources
+        },
+        personalDetails: {
+          user_id: profileData.user_id,
+          full_name: profileData.full_name,
+          father_or_mother_name: profileData.father_or_mother_name,
+          marital_status: profileData.marital_status,
+          current_address: profileData.current_address,
+          permanent_address: profileData.permanent_address,
+          mobile_number: profileData.mobile_number,
+          email_id: profileData.email_id,
+          educational_qualification: profileData.educational_qualification
+        }
       };
+
+      console.log('Data being sent to API:', {
+        profile: submitData.profile,
+        bankingInfo: submitData.bankingInfo,
+        employmentDetails: submitData.employmentDetails,
+        personalDetails: submitData.personalDetails
+      });
 
       const response = await axios.patch(
         `${API_BASE_URL}auth/update-profile`,

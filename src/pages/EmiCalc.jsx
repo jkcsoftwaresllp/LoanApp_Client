@@ -101,7 +101,7 @@ const EmiCalculator = () => {
             </div>
           </div>
           <div className={styles.inputGroup}>
-            <label>Loan Amount (₹)</label>
+            <label className={styles.label}>Loan Amount (₹)</label>
             <input
               type="number"
               value={loanAmount}
@@ -110,7 +110,7 @@ const EmiCalculator = () => {
             />
           </div>
           <div className={styles.inputGroup}>
-            <label>Interest Rate (%)</label>
+            <label className={styles.label}>Interest Rate (%)</label>
             <input
               type="number"
               value={interestRate}
@@ -119,7 +119,7 @@ const EmiCalculator = () => {
             />
           </div>
           <div className={styles.inputGroup}>
-            <label>Loan Tenure</label>
+            <label className={styles.label}>Loan Tenure</label>
             <div className={styles.inputGroupTenure}>
               <input
                 type="number"

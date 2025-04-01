@@ -33,7 +33,7 @@
     padding: 6px;
   }
 }
-label {
+.label {
   color: #333;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-medium);
