@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FileInput } from "../components/document/FileInput";
@@ -21,6 +21,49 @@ const useUpload = ({ apiRoute, text }) => {
     mobile_number: "",
     bank_account_number: "",
   });
+  const fetchUserProfile = async () => {
+    try {
+      // Only fetch and prefill if apiRoute is upload-documents
+      if (apiRoute !== "upload-documents") return;
+
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        showToast("error", "No authentication token found.");
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}auth/profile`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      console.log("User Profile Data:", data);
+      
+      // Prefill form data with profile information
+      if (data.status === 'success') {
+        setFormData({
+          name: data.personalDetails.full_name || "",
+          parent_name: data.personalDetails.father_or_mother_name || "",
+          address: data.personalDetails.current_address || "",
+          mobile_number: data.personalDetails.mobile_number || "",
+          bank_account_number: data.bankingInfo.account_number || "",
+        });
+      }
+      
+      return data;
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      showToast("error", "Error fetching user profile");
+    }
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -61,11 +104,20 @@ const useUpload = ({ apiRoute, text }) => {
     const token = localStorage.getItem("accessToken");
 
     // Add validation for all required fields
-    const requiredFields = ["name", "parent_name", "address", "mobile_number", "bank_account_number"];
-    const emptyFields = requiredFields.filter(field => !formData[field]);
-    
+    const requiredFields = [
+      "name",
+      "parent_name",
+      "address",
+      "mobile_number",
+      "bank_account_number",
+    ];
+    const emptyFields = requiredFields.filter((field) => !formData[field]);
+
     if (emptyFields.length > 0) {
-      showToast("error", `Please fill in all required fields: ${emptyFields.join(", ")}`);
+      showToast(
+        "error",
+        `Please fill in all required fields: ${emptyFields.join(", ")}`
+      );
       return;
     }
 
@@ -88,7 +140,7 @@ const useUpload = ({ apiRoute, text }) => {
     const formDataToSend = new FormData();
     formDataToSend.append("file", file);
     formDataToSend.append("type", documentType);
-    
+
     // Add user guarantee form data
     Object.entries(formData).forEach(([key, value]) => {
       formDataToSend.append(key, value);
@@ -97,7 +149,7 @@ const useUpload = ({ apiRoute, text }) => {
     // Log the form data for debugging
     console.log("Form Data Values:");
     for (let pair of formDataToSend.entries()) {
-      console.log(pair[0] + ': ' + pair[1]);
+      console.log(pair[0] + ": " + pair[1]);
     }
     console.log("User Guarantee Form Data:", formData);
 
