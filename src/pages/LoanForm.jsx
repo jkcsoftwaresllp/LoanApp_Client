@@ -135,8 +135,6 @@ const LoanForm = () => {
           setInterestRate(selectedRate.interest_rate);
           setInterestRateAfterDue(selectedRate.interest_rate + 2);
         }
-
-        console.log("All Interest Rates:", allRatesResponse.data);
       } catch (error) {
         console.error("Error fetching interest rates:", error);
       }

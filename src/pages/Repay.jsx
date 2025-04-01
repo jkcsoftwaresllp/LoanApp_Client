@@ -52,7 +52,9 @@ const RepaymentSchedule = () => {
       <h1 className={styles.title}>Loan Repayments</h1>
 
       {loading ? (
-        <Loader />
+        <div className={styles.center}>
+          <Loader />
+        </div>
       ) : loans.length === 0 ? (
         <div className={styles.noLoansMessage}>No active loans found</div>
       ) : !selectedLoan ? (
@@ -75,7 +77,9 @@ const RepaymentSchedule = () => {
 
                     <td className="py-2 px-4 text-left">
                       <Button
-                        onClick={() => handleFetchRepaymentSchedule(loan.loan_id)}
+                        onClick={() =>
+                          handleFetchRepaymentSchedule(loan.loan_id)
+                        }
                         text="View"
                       />
                     </td>

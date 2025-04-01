@@ -192,22 +192,6 @@ export const inputFieldConfig = (
         placeholder: "Enter other income sources or None",
         disabled: false,
       },
-      {
-        label: "Current Job Designation",
-        id: "jobTitle",
-        type: "text",
-        value: value.jobTitle || "",
-        placeholder: "Enter job title",
-        disabled: false,
-      },
-      {
-        label: "Annual Income",
-        id: "annualIncome",
-        type: "number",
-        value: value.annualIncome || "",
-        placeholder: "Enter annual income",
-        disabled: false,
-      },
 
       // Banking & Financial Information
       {
@@ -262,7 +246,7 @@ export const inputFieldConfig = (
       },
 
       // Banking & Financial Information fields...
-      
+
       // KYC & Documentation Fields
       {
         label: "Aadhaar Number",

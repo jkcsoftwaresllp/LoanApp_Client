@@ -32,9 +32,6 @@ const Settings = () => {
 
     setIsSaving(true);
     try {
-      console.log("PATCH /api/admin/update-settings", settings);
-
-      // Simulate API response
       const response = {
         status: "success",
         message: "Settings updated",

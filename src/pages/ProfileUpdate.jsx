@@ -12,6 +12,7 @@ import {
 import { IconBtn } from "../components/common/IconBtn";
 import { useNavigate } from "react-router-dom";
 import { showToast } from "../utils/toastUtils";
+import { Loader } from "../components/common/Loader";
 
 const ProfileUpdate = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const ProfileUpdate = () => {
       });
       const data = await response.json();
 
-      if (!data || !data.status === 'success') {
+      if (!data || !data.status === "success") {
         throw new Error("No data received from server");
       }
 
@@ -66,40 +67,6 @@ const ProfileUpdate = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      const role = localStorage.getItem("role");
-
-      const submitData = {
-        name: profileData.full_name || profileData.name,
-        email: profileData.email_id || profileData.email,
-        phone: profileData.mobile_number || profileData.phone,
-        address: profileData.current_address || profileData.address,
-        user_id: profileData.user_id,
-        role: role,
-      };
-
-      const response = await axios.patch(
-        `${API_BASE_URL}auth/update-profile`,
-        submitData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      showToast("success", "Profile updated successfully!");
-      navigate("/profile");
-    } catch (err) {
-      console.error("Update error:", err);
-      showToast("error", err.response?.data?.message || "Failed to update profile");
-    }
-  };
-
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setProfileData((prev) => ({
@@ -115,15 +82,15 @@ const ProfileUpdate = () => {
     },
     {
       title: "Employment & Income Details",
-      fields: inputFieldConfig(false, true, profileData).slice(8, 18),
+      fields: inputFieldConfig(false, true, profileData).slice(8, 17),
     },
     {
       title: "Banking & Financial Information",
-      fields: inputFieldConfig(false, true, profileData).slice(18, 25),
+      fields: inputFieldConfig(false, true, profileData).slice(18, 23),
     },
     {
       title: "KYC Details",
-      fields: inputFieldConfig(false, true, profileData).slice(25),
+      fields: inputFieldConfig(false, true, profileData).slice(23),
     },
   ];
 
@@ -150,7 +117,7 @@ const ProfileUpdate = () => {
           account_number: profileData.account_number,
           account_type: profileData.account_type,
           salary_credit_mode: profileData.salary_credit_mode,
-          credit_score: profileData.credit_score
+          credit_score: profileData.credit_score,
         },
         employmentDetails: {
           user_id: profileData.user_id,
@@ -162,7 +129,7 @@ const ProfileUpdate = () => {
           business_details: profileData.business_details,
           annual_turnover: profileData.annual_turnover,
           existing_emi_commitments: profileData.existing_emi_commitments,
-          other_income_sources: profileData.other_income_sources
+          other_income_sources: profileData.other_income_sources,
         },
         personalDetails: {
           user_id: profileData.user_id,
@@ -173,15 +140,15 @@ const ProfileUpdate = () => {
           permanent_address: profileData.permanent_address,
           mobile_number: profileData.mobile_number,
           email_id: profileData.email_id,
-          educational_qualification: profileData.educational_qualification
-        }
+          educational_qualification: profileData.educational_qualification,
+        },
       };
 
-      console.log('Data being sent to API:', {
+      console.log("Data being sent to API:", {
         profile: submitData.profile,
         bankingInfo: submitData.bankingInfo,
         employmentDetails: submitData.employmentDetails,
-        personalDetails: submitData.personalDetails
+        personalDetails: submitData.personalDetails,
       });
 
       const response = await axios.patch(
@@ -199,7 +166,10 @@ const ProfileUpdate = () => {
       navigate("/profile");
     } catch (err) {
       console.error("Update error:", err);
-      showToast("error", err.response?.data?.message || "Failed to update profile");
+      showToast(
+        "error",
+        err.response?.data?.message || "Failed to update profile"
+      );
     }
   };
 
@@ -207,7 +177,9 @@ const ProfileUpdate = () => {
     <div className={styles.container}>
       <h2 className={styles.header}>Update Profile</h2>
       {loading ? (
-        <div>Loading...</div>
+        <div className={styles.center}>
+          <Loader />
+        </div>
       ) : error ? (
         <div>{error}</div>
       ) : (
