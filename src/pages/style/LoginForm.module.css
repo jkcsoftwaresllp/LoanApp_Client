@@ -175,7 +175,7 @@ label {
 }
 
 .error {
-  color: var(--color-error);
+  color: var(--color-btn);
   align-items: center;
   justify-items: center;
   text-align: center;
