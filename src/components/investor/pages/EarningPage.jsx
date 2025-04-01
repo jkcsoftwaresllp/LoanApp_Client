@@ -14,6 +14,7 @@ import {
 import { Loader } from "../../common/Loader";
 import styles from "./style/Earning.module.css";
 import { processEarningsData } from "./helper/earningHelper";
+import { API_BASE_URL } from "../../../config";
 
 export const EarningsRepayment = () => {
   const [earnings, setEarnings] = useState([]);

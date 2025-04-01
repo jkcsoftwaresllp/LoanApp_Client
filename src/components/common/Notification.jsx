@@ -15,7 +15,9 @@ const Notification = () => {
   useEffect(() => {
     const userRole = localStorage.getItem("role");
     setIsInvestor(userRole === "investor");
-    fetchNotifications(userRole);
+    if (userRole !== "investor") {
+      fetchNotifications(userRole);
+    }
   }, []);
 
   const fetchNotifications = async (userRole) => {
@@ -101,7 +103,11 @@ const Notification = () => {
           </button>
           <div className={styles.projectsSectionHeader}>Notification</div>
           <div className={styles.messages}>
-            {notifications.length > 0 ? (
+            {isInvestor ? (
+              <div className={styles.noNotifications}>
+                Investor notifications coming soon
+              </div>
+            ) : notifications.length > 0 ? (
               notifications.map((notification, index) => (
                 <div key={index} className={styles.notificationItem}>
                   <div className={styles.notificationLeft}>

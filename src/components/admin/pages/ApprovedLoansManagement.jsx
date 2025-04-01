@@ -51,7 +51,11 @@ const ApprovedLoansManagement = () => {
         loan_id: loanId,
         investor_ids: selectedInvestors[loanId] || [],
       };
-      console.log("Add Investors API Payload:", payload);
+      console.log("Selected Investors Data:", {
+        totalInvestors: payload.investor_ids.length,
+        investors: payload.investor_ids,
+        loanId: payload.loan_id
+      });
 
       const response = await fetch(`${API_BASE_URL}auth/addinvestor`, {
         method: "POST",
@@ -140,7 +144,6 @@ const ApprovedLoansManagement = () => {
       const result = await fetchApprovedLoans(accessToken);
       const filteredLoans = filterLoans(result.data);
       setLoans(filteredLoans);
-      console.log("Filtered Loans (excluding Pending):", filteredLoans);
     } catch (error) {
       console.error("Error fetching loans:", error.message);
       setLoans([]);
@@ -423,10 +426,45 @@ const ApprovedLoansManagement = () => {
               Select Investors for Loan #{currentLoanForInvestors.loan_id}
             </h3>
             <div className={styles.investorList}>
+              {/* Add Select All checkbox */}
+              <div className={styles.investorItem}>
+                <input
+                  type="checkbox"
+                  className={styles.checkbox}
+                  id="select-all-investors"
+                  checked={
+                    investors.length > 0 &&
+                    investors.every((investor) =>
+                      (
+                        selectedInvestors[currentLoanForInvestors.loan_id] || []
+                      ).includes(investor.investor_id)
+                    )
+                  }
+                  onChange={(e) => {
+                    const isChecked = e.target.checked;
+                    const allInvestorIds = investors.map(
+                      (inv) => inv.investor_id
+                    );
+                    setSelectedInvestors((prev) => ({
+                      ...prev,
+                      [currentLoanForInvestors.loan_id]: isChecked
+                        ? allInvestorIds
+                        : [],
+                    }));
+                  }}
+                />
+                <div className={styles.investorSelect}>
+                  <label htmlFor="select-all-investors" className={styles.p}>
+                    Select All Investors
+                  </label>
+                </div>
+              </div>
+              {/* Existing investor list */}
               {investors.map((investor) => (
                 <div key={investor.investor_id} className={styles.investorItem}>
                   <input
                     type="checkbox"
+                    className={styles.checkbox}
                     id={`investor-${investor.investor_id}`}
                     checked={(
                       selectedInvestors[currentLoanForInvestors.loan_id] || []

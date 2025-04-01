@@ -112,6 +112,10 @@ td {
   flex-direction: row;
   gap: 10px;
 }
+.checkbox {
+  border-radius: var(--border-radius-medium);
+  margin-right: 20px;
+}
 .modalBackdrop {
   position: fixed;
   top: 0;

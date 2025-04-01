@@ -192,3 +192,6 @@
     transform: rotateZ(2deg);
   }
 }
+.noNotifications {
+  color: #666;
+}
