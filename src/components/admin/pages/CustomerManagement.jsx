@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./style/CustomerManagement.module.css";
 import { Button } from "../../common/Button";
 import { IconBtn } from "../../common/IconBtn";
-import { PrevIcon, Nexticon } from "../../common/assets";
+import { PrevIcon, Nexticon, MessageIcon } from "../../common/assets";
 import { Loader } from "../../common/Loader";
 import { showToast } from "../../../utils/toastUtils";
 import {
@@ -10,8 +10,10 @@ import {
   updateUserStatus,
   deleteUser,
 } from "./helper/customerManagementHelper";
+import { useNavigate } from "react-router-dom";
 
 const CustomerManagement = () => {
+  const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -177,13 +179,17 @@ const CustomerManagement = () => {
                 </thead>
                 <tbody>
                   {currentItems.map((customer, index) => (
+                    // In the main component's render method, update the TableRow props
                     <TableRow
                       key={customer._id}
                       index={index + 1 + (currentPage - 1) * itemsPerPage}
                       customer={customer}
                       handleEdit={handleEdit}
                       handleDeactivate={handleDeactivate}
+                      navigate={navigate} // Add this line
                     />
+
+                    // Update the TableRow component definition
                   ))}
                 </tbody>
               </table>
@@ -230,9 +236,10 @@ const CustomerManagement = () => {
 };
 
 export default CustomerManagement;
-
 const TableRow = React.memo(
-  ({ index, customer, handleEdit, handleDeactivate }) => (
+  (
+    { index, customer, handleEdit, handleDeactivate, navigate } // Add navigate here
+  ) => (
     <tr key={customer._id} className={styles.row}>
       <td className="py-2 px-4 text-center">{index}</td>
       <td className="py-2 px-4 text-left">{customer.user_id || "N/A"}</td>
@@ -244,6 +251,12 @@ const TableRow = React.memo(
         <Button
           onClick={() => handleDeactivate(customer)}
           text={customer.status === "active" ? "Deactivate" : "Reactivate"}
+        />
+        <IconBtn
+          icon={MessageIcon}
+          onClick={() =>
+            navigate(`/admin/messenger?userId=${customer.user_id}`)
+          }
         />
       </td>
     </tr>

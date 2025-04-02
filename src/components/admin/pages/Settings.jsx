@@ -14,7 +14,7 @@ const Settings = () => {
     // Simulate fetching initial settings
     const fakeData = {
       notifications: "email",
-      interest_rate: 5.0,
+
       last_updated: "2023-10-01T12:00:00Z",
     };
     setSettings(fakeData);
@@ -69,23 +69,6 @@ const Settings = () => {
             <option value="both">Email and SMS</option>
             <option value="none">None</option>
           </select>
-        </div>
-
-        <div className={styles.formGroup}>
-          <p className={styles.label}>Default Interest Rate (%):</p>
-          <input
-            type="number"
-            step="0.1"
-            min="0"
-            className={styles.input}
-            value={settings.interest_rate}
-            onChange={(e) =>
-              setSettings((prev) => ({
-                ...prev,
-                interest_rate: parseFloat(e.target.value),
-              }))
-            }
-          />
         </div>
 
         <Button

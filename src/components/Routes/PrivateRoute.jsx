@@ -307,7 +307,7 @@ export const privateRoutes = (
         }
       />
       <Route
-        path="messanger"
+        path="messenger"
         element={
           <PrivateRoute allowedRoles={["admin"]}>
             <DirectMessaging />
