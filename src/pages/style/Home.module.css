@@ -64,6 +64,8 @@
   gap: 0.5rem;
   transition: all 0.3s ease-in-out;
   font-weight: var(--font-weight-regular);
+  cursor: pointer;
+  user-select: none;
 }
 
 /* Medium screens (Tablets) */
