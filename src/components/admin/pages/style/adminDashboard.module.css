@@ -11,8 +11,8 @@
 .dashboardContainer {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 1rem;
+  gap: 10px;
+  padding: 10px;
 }
 
 .cardScrollContainer {
@@ -23,14 +23,14 @@
 .cardColumn {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 10px;
   width: 100%;
 }
 .notificationItem {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  padding: 8px;
+  padding: 10px;
   border-bottom: 1px solid #eee;
 }
 
@@ -61,7 +61,7 @@ small {
   .cardColumn {
     flex-direction: row;
     overflow-x: auto;
-    gap: 1rem;
+    gap: 10px;
     padding-bottom: 0.5rem;
   }
 
@@ -73,7 +73,7 @@ small {
   .main {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+    gap: 10px;
   }
 }
 
@@ -81,7 +81,7 @@ small {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 10px;
 }
 
 /* Medium screens (768px - 1023px) */
@@ -107,14 +107,14 @@ small {
 }
 .chartContainer {
   background: white;
-  padding: 1.5rem;
+  padding: 10px;
   border-radius: var(--border-radius-medium);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .notificationContainer {
   background: white;
-  padding: 1.5rem;
+  padding: 10px;
   border-radius: var(--border-radius-medium);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   max-height: 300px;
@@ -124,7 +124,7 @@ main {
   width: 100%;
   display: flex;
   flex-direction: row;
-  padding: 20px;
+  padding: 10px;
 }
 .buttonContainer {
   width: 50%;
@@ -240,7 +240,7 @@ main {
 }
 .chartContainer {
   background: white;
-  padding: 1.5rem;
+  padding: 10px;
   border-radius: var(--border-radius-medium);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;

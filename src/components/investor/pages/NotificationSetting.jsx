@@ -162,16 +162,6 @@ const NotificationSettings = () => {
               <strong>Mobile:</strong> {profile.phone || "Not provided"}
             </p>
           </div>
-          <div className={styles.notificationPreference}>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={emailNotification}
-                onChange={handleEmailNotificationChange}
-              />
-              <p> Send notifications to email</p>
-            </label>
-          </div>
         </div>
       </div>
       {role === "admin" && (

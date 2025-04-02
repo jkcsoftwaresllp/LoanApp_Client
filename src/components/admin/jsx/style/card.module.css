@@ -4,6 +4,6 @@
   border-radius: var(--border-radius-medium);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  width: 19.6%;
+  width: 19%;
   min-width: 290px;
 }
