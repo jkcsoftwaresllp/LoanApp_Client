@@ -176,13 +176,26 @@ const NotificationSettings = () => {
       </div>
       {role === "admin" && (
         <div className={styles.containerTable}>
-          <h3 className={styles.title}>Investor Notifications</h3>
+          <div className={styles.headerSection}>
+            <h3 className={styles.title}>Investor Notifications</h3>
+            <button
+              className={styles.enableAllBtn}
+              onClick={() => {
+                investorDetails?.investors?.forEach((investor) => {
+                  handleInvestorNotificationChange(investor.investor_id, true);
+                });
+                console.log("Enabling notifications for all investors");
+              }}
+            >
+              Enable All
+            </button>
+          </div>
           <div className={styles.tableContainer}>
             <table>
               <thead>
                 <tr>
                   <th className="py-2 px-4 text-left">Name</th>
-                  <th className="py-2 px-4 text-left">Investor ID</th>
+                  <th className="py-2 px-4 text-left">Inv.ID</th>
                   <th className="py-2 px-4 text-left">Enable</th>
                 </tr>
               </thead>

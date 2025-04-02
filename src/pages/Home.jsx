@@ -22,6 +22,7 @@ const HomePage = () => {
   const mainOptions = [
     { name: "Dashboard", path: "/dashboard" },
     { name: "Apply for Loan", path: "/loan" },
+    { name: "Loan List", path: "/loan-list" },
     { name: "Repayments", path: "/repay" },
     { name: "Calculate EMI", path: "/emi" },
     { name: "Support", path: "" },
@@ -54,13 +55,15 @@ const HomePage = () => {
     { name: "Settings", path: "/admin/setting" },
     { name: "Ticket Review", path: "/admin/ticket-review" },
     { name: "User Access Control", path: "/admin/user-access-control" },
-    { name: "Support", path: "" }
+    { name: "Support", path: "" },
   ];
 
-  const options = 
-    userRole === "admin" ? adminMainOptions : 
-    userRole === "investor" ? investorMainOptions : 
-    mainOptions;
+  const options =
+    userRole === "admin"
+      ? adminMainOptions
+      : userRole === "investor"
+      ? investorMainOptions
+      : mainOptions;
 
   return (
     <div className={styles.container}>

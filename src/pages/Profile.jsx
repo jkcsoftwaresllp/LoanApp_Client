@@ -183,11 +183,13 @@ const Profile = () => {
             </div>
             <div className={styles.profileHeader}>
               <div className={styles.cardImage}>
-                {" "}
                 {getInitials(profile.name)}
               </div>
             </div>
-            <h2 className={styles.profileName}>{profile.name || "N/A"}</h2>
+            <h2 className={styles.profileName}>
+              {profile.name || "N/A"} 
+              <span className={styles.userId}>({profile.user_id || "N/A"})</span>
+            </h2>
             <p className={styles.profileemail}>{profile.email || "N/A"}</p>
             <p className={styles.profileLocation}>{profile.address || "N/A"}</p>
 
