@@ -67,10 +67,16 @@ const DirectMessaging = () => {
 
       // Clear form after successful send
       setMessage("");
-      showToast("success", `Message sent to ${selectedUser.name}`);
+      showToast(
+        "success",
+        `Message sent to ${selectedUser.user_id}\n(${selectedUser.email}`
+      );
     } catch (error) {
       console.error("Error sending message:", error);
-      showToast("error", "Failed to send message");
+      showToast(
+        "error",
+        `Failed to send message to ${selectedUser.user_id}\n(${selectedUser.email}`
+      );
     } finally {
       setIsSending(false);
     }
