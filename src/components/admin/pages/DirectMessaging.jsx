@@ -73,10 +73,7 @@ const DirectMessaging = () => {
       );
     } catch (error) {
       console.error("Error sending message:", error);
-      showToast(
-        "error",
-        `Failed to send message to ${selectedUser.user_id}\n(${selectedUser.email}`
-      );
+      showToast("error", `Failed to send message`);
     } finally {
       setIsSending(false);
     }
