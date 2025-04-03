@@ -24,9 +24,10 @@
 
 .filters {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  flex-direction: row-reverse;
   width: 50dvw;
+  margin-bottom: 20px;
 }
 @media (max-width: 768px) {
   .filters {
@@ -175,7 +176,13 @@ td {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  width: 50dvw;
   margin-bottom: 20px;
+}
+@media (max-width: 1024px) {
+  .filters {
+    width: 100%;
+  }
 }
 
 .filterRow {
@@ -211,8 +218,19 @@ td {
     flex: 2;
   }
 }
-.pagination span {
-  color: var(--color-text-primary);
+.span {
+  width: 50px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0.5rem;
+  height: 50px;
+  background-color: #fff;
+  margin: 20px 0 10px 0;
+  border-radius: var(--border-radius-medium);
+  color: #212121;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-large);
 }

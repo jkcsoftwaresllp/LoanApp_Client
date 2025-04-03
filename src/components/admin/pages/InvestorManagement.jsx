@@ -13,8 +13,10 @@ const InvestorManagement = () => {
   const [filters, setFilters] = useState({ status: "active" });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); // Add search term state
+  const [inputValue, setInputValue] = useState(""); // Add input value state
 
   const fetchInvestors = async () => {
     setLoading(true);
@@ -45,7 +47,23 @@ const InvestorManagement = () => {
         return;
       }
 
-      setInvestors(data.investors || []);
+      // Apply frontend filtering
+      const filteredData = data.investors.filter((investor) => {
+        if (
+          searchTerm &&
+          !(
+            investor.investor_id
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            investor.name.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        ) {
+          return false;
+        }
+        return true;
+      });
+
+      setInvestors(filteredData);
     } catch (error) {
       console.error("Error fetching investors:", error.message);
       setError("Failed to fetch investors");
@@ -57,7 +75,7 @@ const InvestorManagement = () => {
 
   useEffect(() => {
     fetchInvestors();
-  }, [filters.status]); // Changed dependency to filters.status
+  }, [filters.status, searchTerm]); // Add searchTerm to dependencies
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -183,13 +201,27 @@ const InvestorManagement = () => {
           <h2 className={styles.title}>Investor Management</h2>
           <div className={styles.filters}>
             <div className={styles.filterRow}>
+              <input
+                type="text"
+                placeholder="Search by ID or name"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                className={styles.filterSelect}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setSearchTerm(inputValue);
+                  }
+                }}
+              />
+            </div>
+            <div className={styles.filterRow}>
               <div className={styles.pagination}>
                 <IconBtn
                   icon={PrevIcon}
                   disabled={currentPage === 1}
                   onClick={() => handlePageChange(currentPage - 1)}
                 />
-                <span>{currentPage}</span>
+                <span className={styles.span}>{currentPage}</span>
                 <IconBtn
                   icon={Nexticon}
                   disabled={indexOfLastItem >= investors.length}

@@ -15,12 +15,14 @@ import { useNavigate } from "react-router-dom";
 const CustomerManagement = () => {
   const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [filters, setFilters] = useState({ status: "active", date: null });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState(""); // Search term used for filtering
+  const [inputValue, setInputValue] = useState(""); // Input value for the search bar
 
   const fetchCustomersData = async () => {
     try {
@@ -37,9 +39,18 @@ const CustomerManagement = () => {
           return false;
         }
 
-        // Date filter (if implemented)
-        if (filters.date) {
-          // Add your date filtering logic here if needed
+        // Search filter
+        if (
+          searchTerm &&
+          !(
+            customer.user_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            customer.mobile_number
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
+          )
+        ) {
+          return false;
         }
 
         return true;
@@ -55,7 +66,7 @@ const CustomerManagement = () => {
 
   useEffect(() => {
     fetchCustomersData();
-  }, [filters.status, filters.date]); // Add all filter properties here
+  }, [filters.status, filters.date, searchTerm]); // Add searchTerm to dependencies
 
   const handleEdit = (customer) => {
     setSelectedCustomer(customer);
@@ -123,13 +134,27 @@ const CustomerManagement = () => {
           <h2 className={styles.title}>User Management</h2>
           <div className={styles.filters}>
             <div className={styles.filterRow}>
+              <input
+                type="text"
+                placeholder="Search by ID, email, or contact info"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)} // Update input value on change
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setSearchTerm(inputValue); // Update search term on Enter
+                  }
+                }}
+                className={styles.filterSelect}
+              />
+            </div>
+            <div className={styles.filterRow}>
               <div className={styles.pagination}>
                 <IconBtn
                   icon={PrevIcon}
                   disabled={currentPage === 1}
                   onClick={() => handlePageChange(currentPage - 1)}
                 />
-                <span>{currentPage}</span>
+                <span className={styles.span}>{currentPage}</span>
                 <IconBtn
                   icon={Nexticon}
                   disabled={indexOfLastItem >= customers.length}
@@ -147,12 +172,6 @@ const CustomerManagement = () => {
               </select>
             </div>
             <div className={styles.filterRow}>
-              {/* <input
-                type="date"
-                className={styles.filterSelect}
-                onChange={(e) => handleFilterChange("date", e.target.value)}
-              /> */}
-
               <select
                 className={styles.filterSelect}
                 value={filters.status}
