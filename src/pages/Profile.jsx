@@ -182,13 +182,30 @@ const Profile = () => {
               <LogoutButton />
             </div>
             <div className={styles.profileHeader}>
-              <div className={styles.cardImage}>
+              <div
+                className={`${styles.cardImage} ${
+                  !profile.status
+                    ? styles.defaultStatus
+                    : profile.status === "active"
+                    ? styles.activeStatus
+                    : styles.inactiveStatus
+                }`}
+                title={
+                  !profile.status
+                    ? "Profile status unknown"
+                    : profile.status === "active"
+                    ? "Profile is active"
+                    : "Profile is inactive, contact your admin. "
+                }
+              >
                 {getInitials(profile.name)}
               </div>
             </div>
             <h2 className={styles.profileName}>
-              {profile.name || "N/A"} 
-              <span className={styles.userId}>({profile.user_id || "N/A"})</span>
+              {profile.name || "N/A"}
+              <span className={styles.userId}>
+                ({profile.user_id || "N/A"})
+              </span>
             </h2>
             <p className={styles.profileemail}>{profile.email || "N/A"}</p>
             <p className={styles.profileLocation}>{profile.address || "N/A"}</p>

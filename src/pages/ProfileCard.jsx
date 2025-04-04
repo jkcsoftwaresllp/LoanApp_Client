@@ -28,7 +28,7 @@ const ProfileCard = () => {
           },
         });
         const data = await response.json();
-
+        // console.log('Profile API Response:', data); // Add this line
         setProfile(data);
         setLoading(false);
       } catch (error) {
@@ -56,7 +56,22 @@ const ProfileCard = () => {
       ) : (
         <div className={styles.card}>
           <div className={styles.profileHeader}>
-            <div className={styles.cardImage}>
+            <div
+              className={`${styles.cardImage} ${
+                !profile.profile?.status
+                  ? styles.defaultStatus
+                  : profile.profile?.status.toLowerCase() === "active"
+                  ? styles.activeStatus
+                  : styles.inactiveStatus
+              }`}
+              title={
+                !profile.profile?.status
+                  ? "Profile status unknown"
+                  : profile.profile?.status.toLowerCase() === "active"
+                  ? "Profile is active"
+                  : "Profile is inactive, contact your admin. No loan requests will be shown"
+              }
+            >
               {getInitials(profile.personalDetails?.full_name)}
             </div>
           </div>

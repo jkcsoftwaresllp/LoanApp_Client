@@ -178,17 +178,17 @@ const LoanListPage = () => {
               <strong>Amount:</strong> {selectedLoan.loan.amount}
             </p>
             <p>
-              <strong>Total Repayment:</strong> {selectedLoan.loan.total_repayment}
+              <strong>Total Repayment:</strong>{" "}
+              {selectedLoan.loan.total_repayment}
             </p>
             <p>
-              <strong>Remaining Balance:</strong> {selectedLoan.loan.remaining_balance}
+              <strong>Remaining Balance:</strong>{" "}
+              {selectedLoan.loan.remaining_balance}
             </p>
             <p>
               <strong>Status:</strong> {selectedLoan.loan.status}
             </p>
-            <p>
-              <strong>Created At:</strong> {new Date(selectedLoan.loan.created_at).toLocaleDateString()}
-            </p>
+
             <div className={styles.modalActions}>
               <Button onClick={closeModal} text="Close" />
             </div>
