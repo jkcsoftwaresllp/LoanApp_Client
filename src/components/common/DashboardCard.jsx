@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./style/dashboardcard.module.css"; // You can create this CSS file for styles
 
-const DashboardCard = ({ title, value, desc }) => {
+const DashboardCard = ({ title, value, desc, onClick }) => {
   return (
-    <div className={styles.card} title={desc}>
+    <div className={styles.card} title={desc} onClick={onClick}>
       <div className={styles.data}>
         <p className={styles.value}>{value}</p>
 

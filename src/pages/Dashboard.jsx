@@ -43,6 +43,9 @@ const Dashboard = () => {
   const goToemi = () => {
     navigate("/emi");
   };
+  const goToLoanList = () => {
+    navigate("/loan-list");
+  };
 
   return (
     <div className={style.container}>
@@ -62,11 +65,13 @@ const Dashboard = () => {
                   title="Active Loans"
                   value={dashboardData.active_loans || 0}
                   desc="Number of loans currently active."
+                  onClick={goToRepayment}
                 />
                 <DashboardCard
                   title="Pending Applications"
                   value={dashboardData.pending_applications || 0}
                   desc="Applications waiting for approval."
+                  onClick={goToLoanList}
                 />
               </div>
               <CustomDashboardCard
