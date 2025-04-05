@@ -16,6 +16,7 @@ export const fetchProfile = async (
       accessToken,
       setLoading
     );
+    console.log(response);
 
     // Access the profile data correctly
     if (response?.data?.profile) {

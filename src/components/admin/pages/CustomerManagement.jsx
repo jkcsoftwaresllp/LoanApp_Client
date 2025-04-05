@@ -274,7 +274,7 @@ const TableRow = React.memo(
         <IconBtn
           icon={MessageIcon}
           onClick={() =>
-            navigate(`/admin/messenger?userId=${customer.user_id}`)
+            navigate(`/admin/messanger?userId=${customer.user_id}`)
           }
         />
       </td>

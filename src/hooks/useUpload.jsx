@@ -26,11 +26,11 @@ const useUpload = ({ apiRoute, text }) => {
       const data = await fetchUserProfile();
       if (data?.status === "success") {
         setFormData({
-          name: data.personalDetails.full_name || "",
-          parent_name: data.personalDetails.father_or_mother_name || "",
-          address: data.personalDetails.current_address || "",
-          mobile_number: data.personalDetails.mobile_number || "",
-          bank_account_number: data.bankingInfo.account_number || "",
+          name: data.personalDetails?.full_name || "",
+          parent_name: data.personalDetails?.father_or_mother_name || "",
+          address: data.personalDetails?.current_address || "",
+          mobile_number: data.personalDetails?.mobile_number || "",
+          bank_account_number: data.bankingInfo?.account_number || "",
         });
       }
     };

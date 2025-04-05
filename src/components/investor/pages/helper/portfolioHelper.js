@@ -23,7 +23,7 @@ export const fetchPortfolioData = async () => {
   }
 };
 
-export const fetchMonthlyRoi = async () => {
+export const fetchMonthlyRoi = async (year, month) => {
   try {
     const token = localStorage.getItem("accessToken");
     if (!token) {
@@ -34,6 +34,10 @@ export const fetchMonthlyRoi = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params: {
+        year,
+        month
+      }
     });
 
     console.log("Monthly ROI response:", response.data);

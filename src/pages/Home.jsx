@@ -54,6 +54,7 @@ const HomePage = () => {
     { name: "Interest Management", path: "/admin/intrest-management" },
     { name: "Settings", path: "/admin/setting" },
     { name: "Ticket Review", path: "/admin/ticket-review" },
+    { name: "Feedback Review", path: "/admin/review" },
     { name: "User Access Control", path: "/admin/user-access-control" },
     { name: "Support", path: "" },
   ];

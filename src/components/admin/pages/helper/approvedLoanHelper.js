@@ -59,6 +59,39 @@ export const updateLoanStatus = async (accessToken, loanId, status) => {
   return result;
 };
 
+export const addInvestors = async (accessToken, loanId, investors) => {
+  const payload = {
+    loan_id: loanId.toString(),
+    investors: Array.isArray(investors) ? investors : [investors]
+  };
+
+  console.log('Add Investors API Request:', {
+    endpoint: `${API_BASE_URL}auth/addinvestor`,
+    payload
+  });
+
+  const response = await fetch(`${API_BASE_URL}auth/addinvestor`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const result = await response.json();
+  console.log('Add Investors API Response:', {
+    endpoint: `${API_BASE_URL}auth/addinvestor`,
+    response: result
+  });
+
+  if (!response.ok) {
+    throw new Error(result.message || `HTTP error! status: ${response.status}`);
+  }
+
+  return result;
+};
+
 export const filterLoans = (loans, statusToExclude = "Pending") => {
   return Array.isArray(loans)
     ? loans.filter((loan) => loan.status !== statusToExclude)

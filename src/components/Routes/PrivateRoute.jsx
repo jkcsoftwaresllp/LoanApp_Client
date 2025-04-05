@@ -43,6 +43,7 @@ import InterestFeeManagement from "../admin/pages/InterestFeeManagement";
 import Settings from "../admin/pages/Settings";
 import TicketOverview from "../admin/pages/TicketOverview";
 import UserAccessControl from "../admin/pages/UserAccessControl";
+import FeedbackManagement from "../admin/pages/FeedbackManagement";
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { isAuthenticated, user } = useAuthContext();
@@ -311,6 +312,14 @@ export const privateRoutes = (
         element={
           <PrivateRoute allowedRoles={["admin"]}>
             <DirectMessaging />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="review"
+        element={
+          <PrivateRoute allowedRoles={["admin"]}>
+            <FeedbackManagement />
           </PrivateRoute>
         }
       />
