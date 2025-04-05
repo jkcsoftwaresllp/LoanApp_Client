@@ -42,6 +42,17 @@ export const createTicket = async (formData, setLoading) => {
       return null;
     }
 
+    // Validate form data
+    if (!formData.query_type || !formData.description) {
+      showToast("error", "Please fill all required fields");
+      return null;
+    }
+
+    if (formData.description.length < 10) {
+      showToast("error", "Description must be at least 10 characters");
+      return null;
+    }
+
     const requestData = {
       query_type: formData.query_type,
       description: formData.description,
@@ -62,7 +73,9 @@ export const createTicket = async (formData, setLoading) => {
     return null;
   } catch (err) {
     console.error("API Error:", err);
-    showToast("error", "Failed to create ticket. Please try again later.");
+    const errorMessage = err.response?.data?.message || 
+                         "Failed to create ticket. Please try again later.";
+    showToast("error", errorMessage);
     return null;
   }
 };

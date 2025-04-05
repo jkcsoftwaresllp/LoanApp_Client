@@ -43,7 +43,16 @@
   text-align: center;
   color: var(--color-text-primary);
 }
+.noData {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-regular);
 
+  text-align: center;
+  color: var(--color-text-primary);
+}
+.p {
+  color: var(--color-text-primary);
+}
 .tableContainer {
   width: 100%;
   max-height: 350px;
@@ -126,4 +135,10 @@ th {
   .container {
     padding: 5px;
   }
+}
+.emptyState {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: var(--color-text-primary);
 }

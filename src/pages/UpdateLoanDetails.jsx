@@ -109,11 +109,11 @@ const UpdateLoanDetails = () => {
             <div className={styles.inputField}>
               <label className={styles.llabel}>
                 Duration in{" "}
-                {frequency === "weekly"
+                {frequency === "Weekly"
                   ? "Weeks"
-                  : frequency === "monthly"
+                  : frequency === "Monthly"
                   ? "Months"
-                  : frequency === "quarterly"
+                  : frequency === "Quarterly"
                   ? "Quarters"
                   : "Years"}
               </label>

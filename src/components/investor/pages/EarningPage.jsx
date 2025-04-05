@@ -13,7 +13,10 @@ import {
 } from "recharts";
 import { Loader } from "../../common/Loader";
 import styles from "./style/Earning.module.css";
-import { processEarningsData } from "./helper/earningHelper";
+import {
+  fetchEarningsSchedule,
+  processEarningsData,
+} from "./helper/earningHelper";
 import { API_BASE_URL } from "../../../config";
 
 export const EarningsRepayment = () => {
@@ -21,103 +24,18 @@ export const EarningsRepayment = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      const mockData = [
-        {
-          loan_id: "L001",
-          due_date: "2024-01-15",
-          amount: "500",
-          status: "Paid",
-        },
-        {
-          loan_id: "L002",
-          due_date: "2024-02-15",
-          amount: "450",
-          status: "Pending",
-        },
-        {
-          loan_id: "L003",
-          due_date: "2024-03-15",
-          amount: "600",
-          status: "Paid",
-        },
-        {
-          loan_id: "L004",
-          due_date: "2024-04-15",
-          amount: "550",
-          status: "Pending",
-        },
-        {
-          loan_id: "L005",
-          due_date: "2024-05-15",
-          amount: "700",
-          status: "Paid",
-        },
-        {
-          loan_id: "L001",
-          due_date: "2024-01-15",
-          amount: "500",
-          status: "Paid",
-        },
-        {
-          loan_id: "L002",
-          due_date: "2024-02-15",
-          amount: "450",
-          status: "Pending",
-        },
-        {
-          loan_id: "L003",
-          due_date: "2024-03-15",
-          amount: "600",
-          status: "Paid",
-        },
-        {
-          loan_id: "L004",
-          due_date: "2024-04-15",
-          amount: "550",
-          status: "Pending",
-        },
-        {
-          loan_id: "L005",
-          due_date: "2024-05-15",
-          amount: "700",
-          status: "Paid",
-        },
-        {
-          loan_id: "L001",
-          due_date: "2024-01-15",
-          amount: "500",
-          status: "Paid",
-        },
-        {
-          loan_id: "L002",
-          due_date: "2024-02-15",
-          amount: "450",
-          status: "Pending",
-        },
-        {
-          loan_id: "L003",
-          due_date: "2024-03-15",
-          amount: "600",
-          status: "Paid",
-        },
-        {
-          loan_id: "L004",
-          due_date: "2024-04-15",
-          amount: "550",
-          status: "Pending",
-        },
-        {
-          loan_id: "L005",
-          due_date: "2024-05-15",
-          amount: "700",
-          status: "Paid",
-        },
-      ];
-
-      setEarnings(mockData);
-      setLoading(false);
-    }, 100);
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const earningsData = await fetchEarningsSchedule(setLoading);
+        setEarnings(earningsData);
+      } catch (error) {
+        console.error("Error fetching earnings:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
   }, []);
 
   if (loading)
@@ -127,17 +45,32 @@ export const EarningsRepayment = () => {
       </div>
     );
 
-  const { chartData, donutChartData } = processEarningsData(earnings);
+  const { chartData, donutChartData, totalPaid, totalPending, isEmpty } =
+    processEarningsData(earnings);
+  const COLORS = ["#4CAF50", "#FF9800"];
+
+  if (isEmpty) {
+    return (
+      <div className={styles.container}>
+        <h2 className={styles.title}>Earnings & Repayment</h2>
+        <div className={styles.emptyState}>
+          <h3 className={styles.noData}>No earnings data available</h3>
+          <p className={styles.p}>
+            Your earnings schedule will appear here once available
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   // Calculate Paid vs Pending
-  const totalPaid = earnings
-    .filter((e) => e.status === "Paid")
-    .reduce((sum, e) => sum + parseFloat(e.amount), 0);
+  // const totalPaid = earnings
+  //   .filter((e) => e.status === "Paid")
+  //   .reduce((sum, e) => sum + parseFloat(e.amount), 0);
 
-  const totalPending = earnings
-    .filter((e) => e.status === "Pending")
-    .reduce((sum, e) => sum + parseFloat(e.amount), 0);
-
-  const COLORS = ["#4CAF50", "#FF9800"]; // Green for Paid, Orange for Pending
+  // const totalPending = earnings
+  //   .filter((e) => e.status === "Pending")
+  //   .reduce((sum, e) => sum + parseFloat(e.amount), 0);
 
   return (
     <div className={styles.container}>

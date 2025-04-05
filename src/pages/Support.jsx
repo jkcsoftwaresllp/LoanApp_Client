@@ -3,6 +3,7 @@ import { Button } from "../components/common/Button";
 import styles from "./style/Support.module.css";
 import { CloseIcon } from "../components/common/assets";
 import { fetchTickets, createTicket } from "./helper/supportHelper";
+import { showToast } from "../../src/utils/toastUtils";
 
 const Support = () => {
   const [loading, setLoading] = useState(false);
@@ -31,11 +32,22 @@ const Support = () => {
       return;
     }
 
+    if (formData.description.length < 10) {
+      showToast("error", "Description must be at least 10 characters");
+      return;
+    }
+
     setLoading(true);
-    const newTicket = await createTicket(formData, setLoading);
-    if (newTicket) {
-      setTickets([newTicket, ...tickets]);
-      setFormData({ query_type: "", description: "" });
+    try {
+      const newTicket = await createTicket(formData, setLoading);
+      if (newTicket) {
+        setTickets([newTicket, ...tickets]);
+        setFormData({ query_type: "", description: "" });
+      }
+    } catch (error) {
+      console.error("Error creating ticket:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
